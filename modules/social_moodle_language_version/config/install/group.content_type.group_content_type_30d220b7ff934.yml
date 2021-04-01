@@ -1,0 +1,19 @@
+uuid: 43c31e47-0b0b-422f-bd39-e6d16a10043d
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.tm_training
+    - node.type.language_version
+  module:
+    - gnode
+    - node
+id: group_content_type_30d220b7ff934
+label: 'Training: Group node (Language Version)'
+description: 'Adds <em class="placeholder">Language Version</em> content to groups both publicly and privately.'
+group_type: tm_training
+content_plugin: 'group_node:language_version'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false
