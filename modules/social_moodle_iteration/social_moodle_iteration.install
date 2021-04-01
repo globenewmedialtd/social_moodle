@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the social_moodle_iteration module.
+ */
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\FieldConfigInterface;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Drupal\user\Entity\Role;
+use Symfony\Component\Yaml\Yaml;
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions related to the installation of social_moodle_iteration.
+ */
+function social_moodle_iteration_install() {
+
+  // Create some default taxonomy terms.
+  $terms = [
+    [
+      'label' => t('Invite-only')
+    ],
+    [
+      'label' => t('Nomination by supervisor')
+    ],
+    [
+      'label' => t('Open to enroll')
+    ],
+    [
+      'label' => t('Request to enroll')
+    ],
+    [
+      'label' => t('Self-Application')
+    ],
+  ];
+
+  foreach ($terms as $term) {
+    $term = Term::create([
+      'vid' => 'social_moodle_enrollment_method',
+      'name' => $term['label'],
+    ]);
+    $term->save();
+  }
+}
+
