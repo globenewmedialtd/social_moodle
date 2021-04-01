@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Contains social_moodle.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_help().
+ */
+function social_moodle_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the social_moodle module.
+    case 'help.page.social_moodle':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Moodle Integration for Open Social') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+

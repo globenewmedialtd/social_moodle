@@ -1,0 +1,22 @@
+{#
+/**
+ * @file language_version.html.twig
+ * Default theme implementation to present Language version data.
+ *
+ * This template is used when viewing Language version pages.
+ *
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_language_version()
+ *
+ * @ingroup themeable
+ */
+#}
+<div{{ attributes.addClass('language_version') }}>
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</div>

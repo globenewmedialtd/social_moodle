@@ -1,0 +1,93 @@
+<?php
+/**
+ * @file
+ * Contains social_moodle_language_version.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_form_alter().
+ */
+function social_moodle_language_version_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Form alters for the event add and edit forms.
+  if ($form_id === 'node_language_version_edit_form' || $form_id === 'node_language_version_form') {
+    //kint($form);
+
+    // We do not want the label
+    $form['field_language']['widget']['#title_display'] = 'invisible';
+
+    $form['field_select_template_lv']['#states'] = [
+      'visible' => [
+        ':input[name="field_select_template"]' => ['value' => '1'],
+      ],
+    ];
+
+    $form['field_select_template_it']['#states'] = [
+      'visible' => [
+        ':input[name="field_select_template"]' => ['value' => '2'],
+      ],
+    ];
+
+    $form['field_template']['#states'] = [
+      'enabled' => [
+        ':input[name="field_select_template"]' => ['value' => '_none'],
+      ],
+    ];
+
+    $form['field_select_template']['#states'] = [
+      'visible' => [
+        ':input[name="field_template"]' => ['value' => '_none'],
+      ],
+    ];
+
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert() for node entities.
+ *
+ * This tests saving a node on node insert.
+ *
+ * @see \Drupal\node\Tests\NodeSaveTest::testNodeSaveOnInsert()
+ */
+function social_moodle_language_version_node_insert(NodeInterface $node) {
+  // Set the node title to the node ID and save.
+  if ($node->getType() === 'language_version') {
+
+    $nid = $node->id();
+    $title = $node->getTitle();
+    $clean_title = social_moodle_language_version_prepare_title($title);
+    $languages = $node->get('field_language')->referencedEntities();
+    $lang_string = '';
+
+    if(isset($languages)) {
+      foreach($languages as $term) {
+        $lang[] = $term->getName();
+      }  
+      $lang_string = implode('-',$lang);
+    }
+
+    $version_number = $clean_title . '-' . $lang_string . '-' . $nid;
+
+    $node->set('field_version_number',$version_number);
+    $node->save();
+
+  }
+}
+
+function social_moodle_language_version_prepare_title($title) {
+  //Lower case everything
+  $string = strtolower($title);
+  //Make alphanumeric (removes all other characters)
+  $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+  //Clean up multiple dashes or whitespaces
+  $string = preg_replace("/[\s-]+/", " ", $string);
+  //Convert whitespaces and underscore to dash
+  $string = preg_replace("/[\s_]/", "-", $string);
+  return $string;
+}

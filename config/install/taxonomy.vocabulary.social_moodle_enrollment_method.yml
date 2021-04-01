@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Social Moodle Enrollment Method'
+vid: social_moodle_enrollment_method
+description: ''
+weight: 0

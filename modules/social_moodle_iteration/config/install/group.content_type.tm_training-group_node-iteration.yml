@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - group.type.tm_training
+    - node.type.iteration
+  module:
+    - gnode
+    - node
+id: tm_training-group_node-iteration
+label: 'Training: Group node (Iteration)'
+description: 'Adds <em class="placeholder">Iteration</em> content to groups both publicly and privately.'
+group_type: tm_training
+content_plugin: 'group_node:iteration'
+plugin_config:
+  group_cardinality: 0
+  entity_cardinality: 1
+  use_creation_wizard: false

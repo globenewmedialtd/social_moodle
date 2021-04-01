@@ -1,0 +1,5 @@
+name: 'Social Moodle Language Version'
+type: module
+description: 'Group content type language version'
+core: 8.x
+package: 'Social'

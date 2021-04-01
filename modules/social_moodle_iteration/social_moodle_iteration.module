@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Contains social_moodle_iteration.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_form_alter().
+ */
+function social_moodle_iteration_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Form alters for the event add and edit forms.
+  if ($form_id === 'node_iteration_edit_form' || $form_id === 'node_iteration_form') {
+    
+
+  }
+}

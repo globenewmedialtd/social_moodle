@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Social Moodle Templates'
+vid: social_moodle_templates
+description: ''
+weight: 0

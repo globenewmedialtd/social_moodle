@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Social Moodle Languages'
+vid: social_moodle_languages
+description: 'Administer languages for Social Moodle'
+weight: 0

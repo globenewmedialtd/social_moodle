@@ -1,0 +1,5 @@
+entity.language_version.add_form:
+  route_name: entity.language_version.add_form
+  title: 'Add Language version'
+  appears_on:
+    - entity.language_version.collection

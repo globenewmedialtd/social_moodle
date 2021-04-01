@@ -1,0 +1,14 @@
+
+# Language version menu items definition
+entity.language_version.collection:
+  title: 'Language version list'
+  route_name: entity.language_version.collection
+  description: 'List Language version entities'
+  parent: system.admin_structure
+  weight: 100
+
+language_version.admin.structure.settings:
+  title: 'Language version settings'
+  description: 'Configure Language version entities'
+  route_name: language_version.settings
+  parent: system.admin_structure

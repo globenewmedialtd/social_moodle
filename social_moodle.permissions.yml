@@ -1,0 +1,20 @@
+add language version entities:
+  title: 'Create new Language version entities'
+
+administer language version entities:
+  title: 'Administer Language version entities'
+  description: 'Allow to access the administration form to configure Language version entities.'
+  restrict access: true
+
+delete language version entities:
+  title: 'Delete Language version entities'
+
+edit language version entities:
+  title: 'Edit Language version entities'
+
+view published language version entities:
+  title: 'View published Language version entities'
+
+view unpublished language version entities:
+  title: 'View unpublished Language version entities'
+
