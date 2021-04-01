@@ -29,7 +29,7 @@ class LanguageVersionAddBlock extends BlockBase implements ContainerFactoryPlugi
   protected $routeMatch;
 
   /**
-   * TopicAddBlock constructor.
+   * LanguageVersionAddBlock constructor.
    *
    * @param array $configuration
    *   The given configuration.
