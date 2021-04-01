@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\social_moodle_language_version\Plugin\Block;
+namespace Drupal\social_moodle_iteration\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Access\AccessResult;
@@ -12,14 +12,14 @@ use Drupal\Core\Link;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a 'LanguageVersionAddBlock' block.
+ * Provides a 'IterationAddBlock' block.
  *
  * @Block(
- *  id = "language_version_add_block",
- *  admin_label = @Translation("Language Version add block"),
+ *  id = "iteration_add_block",
+ *  admin_label = @Translation("Iteration add block"),
  * )
  */
-class LanguageVersionAddBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class IterationAddBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * The route match.
@@ -64,7 +64,7 @@ class LanguageVersionAddBlock extends BlockBase implements ContainerFactoryPlugi
    */
   protected function blockAccess(AccountInterface $account) {
     $route_user_id = $this->routeMatch->getParameter('user');
-    if ($account->hasPermission('create language_version content')) {
+    if ($account->hasPermission('create iteration content')) {
       return AccessResult::allowed();
     }
     // By default, the block is not visible.
@@ -77,7 +77,7 @@ class LanguageVersionAddBlock extends BlockBase implements ContainerFactoryPlugi
   public function build() {
     $build = [];
 
-    $url = Url::fromUserInput('/node/add/language_version');
+    $url = Url::fromUserInput('/node/add/iteration');
     $link_options = [
       'attributes' => [
         'class' => [
@@ -91,7 +91,7 @@ class LanguageVersionAddBlock extends BlockBase implements ContainerFactoryPlugi
     ];
     $url->setOptions($link_options);
 
-    $build['content'] = Link::fromTextAndUrl($this->t('Create Language Version'), $url)
+    $build['content'] = Link::fromTextAndUrl($this->t('Create Iteration'), $url)
       ->toRenderable();
 
     return $build;
