@@ -1,0 +1,5 @@
+name: 'Social Moodle Views'
+type: module
+description: 'Group content type language version'
+core: 8.x
+package: 'Social'
