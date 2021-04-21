@@ -3,3 +3,6 @@ description: 'Provides Event content type and related configuration. '
 type: module
 core: 8.x
 package: Social
+dependencies:
+  - social_moodle_enrollment_method
+  - social_moodle_iteration
