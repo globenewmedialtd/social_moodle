@@ -1,0 +1,5 @@
+entity.iteration_enrollment.add_form:
+  route_name: entity.iteration_enrollment.add_form
+  title: 'Add Iteration enrollment'
+  appears_on:
+    - entity.iteration_enrollment.collection

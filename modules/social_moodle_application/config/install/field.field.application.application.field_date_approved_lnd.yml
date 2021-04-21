@@ -1,0 +1,21 @@
+uuid: ec05500b-5211-4001-a48a-bb9418ad1e02
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_date_approved_lnd
+  module:
+    - datetime
+    - social_moodle_application
+id: application.application.field_date_approved_lnd
+field_name: field_date_approved_lnd
+entity_type: application
+bundle: application
+label: 'Approved by LnD at'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

@@ -1,0 +1,52 @@
+application_default:
+  id: application_default
+  group: application
+  label: 'Application'
+  states:
+    applied:
+      label: Applied
+      enrollment: false
+      email: false
+      status: ''
+    approved_supervisor:
+      label: Approved by Supervisor
+      enrollment: false
+      email: false
+      status: ''
+    denied_supervisor:
+      label: Denied by Supervisor
+      enrollment: false
+      email: true
+    approved_lnd:
+      label: Approved by LnD
+      enrollment: true
+      email: true
+    denied_lnd:
+      label: Denied by LnD
+      enrollment: false
+      email: false
+    waitlist:
+      label: Waitlist
+      enrollment: false
+      email: true
+  transitions:
+    approve_supervisor:
+      label: 'Approve by supervisor'
+      from: [applied]
+      to: approved_supervisor
+    deny_supervisor:
+      label: 'Deny by supervisor'
+      from: [applied]
+      to:   denied_supervisor
+    approve_lnd:
+      label: 'Approve by LnD'
+      from: [approved_supervisor]
+      to: approved_lnd
+    deny_lnd:
+      label: 'Deny by LnD'
+      from: [approved_supervisor]
+      to:   denied_lnd
+    wait:
+      label: 'Waitlist'
+      from: [approved_supervisor]
+      to: waitlist

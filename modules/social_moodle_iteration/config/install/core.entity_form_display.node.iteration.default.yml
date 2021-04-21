@@ -46,9 +46,9 @@ third_party_settings:
       label: 'Date & Time'
     group_access_permissions:
       children:
+        - field_iteration_enrollment
         - groups
         - field_content_visibility
-        - field_iteration_enrollment
       parent_name: ''
       weight: 2
       format_type: fieldset
@@ -76,12 +76,12 @@ content:
     region: content
   created:
     type: datetime_timestamp
-    weight: 4
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
   field_content_visibility:
-    weight: 4
+    weight: 7
     settings: {  }
     third_party_settings: {  }
     type: options_buttons
@@ -106,7 +106,7 @@ content:
     region: content
   groups:
     type: social_group_selector_widget
-    weight: 3
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -120,7 +120,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 5
+    weight: 6
     region: content
     third_party_settings: {  }
   status:
@@ -161,3 +161,4 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden: {  }
+

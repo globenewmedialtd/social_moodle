@@ -1,0 +1,21 @@
+uuid: 532bf836-97c0-4ee5-a003-2ebfaec7f3ff
+langcode: en
+status: true
+dependencies:
+  module:
+    - social_moodle_enrollment
+id: iteration_enrollment.field_last_name
+field_name: field_last_name
+entity_type: iteration_enrollment
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

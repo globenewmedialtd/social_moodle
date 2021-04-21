@@ -1,0 +1,20 @@
+uuid: 406ce45f-58ba-4e0d-872c-356fbaa7616a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - social_moodle_application
+id: application.field_iteration
+field_name: field_iteration
+entity_type: application
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

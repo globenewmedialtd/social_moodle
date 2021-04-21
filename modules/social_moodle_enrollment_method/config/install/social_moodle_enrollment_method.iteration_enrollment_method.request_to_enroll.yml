@@ -1,0 +1,5 @@
+# The id of the config entity.
+id: request_to_enroll
+# Our properties follow.
+label: 'Request to enroll'
+description: 'users can "request to enroll" for this event which event organisers approve/decline'

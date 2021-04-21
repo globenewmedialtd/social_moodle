@@ -1,0 +1,20 @@
+uuid: 20ff1fc9-24be-4c28-a3e9-a1cc24bff3c5
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - social_moodle_application
+id: application.field_date_approved_sv
+field_name: field_date_approved_sv
+entity_type: application
+type: datetime
+settings:
+  datetime_type: datetime
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

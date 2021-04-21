@@ -1,0 +1,27 @@
+uuid: 78f185fd-1c04-43c1-b405-dfcd811ddd3a
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - social_moodle_application
+id: application.field_application_type
+field_name: field_application_type
+entity_type: application
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: application
+      label: Application
+    -
+      value: nomination
+      label: Nomination
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

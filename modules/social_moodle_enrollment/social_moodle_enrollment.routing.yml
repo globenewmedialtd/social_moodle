@@ -1,0 +1,66 @@
+social_moodle_enrollment.request_enroll_dialog:
+  path: '/node/{node}/iteration-enroll-dialog-request'
+  defaults:
+    _controller: '\Drupal\social_moodle_enrollment\Controller\IterationEnrollRequestDialogController::enrollDialog'
+    _title_callback: '\Drupal\social_moodle_enrollment\Controller\IterationEnrollRequestDialogController::enrollTitle'
+  options:
+    parameters:
+      node:
+        type: entity:node
+  requirements:
+    _custom_access: '\Drupal\social_moodle_enrollment\Controller\IterationEnrollRequestDialogController::enrollAccess'
+modal_form_application.form:
+  path: '/application/config/application_form'
+  defaults:
+    _form: 'Drupal\social_moodle_enrollment\Form\ApplicationForm'
+    _title: 'Application Form'
+  requirements:
+    _permission: 'access content'
+
+modal_form_application.open_modal_form:
+  path: '/application/config/modal_form_application'
+  defaults:
+    _title: 'Application'
+    _controller: '\Drupal\social_moodle_enrollment\Controller\ModalFormApplicationController::openModalForm'
+  requirements:
+    _permission: 'access content'
+  options:
+    _admin_route: FALSE
+
+modal_form_nomination.form:
+  path: '/node/{node}/nomination-form'
+  defaults:
+    _form: 'Drupal\social_moodle_enrollment\Form\NominationForm'
+    _title: 'Nomination Form'
+  options:
+    parameters:
+      node:
+        type: entity:node
+  requirements:
+    _permission: 'access content'
+
+social_moodle_enrollment.request_nomination_dialog:
+  path: '/node/{node}/modal-form-nomination'
+  defaults:
+    _controller: '\Drupal\social_moodle_enrollment\Controller\IterationNominationRequestDialogController::nominationDialog'
+    _title_callback: '\Drupal\social_moodle_enrollment\Controller\IterationNominationRequestDialogController::nominationTitle'
+  options:
+    parameters:
+      node:
+        type: entity:node
+  requirements:
+    _custom_access: '\Drupal\social_moodle_enrollment\Controller\IterationNominationRequestDialogController::nominationAccess'
+
+social_moodle_enrollment.request_application_dialog:
+  path: '/node/{node}/modal-form-application'
+  defaults:
+    _controller: '\Drupal\social_moodle_enrollment\Controller\IterationApplicationRequestDialogController::applicationDialog'
+    _title_callback: '\Drupal\social_moodle_enrollment\Controller\IterationApplicationRequestDialogController::applicationTitle'
+  options:
+    parameters:
+      node:
+        type: entity:node
+  requirements:
+    _custom_access: '\Drupal\social_moodle_enrollment\Controller\IterationApplicationRequestDialogController::applicationAccess'
+
+

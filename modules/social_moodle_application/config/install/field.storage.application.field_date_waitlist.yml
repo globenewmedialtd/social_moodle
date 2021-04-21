@@ -1,0 +1,20 @@
+uuid: f50c0cd1-c3ba-4203-a94e-b75131732a96
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - social_moodle_application
+id: application.field_date_waitlist
+field_name: field_date_waitlist
+entity_type: application
+type: datetime
+settings:
+  datetime_type: datetime
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

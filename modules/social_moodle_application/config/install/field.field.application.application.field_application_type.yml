@@ -1,0 +1,21 @@
+uuid: a2c554bf-9fe8-4a5f-9046-3802062856d0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_application_type
+  module:
+    - options
+    - social_moodle_application
+id: application.application.field_application_type
+field_name: field_application_type
+entity_type: application
+bundle: application
+label: 'Application type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

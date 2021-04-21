@@ -1,0 +1,22 @@
+{#
+/**
+ * @file
+ * Default theme implementation to present an application entity.
+ *
+ * This template is used when viewing a registered application's page,
+ * e.g., /admin/application)/123. 123 being the application's ID.
+ *
+ * Available variables:
+ * - content: A list of content items. Use 'content' to print all content, or
+ *   print a subset such as 'content.title'.
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_application()
+ */
+#}
+<article{{ attributes }}>
+  {% if content %}
+    {{- content -}}
+  <a class="readmore" href="/review-applications">All Aplications</a>
+  {% endif %}
+</article>

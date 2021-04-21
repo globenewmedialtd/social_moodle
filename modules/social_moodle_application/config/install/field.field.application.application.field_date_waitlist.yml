@@ -1,0 +1,21 @@
+uuid: f2dd96c7-e908-4569-a258-c99d2eef0e3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_date_waitlist
+  module:
+    - datetime
+    - social_moodle_application
+id: application.application.field_date_waitlist
+field_name: field_date_waitlist
+entity_type: application
+bundle: application
+label: 'Waitlist at'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

@@ -1,0 +1,20 @@
+uuid: b02c17c2-850e-4547-a6ee-963feb24ecef
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.iteration_enrollment.field_email
+  module:
+    - social_moodle_enrollment
+id: iteration_enrollment.iteration_enrollment.field_email
+field_name: field_email
+entity_type: iteration_enrollment
+bundle: iteration_enrollment
+label: 'Email address'
+description: 'Enter your email, so we can send you iteration updates.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

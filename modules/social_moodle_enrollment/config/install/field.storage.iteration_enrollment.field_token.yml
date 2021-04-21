@@ -1,0 +1,21 @@
+uuid: 3d746f64-339d-4139-aa9f-75705af4851d
+langcode: en
+status: true
+dependencies:
+  module:
+    - social_moodle_enrollment
+id: iteration_enrollment.field_token
+field_name: field_token
+entity_type: iteration_enrollment
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

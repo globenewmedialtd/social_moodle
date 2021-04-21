@@ -1,0 +1,20 @@
+uuid: e67c8ab3-de17-43cb-ba21-8ca5db705520
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_information
+  module:
+    - social_moodle_application
+id: application.application.field_information
+field_name: field_information
+entity_type: application
+bundle: application
+label: Information
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

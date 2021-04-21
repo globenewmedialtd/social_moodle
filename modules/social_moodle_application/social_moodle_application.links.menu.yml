@@ -1,0 +1,10 @@
+entity.application.settings:
+  title: Application
+  description: Configure an Application entity type
+  route_name:  entity.application.settings
+  parent: system.admin_structure
+entity.application.collection:
+  title: Applications
+  description: List of applications
+  route_name: entity.application.collection
+  parent: system.admin

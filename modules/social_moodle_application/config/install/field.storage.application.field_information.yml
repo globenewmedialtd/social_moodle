@@ -1,0 +1,19 @@
+uuid: 118e693d-1a5d-4884-99f1-3631571c3353
+langcode: en
+status: true
+dependencies:
+  module:
+    - social_moodle_application
+id: application.field_information
+field_name: field_information
+entity_type: application
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

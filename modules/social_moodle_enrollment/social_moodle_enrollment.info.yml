@@ -1,0 +1,5 @@
+name: 'Social Moodle Enrollment'
+description: 'Provides Event content type and related configuration. '
+type: module
+core: 8.x
+package: Social

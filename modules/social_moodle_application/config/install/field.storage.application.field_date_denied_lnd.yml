@@ -1,0 +1,20 @@
+uuid: 02a0dd01-1664-4d96-8f89-3d17afa20d1d
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - social_moodle_application
+id: application.field_date_denied_lnd
+field_name: field_date_denied_lnd
+entity_type: application
+type: datetime
+settings:
+  datetime_type: datetime
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

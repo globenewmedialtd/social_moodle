@@ -1,0 +1,19 @@
+add iteration enrollment entities:
+  title: 'Create new Iteration enrollment entities'
+
+administer iteration enrollment entities:
+  title: 'Administer Iteration enrollment entities'
+  description: 'Allow to access the administration form to configure Iteration enrollment entities.'
+  restrict access: true
+
+delete iteration enrollment entities:
+  title: 'Delete Iteration enrollment entities'
+
+edit iteration enrollment entities:
+  title: 'Edit Iteration enrollment entities'
+
+view published iteration enrollment entities:
+  title: 'View published Iteration enrollment entities'
+
+view unpublished iteration enrollment entities:
+  title: 'View unpublished Iteration enrollment entities'

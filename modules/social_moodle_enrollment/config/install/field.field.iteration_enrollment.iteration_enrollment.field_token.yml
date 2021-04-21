@@ -1,0 +1,20 @@
+uuid: 45205361-753f-4fb5-9a08-52954fc573ea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.iteration_enrollment.field_token
+  module:
+    - social_moodle_enrollment
+id: iteration_enrollment.iteration_enrollment.field_token
+field_name: field_token
+entity_type: iteration_enrollment
+bundle: iteration_enrollment
+label: Token
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

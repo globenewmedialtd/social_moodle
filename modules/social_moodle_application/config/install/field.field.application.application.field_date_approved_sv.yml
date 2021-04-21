@@ -1,0 +1,21 @@
+uuid: 793bf81e-19be-4b30-a4ae-18e1a01e23b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_date_approved_sv
+  module:
+    - datetime
+    - social_moodle_application
+id: application.application.field_date_approved_sv
+field_name: field_date_approved_sv
+entity_type: application
+bundle: application
+label: 'Approved by Supervisor at'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

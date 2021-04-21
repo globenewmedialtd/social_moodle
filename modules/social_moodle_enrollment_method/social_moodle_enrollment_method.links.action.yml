@@ -1,0 +1,14 @@
+# Add some local task links to facilitate navigation.
+
+social_moodle_enrollment_method.add_action:
+  route_name: entity.iteration_enrollment_method.add_form
+  title: 'Add Iteration Enrollment Method'
+  appears_on:
+    - entity.iteration_enrollment_method.list
+
+config_entity_example.list_action:
+  route_name: entity.iteration_enrollment_method.list
+  title: 'List Iteration Enrollment Methods'
+  appears_on:
+    - entity.iteration_enrollment_method.add_form
+    - entity.iteration_enrollment_method.edit_form

@@ -4,25 +4,20 @@ dependencies:
   config:
     - field.storage.node.field_iteration_enrollment
     - node.type.iteration
-    - taxonomy.vocabulary.social_moodle_enrollment_method
 id: node.iteration.field_iteration_enrollment
 field_name: field_iteration_enrollment
 entity_type: node
 bundle: iteration
-label: 'Enrollment method'
+label: 'Iteration Enrollment'
 description: ''
 required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  handler: 'default:taxonomy_term'
+  handler: 'default:iteration_enrollment_method'
   handler_settings:
-    target_bundles:
-      social_moodle_enrollment_method: social_moodle_enrollment_method
-    sort:
-      field: name
-      direction: asc
+    target_bundles: null
     auto_create: false
-    auto_create_bundle: ''
 field_type: entity_reference
+

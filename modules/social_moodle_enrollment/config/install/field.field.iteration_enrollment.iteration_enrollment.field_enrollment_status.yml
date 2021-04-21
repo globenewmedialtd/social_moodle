@@ -1,0 +1,23 @@
+uuid: 4f67e3e3-6dc7-437f-a1e2-38703d916851
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.iteration_enrollment.field_enrollment_status
+  module:
+    - options
+    - social_moodle_enrollment
+id: iteration_enrollment.iteration_enrollment.field_enrollment_status
+field_name: field_enrollment_status
+entity_type: iteration_enrollment
+bundle: iteration_enrollment
+label: 'Enrollment status'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: '1'
+default_value_callback: ''
+settings: {  }
+field_type: list_string

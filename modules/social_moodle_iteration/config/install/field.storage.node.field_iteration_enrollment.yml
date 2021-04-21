@@ -3,16 +3,16 @@ status: true
 dependencies:
   module:
     - node
-    - taxonomy
+    - social_moodle_enrollment_method
 id: node.field_iteration_enrollment
 field_name: field_iteration_enrollment
 entity_type: node
 type: entity_reference
 settings:
-  target_type: taxonomy_term
+  target_type: iteration_enrollment_method
 module: core
 locked: false
-cardinality: 1
+cardinality: -1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

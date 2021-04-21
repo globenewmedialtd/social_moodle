@@ -1,0 +1,94 @@
+uuid: 9e2ce52c-5ef8-469b-b462-8a4867502db5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.application.application.field_application_type
+    - field.field.application.application.field_application_user
+    - field.field.application.application.field_information
+    - field.field.application.application.field_iteration
+    - field.field.application.application.field_pdf
+    - field.field.application.application.field_state
+    - field.field.application.application.field_supervisor
+  module:
+    - file
+    - social_moodle_application
+id: application.application.default
+targetEntityType: application
+bundle: application
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_application_type:
+    weight: 8
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_application_user:
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_information:
+    weight: 5
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  field_iteration:
+    weight: 4
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_pdf:
+    weight: 6
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_state:
+    weight: 7
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_supervisor:
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  uid:
+    type: entity_reference_autocomplete
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    weight: 0
+    region: content
+    third_party_settings: {  }
+hidden: {  }

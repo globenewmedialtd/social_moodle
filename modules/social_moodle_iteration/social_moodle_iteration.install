@@ -19,31 +19,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 function social_moodle_iteration_install() {
 
-  // Create some default taxonomy terms.
-  $terms = [
-    [
-      'label' => t('Invite-only')
-    ],
-    [
-      'label' => t('Nomination by supervisor')
-    ],
-    [
-      'label' => t('Open to enroll')
-    ],
-    [
-      'label' => t('Request to enroll')
-    ],
-    [
-      'label' => t('Self-Application')
-    ],
-  ];
-
-  foreach ($terms as $term) {
-    $term = Term::create([
-      'vid' => 'social_moodle_enrollment_method',
-      'name' => $term['label'],
-    ]);
-    $term->save();
-  }
+  
 }
 

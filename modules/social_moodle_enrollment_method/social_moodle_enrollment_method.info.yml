@@ -1,0 +1,7 @@
+name: 'Social Moodle Enrollment Method'
+type: module
+description: 'Provides iteration enrollment methods as config entity type.'
+package: Social
+core: 8.x
+#dependencies:
+#  - social_moodle:social_moodle

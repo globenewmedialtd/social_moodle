@@ -1,0 +1,47 @@
+<?php
+
+/**
+ *  Get nodes for a given $group_id.
+ */
+
+function social_moodle_block_get_group_content($group_id) {
+
+  $nodes = FALSE;
+
+  if (isset($group_id)) {
+
+	  $database = \Drupal::database();
+	  $query = $database->select('node', 'n');
+	  $query->fields('n', ['nid']);
+	  $query->join('node_field_data', 'nfd', 'n.nid = nfd.nid');
+    $query->join('group_content_field_data', 'gfd', 'n.nid = gfd.entity_id');  
+	  $query->condition('n.type', 'iteration', '=');	
+    $result = $query->execute();
+
+	  if ($result) {
+      foreach($result as $value) {
+	      $nodes[$value->nid] = $value->nid;
+      }
+	  }
+
+  }
+	
+	return $nodes;
+
+}
+
+/**
+ *  Implements hook_theme().
+ */
+function social_moodle_block_theme($existing, $type, $theme, $path) {
+  return [
+    'social_moodle_block_iteration_listing' => [
+      'variables' => [
+        'title' => [],
+        'start' => [],
+        'end' => [],
+        'links' => [],
+      ],
+    ],
+  ];
+}

@@ -1,0 +1,21 @@
+uuid: 8683c630-1cf7-479b-adae-83e88d8b9939
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_date_denied_sv
+  module:
+    - datetime
+    - social_moodle_application
+id: application.application.field_date_denied_sv
+field_name: field_date_denied_sv
+entity_type: application
+bundle: application
+label: 'Denied by supervisor at'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

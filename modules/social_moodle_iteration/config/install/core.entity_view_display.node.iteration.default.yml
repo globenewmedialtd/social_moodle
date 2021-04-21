@@ -1,3 +1,4 @@
+uuid: b874b33c-b53a-467b-a1fe-4b6e938d0804
 langcode: en
 status: true
 dependencies:
@@ -9,8 +10,6 @@ dependencies:
     - field.field.node.iteration.field_iteration_enrollment
     - node.type.iteration
   module:
-    - datetime
-    - options
     - text
     - user
 id: node.iteration.default
@@ -19,61 +18,20 @@ bundle: iteration
 mode: default
 content:
   body:
-    weight: 105
+    weight: 12
     label: above
     settings: {  }
     third_party_settings: {  }
     type: text_default
     region: content
-  field_content_visibility:
-    weight: 104
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
-    region: content
-  field_iteration_date:
-    weight: 102
-    label: above
-    settings:
-      format_type: medium
-      timezone_override: ''
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
-  field_iteration_date_end:
-    weight: 103
-    label: above
-    settings:
-      format_type: medium
-      timezone_override: ''
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
-  field_iteration_enrollment:
-    weight: 106
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   flag_follow_content:
     weight: 10
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
-  groups:
-    label: above
-    weight: -5
-    region: content
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
   groups_type_closed_group:
     label: above
-    weight: -5
+    weight: 2
     region: content
     settings:
       link: true
@@ -81,7 +39,7 @@ content:
     type: entity_reference_label
   groups_type_course_advanced:
     label: above
-    weight: -5
+    weight: 9
     region: content
     settings:
       link: true
@@ -89,7 +47,7 @@ content:
     type: entity_reference_label
   groups_type_course_basic:
     label: above
-    weight: -5
+    weight: 8
     region: content
     settings:
       link: true
@@ -97,7 +55,7 @@ content:
     type: entity_reference_label
   groups_type_flexible_group:
     label: above
-    weight: -5
+    weight: 7
     region: content
     settings:
       link: true
@@ -105,7 +63,7 @@ content:
     type: entity_reference_label
   groups_type_open_group:
     label: above
-    weight: -5
+    weight: 6
     region: content
     settings:
       link: true
@@ -113,7 +71,7 @@ content:
     type: entity_reference_label
   groups_type_public_group:
     label: above
-    weight: -5
+    weight: 5
     region: content
     settings:
       link: true
@@ -121,7 +79,7 @@ content:
     type: entity_reference_label
   groups_type_secret_group:
     label: above
-    weight: -5
+    weight: 0
     region: content
     settings:
       link: true
@@ -129,7 +87,7 @@ content:
     type: entity_reference_label
   groups_type_tm_community:
     label: above
-    weight: -5
+    weight: 3
     region: content
     settings:
       link: true
@@ -137,7 +95,7 @@ content:
     type: entity_reference_label
   groups_type_tm_conference:
     label: above
-    weight: -5
+    weight: 4
     region: content
     settings:
       link: true
@@ -145,18 +103,24 @@ content:
     type: entity_reference_label
   groups_type_tm_training:
     label: above
-    weight: -5
+    weight: 1
     region: content
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
   links:
-    weight: 100
+    weight: 11
+    region: content
     settings: {  }
     third_party_settings: {  }
-    region: content
 hidden:
+  field_content_visibility: true
+  field_iteration_date: true
+  field_iteration_date_end: true
+  field_iteration_enrollment: true
+  groups: true
   private_message_link: true
   search_api_excerpt: true
   shariff_field: true
+

@@ -1,0 +1,29 @@
+uuid: 2d29e89b-32c9-4a06-bfb5-1e7b9a7a2afa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_application_user
+  module:
+    - social_moodle_application
+id: application.application.field_application_user
+field_name: field_application_user
+entity_type: application
+bundle: application
+label: 'Application User'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: true
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

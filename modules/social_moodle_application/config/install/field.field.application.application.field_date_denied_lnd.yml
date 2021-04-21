@@ -1,0 +1,21 @@
+uuid: a0ea57c6-a948-4cdd-9358-b27d0d863386
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_date_denied_lnd
+  module:
+    - datetime
+    - social_moodle_application
+id: application.application.field_date_denied_lnd
+field_name: field_date_denied_lnd
+entity_type: application
+bundle: application
+label: 'Denied by LnD at'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

@@ -1,0 +1,5 @@
+iteration_enrollment.admin.structure.settings:
+  title: Iteration enrollment settings
+  description: 'Configure Iteration enrollment entities'
+  route_name: iteration_enrollment.settings
+  parent: system.admin_structure

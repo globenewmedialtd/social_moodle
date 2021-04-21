@@ -1,0 +1,19 @@
+uuid: 3714e693-2359-46be-8ccf-1812a9e24109
+langcode: en
+status: true
+dependencies:
+  module:
+    - social_moodle_application
+    - state_machine
+id: application.field_state
+field_name: field_state
+entity_type: application
+type: state
+settings: {  }
+module: state_machine
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

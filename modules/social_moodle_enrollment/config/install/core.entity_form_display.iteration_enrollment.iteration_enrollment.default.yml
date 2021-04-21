@@ -1,0 +1,70 @@
+uuid: 8d9aaf79-1d71-40e5-a8e9-f03c48c602e7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.iteration_enrollment.iteration_enrollment.field_account
+    - field.field.iteration_enrollment.iteration_enrollment.field_email
+    - field.field.iteration_enrollment.iteration_enrollment.field_enrollment_status
+    - field.field.iteration_enrollment.iteration_enrollment.field_first_name
+    - field.field.iteration_enrollment.iteration_enrollment.field_iteration
+    - field.field.iteration_enrollment.iteration_enrollment.field_last_name
+    - field.field.iteration_enrollment.iteration_enrollment.field_request_message
+    - field.field.iteration_enrollment.iteration_enrollment.field_request_or_invite_status
+    - field.field.iteration_enrollment.iteration_enrollment.field_token
+  module:
+    - social_moodle_enrollment
+id: iteration_enrollment.iteration_enrollment.default
+targetEntityType: iteration_enrollment
+bundle: iteration_enrollment
+mode: default
+content:
+  field_enrollment_status:
+    weight: 4
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_iteration:
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+hidden:
+  field_account: true
+  field_email: true
+  field_first_name: true
+  field_last_name: true
+  field_request_message: true
+  field_request_or_invite_status: true
+  field_token: true

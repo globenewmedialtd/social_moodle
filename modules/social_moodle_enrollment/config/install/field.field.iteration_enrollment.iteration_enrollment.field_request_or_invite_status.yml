@@ -1,0 +1,21 @@
+uuid: 9d5d874a-3e21-4cab-905d-af1efcffe135
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.iteration_enrollment.field_request_or_invite_status
+  module:
+    - options
+    - social_moodle_enrollment
+id: iteration_enrollment.iteration_enrollment.field_request_or_invite_status
+field_name: field_request_or_invite_status
+entity_type: iteration_enrollment
+bundle: iteration_enrollment
+label: 'Request or invite status'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer

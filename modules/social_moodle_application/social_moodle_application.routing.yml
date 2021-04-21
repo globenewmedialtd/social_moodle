@@ -1,0 +1,7 @@
+entity.application.settings:
+  path: 'admin/structure/application'
+  defaults:
+    _form: '\Drupal\social_moodle_application\Form\ApplicationSettingsForm'
+    _title: 'Application'
+  requirements:
+    _permission: 'administer application'

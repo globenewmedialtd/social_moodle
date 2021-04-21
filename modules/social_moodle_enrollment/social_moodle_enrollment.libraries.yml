@@ -1,0 +1,25 @@
+form_submit:
+  js:
+    assets/js/social_moodle_enrollment_form_submit.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+
+modal_nomination:
+  js:
+    assets/js/social_moodle_nomination_request_modal.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+
+modal:
+  js:
+    assets/js/social_moodle_enrollment_request_modal.js: {}    
+  css:
+    theme:
+      assets/css/social_moodle_enrollment_popup.css: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings

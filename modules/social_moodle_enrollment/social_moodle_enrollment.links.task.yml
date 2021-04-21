@@ -1,0 +1,20 @@
+# Iteration enrollment routing definition
+iteration_enrollment.settings_tab:
+  route_name: iteration_enrollment.settings
+  title: 'Settings'
+  base_route: iteration_enrollment.settings
+entity.iteration_enrollment.canonical:
+  route_name: entity.iteration_enrollment.canonical
+  base_route: entity.iteration_enrollment.canonical
+  title: 'View'
+
+entity.iteration_enrollment.edit_form:
+  route_name: entity.iteration_enrollment.edit_form
+  base_route: entity.iteration_enrollment.canonical
+  title: Edit
+
+entity.iteration_enrollment.delete_form:
+  route_name:  entity.iteration_enrollment.delete_form
+  base_route:  entity.iteration_enrollment.canonical
+  title: Delete
+  weight: 10

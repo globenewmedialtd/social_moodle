@@ -1,0 +1,5 @@
+application.add_form:
+  route_name: entity.application.add_form
+  title: 'Add application'
+  appears_on:
+    - entity.application.collection

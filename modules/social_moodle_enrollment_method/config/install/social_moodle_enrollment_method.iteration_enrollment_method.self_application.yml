@@ -1,0 +1,5 @@
+# The id of the config entity.
+id: self_application
+# Our properties follow.
+label: 'Self-Application'
+description: 'users can only enroll for this event if they are added/invited by a supervisor'

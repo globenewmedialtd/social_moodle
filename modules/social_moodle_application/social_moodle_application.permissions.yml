@@ -1,0 +1,22 @@
+administer application:
+  title: 'Administer application settings'
+  restrict access: true
+access application overview:
+  title: 'Access application overview page'
+delete application:
+  title: Delete application
+create application:
+  title: Create application
+view application:
+  title: View application
+view own application:
+  title: View own application
+edit application:
+  title: Edit application
+edit own application:
+  title: Edit own application
+access application view:
+  title: 'Access application view'
+permission_callbacks:
+  - \Drupal\social_moodle_application\SocialMoodleApplicationWorkflowPermissions::permissions
+

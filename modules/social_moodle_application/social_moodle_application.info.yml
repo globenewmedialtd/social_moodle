@@ -1,0 +1,11 @@
+name: Social Moodle Application
+type: module
+description: 'Provides an application entity.'
+package: Social
+core: 8.x
+core_version_requirement: ^8 || ^9
+dependencies:
+  - social_moodle
+  - social_moodle_iteration
+  - eva
+configure: entity.application.settings

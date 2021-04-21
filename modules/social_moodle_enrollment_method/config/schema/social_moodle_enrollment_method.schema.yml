@@ -1,0 +1,19 @@
+social_moodle_enrollment_method.iteration_enrollment_method.*:
+  type: config_entity
+  label: 'Iteration Enrollment Method'
+  mapping:
+    id:
+      type: string
+      label: 'Enrollment Method ID'
+    uuid:
+      type: string
+      label: 'UUID'
+    label:
+      type: label
+      label: 'Label'
+    description:
+      type: text
+      label: 'Description'
+    langcode:
+      type: string
+      label: 'Default language'

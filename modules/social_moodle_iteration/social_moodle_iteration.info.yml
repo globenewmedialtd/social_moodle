@@ -3,3 +3,5 @@ type: module
 description: 'Group content type iteration'
 core: 8.x
 package: 'Social'
+dependencies:
+  - social_moodle_language_version

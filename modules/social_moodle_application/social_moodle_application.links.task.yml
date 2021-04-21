@@ -1,0 +1,22 @@
+entity.application.settings:
+  title: Settings
+  route_name: entity.application.settings
+  base_route: entity.application.settings
+entity.application.view:
+  title: View
+  route_name: entity.application.canonical
+  base_route: entity.application.canonical
+entity.application.edit_form:
+  title: Edit
+  route_name: entity.application.edit_form
+  base_route: entity.application.canonical
+entity.application.delete_form:
+  title: Delete
+  route_name: entity.application.delete_form
+  base_route: entity.application.canonical
+  weight: 10
+entity.application.collection:
+  title: Application
+  route_name: entity.application.collection
+  base_route: system.admin
+  weight: 10

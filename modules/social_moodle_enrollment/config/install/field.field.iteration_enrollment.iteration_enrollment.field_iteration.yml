@@ -1,0 +1,29 @@
+uuid: 15b04e31-d200-45be-b946-c173d6ded4b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.iteration_enrollment.field_iteration
+    - node.type.iteration
+  module:
+    - social_moodle_enrollment
+id: iteration_enrollment.iteration_enrollment.field_iteration
+field_name: field_iteration
+entity_type: iteration_enrollment
+bundle: iteration_enrollment
+label: Iteration
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      iteration: iteration
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

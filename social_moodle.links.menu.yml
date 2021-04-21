@@ -1,4 +1,10 @@
-
+# Group Buttons Block menu items definition
+social_moodle.admin_config_social_moodle:
+  title: 'Social Moodle Settings'
+  route_name: social_moodle.admin_config_social_moodle
+  parent: system.admin_config
+  description: 'Settings for Social Moodle'
+  weight: 0
 # Language version menu items definition
 entity.language_version.collection:
   title: 'Language version list'

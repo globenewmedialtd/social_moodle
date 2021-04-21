@@ -1,0 +1,20 @@
+uuid: 502fb8e6-18ac-4840-a27f-2d467e45f5d2
+langcode: en
+status: true
+dependencies:
+  module:
+    - social_moodle_application
+    - user
+id: application.field_application_user
+field_name: field_application_user
+entity_type: application
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,25 @@
+uuid: 7f190830-d74d-4069-b7c3-860fa203150c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_state
+  module:
+    - social_moodle_application
+    - state_machine
+id: application.application.field_state
+field_name: field_state
+entity_type: application
+bundle: application
+label: State
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: applied
+default_value_callback: ''
+settings:
+  workflow: application_default
+  workflow_callback: ''
+field_type: state

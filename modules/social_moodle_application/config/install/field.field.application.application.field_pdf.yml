@@ -1,0 +1,27 @@
+uuid: 2e8c0212-f1c6-468c-9387-386e8e3e2156
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_pdf
+  module:
+    - file
+    - social_moodle_application
+id: application.application.field_pdf
+field_name: field_pdf
+entity_type: application
+bundle: application
+label: PDF
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: pdf
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

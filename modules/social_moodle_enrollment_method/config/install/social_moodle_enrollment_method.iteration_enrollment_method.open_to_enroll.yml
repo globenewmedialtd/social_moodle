@@ -1,0 +1,5 @@
+# The id of the config entity.
+id: open_to_enroll
+# Our properties follow.
+label: 'Open to enroll'
+description: 'users can enroll for this event without approval'

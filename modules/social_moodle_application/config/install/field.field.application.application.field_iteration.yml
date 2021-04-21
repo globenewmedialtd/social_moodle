@@ -1,0 +1,29 @@
+uuid: 33ca259e-169c-49ca-bbc2-acbb81c0e19a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.application.field_iteration
+    - node.type.iteration
+  module:
+    - social_moodle_application
+id: application.application.field_iteration
+field_name: field_iteration
+entity_type: application
+bundle: application
+label: Iteration
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      iteration: iteration
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
