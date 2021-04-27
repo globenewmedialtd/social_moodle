@@ -1,18 +1,15 @@
-uuid: 406ce45f-58ba-4e0d-872c-356fbaa7616a
+uuid: 96eddf45-2db7-4cdb-8daf-b4aed80fd931
 langcode: en
 status: true
 dependencies:
   module:
-    - node
     - social_moodle_application
-_core:
-  default_config_hash: l2w7NLrRz1iZ-bFZBf5qG4g3BkTID_WpqkBrXIsb7Do
-id: application.field_iteration
-field_name: field_iteration
+id: application.field_duties
+field_name: field_duties
 entity_type: application
-type: entity_reference
+type: string_long
 settings:
-  target_type: node
+  case_sensitive: false
 module: core
 locked: false
 cardinality: 1

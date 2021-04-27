@@ -25,7 +25,7 @@ modal_form_application.open_modal_form:
   requirements:
     _permission: 'access content'
   options:
-    _admin_route: FALSE
+    _admin_route: FALSE 
 
 modal_form_nomination.form:
   path: '/node/{node}/nomination-form'
@@ -63,4 +63,14 @@ social_moodle_enrollment.request_application_dialog:
   requirements:
     _custom_access: '\Drupal\social_moodle_enrollment\Controller\IterationApplicationRequestDialogController::applicationAccess'
 
-
+form_iteration_action.form:
+  path: '/form-iteration-action/{node}'
+  defaults:
+    _form: 'Drupal\social_moodle_enrollment\Form\IterationActionForm'
+    _title: 'Request to Enroll'
+  options:
+    parameters:
+      node:
+        type: entity:node
+  requirements:
+    _permission: 'access content'

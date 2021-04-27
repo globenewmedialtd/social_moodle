@@ -5,6 +5,8 @@ dependencies:
   module:
     - social_moodle_application
     - user
+_core:
+  default_config_hash: voksXWGNgyzMrbMyz2Nge16ByE0qYaMH0VwXMM29E0U
 id: application.field_supervisor
 field_name: field_supervisor
 entity_type: application

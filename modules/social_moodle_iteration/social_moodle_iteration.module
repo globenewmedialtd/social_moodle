@@ -11,6 +11,28 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
 /**
+ * Implements hook_theme().
+ */
+function social_moodle_iteration_theme() {
+  $theme['node__iteration__iteration_listing'] = [
+    'template' => 'node--iteration--iteration-listing',
+    'base hook' => 'node'
+  ];
+
+  $theme['iteration_listing_links'] = [
+    'variables' => [
+      'title' => [],
+      'start' => [],
+      'end' => [],
+      'links' => [],
+    ],
+  ];
+
+  return $theme;
+
+}
+
+/**
  * Implements hook_form_alter().
  */
 function social_moodle_iteration_form_alter(&$form, FormStateInterface $form_state, $form_id) {
@@ -19,6 +41,122 @@ function social_moodle_iteration_form_alter(&$form, FormStateInterface $form_sta
     
 
   }
+}
+
+
+function social_moodle_iteration_preprocess_node(&$variables) {  
+
+  if ($variables['view_mode'] === 'iteration_listing') {
+
+    $nid = $variables['node']->id();
+    
+    /*
+    $node = $variables['node'];
+
+    $enabled_enrollment_method_links = [];
+    $available_enrollment_method_links = social_moodle_iteration_enrollment_links($nid);
+
+    // Construct active iteration enrollment methods
+    if (isset($node->field_iteration_enrollment)) {
+      $enrollment_methods = $node->field_iteration_enrollment->referencedEntities();
+      if (isset($enrollment_methods)) {        
+        foreach ($enrollment_methods as $method) {
+          if (array_key_exists($method->id,$available_enrollment_method_links)) {
+            $enabled_enrollment_method_links[$method->id] = $available_enrollment_method_links[$method->id];
+          }
+        }
+      }
+    } 
+    */
+
+   //$show_enrollment_method_buttons = [ 
+    //'#theme' => 'links',
+    //'#links' => $enabled_enrollment_method_links,
+    //'#attributes' => ['class' => 'list-inline']              
+   //];    
+    
+    // Add variable for the iteration form
+    $variables['iteration_form'] = \Drupal::formBuilder()->getForm('\Drupal\social_moodle_enrollment\Form\IterationActionForm', $nid);
+
+  }
+
+}
+
+function social_moodle_iteration_enrollment_links(int $nid) {
+
+  // Define the arributes for self application
+  $attributes_self_application = [
+    'class' => [
+      'use-ajax',
+      'js-form-submit',
+      'form-submit',
+      'btn',
+      'btn-accent',
+      'btn-lg',
+    ],
+    'data-dialog-type' => 'modal',
+    'data-dialog-options' => json_encode([
+      'title' => t('Request'),
+      'width' => 'auto',
+    ]),
+  ];
+
+  // Define the label for self application
+  $self_application_button_label = t('Apply');
+
+  // Define the arributes for self application
+  $attributes_nomination_by_supervisor = [
+    'class' => [
+      'use-ajax',
+      'js-form-submit',
+      'form-submit',
+      'btn',
+      'btn-accent',
+      'btn-lg',
+    ],
+    'data-dialog-type' => 'modal',
+    'data-dialog-options' => json_encode([
+      'title' => t('Request'),
+      'width' => 'auto',
+    ]),
+  ];
+
+  // Get the current user
+  $current_user = \Drupal::currentUser();
+
+  // For self-applications we need to check if already applied
+  $conditions = [
+    'uid' => $current_user->id(),
+    'field_iteration' => $nid,
+  ];
+    
+  $application = \Drupal::entityTypeManager()->getStorage('application')
+                    ->loadByProperties($conditions);
+
+  if ($application = array_pop($application)) {
+    $self_application_button_label = t('Applied');
+    $self_application_add_classes = ['disabled'];
+    $attributes_self_application['class'][] = 'disabled'; 
+  } 
+
+
+    // Define links and ensure the index has the same name
+    // as the machine name of the iteration enrollment method
+    $links = [
+      'self_application' => [ 
+        'title' => $self_application_button_label,
+        'url' => Url::fromRoute('social_moodle_enrollment.request_application_dialog',['node' => $nid]),
+        'attributes' => $attributes_self_application
+      ],
+      'nomination_by_supervisor' => [
+        'title' => 'Nominate',
+        'url' => Url::fromRoute('social_moodle_enrollment.request_nomination_dialog', ['node' => $nid]),
+        'attributes' => $attributes_nomination_by_supervisor
+      ]
+    ];
+
+    return $links;
+  
 }
 
 

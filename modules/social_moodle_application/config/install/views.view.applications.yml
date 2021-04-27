@@ -3,16 +3,27 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.application.field_application_user
-    - field.storage.application.field_information
+    - field.storage.application.field_application_type
+    - field.storage.application.field_duties
+    - field.storage.application.field_group
     - field.storage.application.field_iteration
     - field.storage.application.field_pdf
+    - field.storage.application.field_reason
+    - field.storage.application.field_state
     - field.storage.application.field_supervisor
+    - field.storage.node.field_iteration_date
+    - field.storage.node.field_iteration_date_end
   module:
+    - datetime
     - file
+    - group
+    - node
     - options
     - social_moodle_application
     - state_machine
+    - user
+_core:
+  default_config_hash: 80_Bk0Funaglk8Q-pSNJnS5dwEHK2MiJiAc_f3uBuBA
 id: applications
 label: Applications
 module: views
@@ -28,8 +39,9 @@ display:
     position: 0
     display_options:
       access:
-        type: none
-        options: {  }
+        type: perm
+        options:
+          perm: 'access application view'
       cache:
         type: tag
         options: {  }
@@ -159,77 +171,14 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_application_user:
-          id: field_application_user
-          table: application__field_application_user
-          field: field_application_user
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: 'Application User'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
-        uid:
-          id: uid
+        uid_1:
+          id: uid_1
           table: application
           field: uid
           relationship: none
           group_type: group
           admin_label: ''
-          label: Supervisor
+          label: Applicant
           exclude: false
           alter:
             alter_text: false
@@ -287,14 +236,14 @@ display:
           entity_type: application
           entity_field: uid
           plugin_id: field
-        changed:
-          id: changed
-          table: application
-          field: changed
+        field_group:
+          id: field_group
+          table: application__field_group
+          field: field_group
           relationship: none
           group_type: group
           admin_label: ''
-          label: Changed
+          label: Title
           exclude: false
           alter:
             alter_text: false
@@ -335,13 +284,11 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: value
-          type: timestamp
+          click_sort_column: target_id
+          type: entity_reference_label
           settings:
-            date_format: medium
-            custom_date_format: ''
-            timezone: ''
-          group_column: value
+            link: true
+          group_column: target_id
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -351,74 +298,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-          entity_type: application
-          entity_field: changed
-          plugin_id: field
-        id_1:
-          id: id_1
-          table: application
-          field: id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: ID
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: number_integer
-          settings:
-            thousand_separator: ''
-            prefix_suffix: true
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          entity_type: application
-          entity_field: id
           plugin_id: field
         field_iteration:
           id: field_iteration
@@ -483,14 +362,14 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_supervisor:
-          id: field_supervisor
-          table: application__field_supervisor
-          field: field_supervisor
-          relationship: none
+        field_iteration_date:
+          id: field_iteration_date
+          table: node__field_iteration_date
+          field: field_iteration_date
+          relationship: field_iteration
           group_type: group
           admin_label: ''
-          label: Supervisor
+          label: Start
           exclude: false
           alter:
             alter_text: false
@@ -531,11 +410,12 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
+          click_sort_column: value
+          type: datetime_default
           settings:
-            link: true
-          group_column: target_id
+            timezone_override: ''
+            format_type: medium
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -546,14 +426,140 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_information:
-          id: field_information
-          table: application__field_information
-          field: field_information
+        field_iteration_date_end:
+          id: field_iteration_date_end
+          table: node__field_iteration_date_end
+          field: field_iteration_date_end
+          relationship: field_iteration
+          group_type: group
+          admin_label: ''
+          label: End
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: datetime_default
+          settings:
+            timezone_override: ''
+            format_type: medium
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_duties:
+          id: field_duties
+          table: application__field_duties
+          field: field_duties
           relationship: none
           group_type: group
           admin_label: ''
-          label: Information
+          label: Duties
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: basic_string
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_reason:
+          id: field_reason
+          table: application__field_reason
+          field: field_reason
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Reason
           exclude: false
           alter:
             alter_text: false
@@ -659,8 +665,195 @@ display:
           click_sort_column: target_id
           type: file_default
           settings:
-            use_description_as_link_text: true
+            use_description_as_link_text: false
           group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_supervisor:
+          id: field_supervisor
+          table: application__field_supervisor
+          field: field_supervisor
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Supervisor
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: entity_reference_label
+          settings:
+            link: true
+          group_column: target_id
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_state:
+          id: field_state
+          table: application__field_state
+          field: field_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: State
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        field_application_type:
+          id: field_application_type
+          table: application__field_application_type
+          field: field_application_type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: Type
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: list_default
+          settings: {  }
+          group_column: value
           group_columns: {  }
           group_rows: true
           delta_limit: 0
@@ -782,7 +975,7 @@ display:
           exposed: true
           expose:
             operator_id: field_application_type_value_op
-            label: 'Application type (field_application_type)'
+            label: Type
             description: ''
             use_operator: false
             operator: field_application_type_value_op
@@ -814,12 +1007,76 @@ display:
             group_items: {  }
           reduce_duplicates: false
           plugin_id: list_field
+        label:
+          id: label
+          table: groups_field_data
+          field: label
+          relationship: field_group
+          group_type: group
+          admin_label: ''
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: label_op
+            label: Title
+            description: ''
+            use_operator: false
+            operator: label_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: label
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              contentmanager: '0'
+              sitemanager: '0'
+              supervisor: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: group
+          entity_field: label
+          plugin_id: string
       sorts: {  }
-      title: Applications
+      title: 'Team Applications'
       header: {  }
       footer: {  }
       empty: {  }
-      relationships: {  }
+      relationships:
+        field_group:
+          id: field_group
+          table: application__field_group
+          field: field_group
+          relationship: none
+          group_type: group
+          admin_label: 'field_group: Group'
+          required: false
+          plugin_id: standard
+        field_iteration:
+          id: field_iteration
+          table: application__field_iteration
+          field: field_iteration
+          relationship: none
+          group_type: group
+          admin_label: 'field_iteration: Content'
+          required: false
+          plugin_id: standard
       arguments:
         id:
           id: id
@@ -866,12 +1123,18 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user.permissions
       tags:
-        - 'config:field.storage.application.field_application_user'
-        - 'config:field.storage.application.field_information'
+        - 'config:field.storage.application.field_application_type'
+        - 'config:field.storage.application.field_duties'
+        - 'config:field.storage.application.field_group'
         - 'config:field.storage.application.field_iteration'
         - 'config:field.storage.application.field_pdf'
+        - 'config:field.storage.application.field_reason'
+        - 'config:field.storage.application.field_state'
         - 'config:field.storage.application.field_supervisor'
+        - 'config:field.storage.node.field_iteration_date'
+        - 'config:field.storage.node.field_iteration_date_end'
   page_applications:
     display_plugin: page
     id: page_applications
@@ -879,7 +1142,7 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
-      path: review-applications
+      path: team-applications
       menu:
         type: none
         title: Applications
@@ -896,9 +1159,15 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
+        - user.permissions
       tags:
-        - 'config:field.storage.application.field_application_user'
-        - 'config:field.storage.application.field_information'
+        - 'config:field.storage.application.field_application_type'
+        - 'config:field.storage.application.field_duties'
+        - 'config:field.storage.application.field_group'
         - 'config:field.storage.application.field_iteration'
         - 'config:field.storage.application.field_pdf'
+        - 'config:field.storage.application.field_reason'
+        - 'config:field.storage.application.field_state'
         - 'config:field.storage.application.field_supervisor'
+        - 'config:field.storage.node.field_iteration_date'
+        - 'config:field.storage.node.field_iteration_date_end'

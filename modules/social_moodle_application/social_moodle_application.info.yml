@@ -8,4 +8,5 @@ dependencies:
   - social_moodle
   - social_moodle_iteration
   - eva
+  - state_machine
 configure: entity.application.settings

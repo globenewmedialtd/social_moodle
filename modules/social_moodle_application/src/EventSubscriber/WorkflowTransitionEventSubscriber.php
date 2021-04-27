@@ -71,18 +71,18 @@ class WorkflowTransitionEventSubscriber implements EventSubscriberInterface {
         // Get the referenced 
 	      // Enroll
         $fields = [
-          'user_id' => $entity->field_application_user->entity->id(),
+          'user_id' => $entity->getOwnerId(),
           'field_iteration' => $entity->field_iteration->entity->id(),
           'field_enrollment_status' => '1',
-          'field_account' => $entity->field_application_user->entity->id(),
+          'field_account' => $entity->getOwnerId(),
         ];
 
         // Create a new enrollment for the event.
         $enrollment = IterationEnrollment::create($fields);
-        $enrollment->name = $entity->field_application_user->entity->label() . ' @ ' . $entity->field_iteration->entity->label(); 
+        $enrollment->name = $entity->getOwner()->label() . ' @ ' . $entity->field_iteration->entity->label(); 
         $enrollment->save();
 
-        \Drupal::messenger()->addStatus(t('Application successful enrolled.'));
+        \Drupal::messenger()->addStatus(t('Application successfully enrolled.'));
 
         // Set the date
         //$entity->set('field_date_approved_lnd', date('Y-m-d\TH:i:s', time()));

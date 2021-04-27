@@ -48,5 +48,5 @@ application_default:
       to:   denied_lnd
     wait:
       label: 'Waitlist'
-      from: [approved_supervisor]
+      from: [approved_supervisor,applied]
       to: waitlist

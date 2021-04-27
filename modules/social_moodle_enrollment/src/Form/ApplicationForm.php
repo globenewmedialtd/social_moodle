@@ -27,7 +27,7 @@ class ApplicationForm extends FormBase {
 
     $form['open_modal'] = [
       '#type' => 'link',
-      '#title' => $this->t('Create Application'),
+      '#title' => $this->t('Apply'),
       '#url' => Url::fromRoute('social_moodle_enrollment.request_application_dialog', ['node' => $nid]),
       '#attributes' => [
         'class' => [

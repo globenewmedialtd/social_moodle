@@ -4,10 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.application.application.field_application_type
-    - field.field.application.application.field_application_user
-    - field.field.application.application.field_information
+    - field.field.application.application.field_duties
+    - field.field.application.application.field_group
     - field.field.application.application.field_iteration
     - field.field.application.application.field_pdf
+    - field.field.application.application.field_reason
     - field.field.application.application.field_state
     - field.field.application.application.field_supervisor
   module:
@@ -16,6 +17,8 @@ dependencies:
     - social_moodle_application
     - state_machine
     - user
+_core:
+  default_config_hash: BqvejcdqSvkziqJbjlrtB74a7t4dEB5pnnpCACJAIo8
 id: application.application.default
 targetEntityType: application
 bundle: application
@@ -29,7 +32,7 @@ content:
   created:
     label: inline
     type: timestamp
-    weight: 3
+    weight: 5
     region: content
     settings:
       date_format: medium
@@ -37,53 +40,60 @@ content:
       timezone: ''
     third_party_settings: {  }
   field_application_type:
-    weight: 1
-    label: above
+    weight: 3
+    label: inline
     settings: {  }
     third_party_settings: {  }
     type: list_default
     region: content
-  field_application_user:
-    weight: 5
+  field_duties:
+    weight: 8
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_group:
+    weight: 1
     label: inline
     settings:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
     region: content
-  field_information:
-    weight: 7
-    label: inline
-    settings: {  }
-    third_party_settings: {  }
-    type: basic_string
-    region: content
   field_iteration:
-    weight: 6
+    weight: 2
     label: hidden
     settings:
-      view_mode: teaser
+      view_mode: iteration_application
       link: false
     third_party_settings: {  }
     type: entity_reference_entity_view
     region: content
   field_pdf:
-    weight: 8
+    weight: 7
     label: inline
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
     type: file_default
     region: content
-  field_state:
+  field_reason:
     weight: 9
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_state:
+    weight: 10
     label: hidden
     settings: {  }
     third_party_settings: {  }
     type: state_transition_form
     region: content
   field_supervisor:
-    weight: 4
+    weight: 6
     label: inline
     settings:
       link: true
@@ -93,7 +103,7 @@ content:
   uid:
     label: inline
     type: author
-    weight: 2
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }

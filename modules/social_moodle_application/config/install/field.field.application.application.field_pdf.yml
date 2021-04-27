@@ -7,6 +7,8 @@ dependencies:
   module:
     - file
     - social_moodle_application
+_core:
+  default_config_hash: wc0zZWbP0eaks9Of9_rcRlepD2mIxlW-9Y7sRfmrdEE
 id: application.application.field_pdf
 field_name: field_pdf
 entity_type: application

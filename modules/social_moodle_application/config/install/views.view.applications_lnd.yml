@@ -1,10 +1,8 @@
 uuid: ffb3ae11-1872-4278-b76a-fa73b953319b
 langcode: en
-status: true
+status: false
 dependencies:
   config:
-    - field.storage.application.field_application_user
-    - field.storage.application.field_information
     - field.storage.application.field_iteration
     - field.storage.application.field_pdf
     - field.storage.application.field_supervisor
@@ -12,6 +10,8 @@ dependencies:
     - file
     - social_moodle_application
     - user
+_core:
+  default_config_hash: CgZY9tdK5_fJPDGhKHVw3TKPFe7pE3CcOoTEMam4cJA
 id: applications_lnd
 label: applications_lnd
 module: views
@@ -159,69 +159,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_application_user:
-          id: field_application_user
-          table: application__field_application_user
-          field: field_application_user
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: 'Application User'
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: true
-          group_column: target_id
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
         uid:
           id: uid
           table: application
@@ -546,68 +483,6 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_information:
-          id: field_information
-          table: application__field_information
-          field: field_information
-          relationship: none
-          group_type: group
-          admin_label: ''
-          label: Information
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: basic_string
-          settings: {  }
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-          plugin_id: field
         field_pdf:
           id: field_pdf
           table: application__field_pdf
@@ -741,8 +616,6 @@ display:
         - url.query_args
         - user.permissions
       tags:
-        - 'config:field.storage.application.field_application_user'
-        - 'config:field.storage.application.field_information'
         - 'config:field.storage.application.field_iteration'
         - 'config:field.storage.application.field_pdf'
         - 'config:field.storage.application.field_supervisor'
@@ -771,8 +644,6 @@ display:
         - url.query_args
         - user.permissions
       tags:
-        - 'config:field.storage.application.field_application_user'
-        - 'config:field.storage.application.field_information'
         - 'config:field.storage.application.field_iteration'
         - 'config:field.storage.application.field_pdf'
         - 'config:field.storage.application.field_supervisor'

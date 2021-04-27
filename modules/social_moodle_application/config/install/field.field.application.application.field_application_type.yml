@@ -7,6 +7,8 @@ dependencies:
   module:
     - options
     - social_moodle_application
+_core:
+  default_config_hash: ap4WAhQ62eINzKhD4pe6_aIrQydWOVJMX3sRYJ7wlqQ
 id: application.application.field_application_type
 field_name: field_application_type
 entity_type: application

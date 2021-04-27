@@ -32,7 +32,18 @@ class IterationApplicationRequestModalForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
     $node = \Drupal::routeMatch()->getParameter('node');
     $nid = $node->id();
-    $enrollment_method = $node->get('field_iteration_enrollment')->referencedEntities();
+    $gid = $this->getGroupId($node);
+    //$enrollment_method = $node->get('field_iteration_enrollment')->referencedEntities();
+
+    $current_user = \Drupal::currentUser();    
+    //$supervisor = User::load($current_user->id())->hasRole('supervisor');
+    $supervisor = social_moodle_enrollment_get_users_supervisor($current_user->id());
+    
+    $supervisor_name = $this->getSupervisorName($supervisor);
+    $approval_options = [
+      'upload' => $this->t('Upload for approval'),
+      'send' => $this->t('Send for approval to') . ' ' . $supervisor_name,
+    ];
 
 
     $form['#prefix'] = '<div id="request_iteration_application">';
@@ -44,35 +55,66 @@ class IterationApplicationRequestModalForm extends FormBase {
       '#weight' => -10,
     ];
 
+    $form['supervisor_name'] = [
+      '#markup' => '<p>' . $this->t('Your Supervisor is') . ' ' . $supervisor_name . '</p>',
+    ];
+
     $form['iteration'] = [
       '#type' => 'hidden',
       '#value' => $nid,
     ];
 
-    // A required brief_description field.
-    $form['brief_description'] = [
+    $form['group'] = [
+      '#type' => 'hidden',
+      '#value' => $gid,
+    ];
+
+    // A required duties field.
+    $form['duties'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Brief description of duties and responsibilities'),
       '#required' => TRUE,
     ];
 
-    // A required brief_description field.
-    $form['contribution'] = [
+    // A required reason field.
+    $form['reason'] = [
       '#type' => 'textarea',
       '#title' => $this->t('How will this training contribute to your work/Units or Departments work?'),
       '#required' => TRUE,
     ];
 
-    $form['file_upload_details'] = array(
-      '#markup' => t('<b>Supervisor confirmation</b>'),
-    );
-	
+    $form['approval_options'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Approval'),
+      '#options' => $approval_options,
+      '#default_value' => 'upload',
+      '#attributes' => [
+        'name' => 'approval_options',
+      ],
+      '#ajax' => [
+        // #ajax has two required keys: callback and wrapper.
+        // 'callback' is a function that will be called when this element
+        // changes.
+        'callback' => '::ajaxShowFileUploadCallback',
+        // 'wrapper' is the HTML id of the page element that will be replaced.
+        'wrapper' => 'replace-file-upload-container',
+      ]
+    ];
+
+    // The 'replace-textfield-container' container will be replaced whenever
+    // 'changethis' is updated.
+    $form['replace_file_upload_container'] = [
+      '#type' => 'container',
+      '#attributes' => ['id' => 'replace-file-upload-container'],
+    ];
+
     $validators = array(
       'file_validate_extensions' => array('pdf'),
     );
-    $form['pdf'] = array(
+
+
+    $form['replace_file_upload_container']['pdf'] = array(
       '#type' => 'managed_file',
-      '#name' => 'pdf',
       '#title' => t('PDF'),
       '#size' => 20,
       '#description' => t('PDF format only'),
@@ -80,6 +122,13 @@ class IterationApplicationRequestModalForm extends FormBase {
       '#upload_location' => 'private://application/',
       '#required' => FALSE,
     );
+
+    // AJAX Request get value.
+    // We can change how we build the form based on $form_state.
+    $show_pdf = $form_state->getValue('approval_options');
+    if ($show_pdf !== NULL && $show_pdf === 'send') {
+      $form['replace_file_upload_container']['pdf']['#access'] = FALSE;
+    }
 
     $form['actions']['submit'] = [
       '#type' => 'submit',
@@ -93,9 +142,9 @@ class IterationApplicationRequestModalForm extends FormBase {
 
     $form['#attached']['library'] = [
       'core/drupal.dialog.ajax',
-      'social_moodle_enrollment/modal_application',
+      'social_moodle_enrollment/modal',
     ];
-    $form['#attached']['drupalSettings']['iterationAppliationRequest'] = [
+    $form['#attached']['drupalSettings']['iterationModalRequest'] = [
       'closeDialog' => TRUE,
     ];
 
@@ -128,41 +177,54 @@ class IterationApplicationRequestModalForm extends FormBase {
     $uid = $current_user->id();
     $supervisor = social_moodle_enrollment_get_users_supervisor($uid);
     $nid = $form_state->getValue('iteration');
+    $gid = $form_state->getValue('group');
     $fid = $form_state->getValue('pdf');
+    $reason = $form_state->getValue('reason');
+    $duties = $form_state->getValue('duties');
+    
 
     if ( isset($fid) && !empty($fid) ) {
 
       $fields = [
-        'field_application_user' => $uid,
         'field_iteration' => $nid,
+        'field_group' => $gid,
         'field_supervisor' => $supervisor,
         'field_pdf' => $fid,
         'field_state' => 'approved_supervisor',
+        'field_reason' => $reason,
+        'field_duties' => $duties,
         'field_application_type' => 'application'
       ]; 
 
     } 
     else {
       $fields = [
-        'field_application_user' => $uid,
         'field_iteration' => $nid,
+        'field_group' => $gid,
         'field_supervisor' => $supervisor,
+        'field_reason' => $reason,
+        'field_duties' => $duties,
         'field_application_type' => 'application'
       ]; 
     }
 
-    \Drupal::logger('social_moodle_enrollment')->warning('<pre><code>' . print_r($fields, TRUE) . '</code></pre>');
-
     if ($supervisor) {
       $application = Application::create($fields);
-      $application->setOwnerId($supervisor);
+      $application->setOwnerId($uid);
       $application->save();
     }
   
 
     // On success leave a message and reload the page.
-    \Drupal::messenger()->addStatus(t('Your request has been sent successfully'));
+    \Drupal::messenger()->addStatus(t('You have successfully applied!'));
     return $response->addCommand(new CloseDialogCommand());
+  }
+
+  /**
+   * Handles switching the available regions based on the selected theme.
+   */
+  public function ajaxShowFileUploadCallback($form, FormStateInterface $form_state) {
+    return $form['replace_file_upload_container'];
   }
   
 
@@ -175,6 +237,50 @@ class IterationApplicationRequestModalForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {}
+
+
+  /**
+   * Get group object where event enrollment is posted in.
+   *
+   * Returns the id group id for the group content.
+   *
+   * @return integer
+   *   The group id from group content.
+   */
+  public function getGroupId($node) {
+    $groupcontents = GroupContent::loadByEntity($node);
+
+    $group_id = FALSE;
+    // Only react if it is actually posted inside a group.
+    if (!empty($groupcontents)) {
+      foreach ($groupcontents as $groupcontent) {
+        /** @var \Drupal\group\Entity\GroupContent $groupcontent */
+        $group_id = $groupcontent->getGroup()->id();
+        /** @var \Drupal\group\Entity\Group $group */
+      }
+    } 
+
+    return $group_id;
+  
+  }
+
+  public function getSupervisorName($supervisor) {
+
+    $profiles = \Drupal::entityTypeManager()
+  	->getStorage('profile')
+  	->loadByProperties([
+    	'uid' => $supervisor,
+    	'type' => 'profile',
+  	]);
+
+    foreach ($profiles as $profile) {      
+      return $profile->field_profile_first_name->value . ' ' . $profile->field_profile_last_name->value;       
+    }
+
+    return false;
+
+  }
+
 
   /**
    * Gets the configuration names that will be editable.

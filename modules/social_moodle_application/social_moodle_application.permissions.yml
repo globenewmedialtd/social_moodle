@@ -9,12 +9,20 @@ create application:
   title: Create application
 view application:
   title: View application
+view supervisor application:
+  title: View supervisor application  
 view own application:
   title: View own application
+view own group application:
+  title: View own group application
 edit application:
   title: Edit application
+edit supervisor application:
+  title: Edit supervisor application
 edit own application:
   title: Edit own application
+edit own group application:
+  title: Edit own group application
 access application view:
   title: 'Access application view'
 permission_callbacks:

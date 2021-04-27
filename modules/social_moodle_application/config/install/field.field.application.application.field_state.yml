@@ -7,6 +7,8 @@ dependencies:
   module:
     - social_moodle_application
     - state_machine
+_core:
+  default_config_hash: n1lFnaFaYoZz6M17RW_oEEdxdsz3QdQ5cDFE2F7fDV4
 id: application.application.field_state
 field_name: field_state
 entity_type: application

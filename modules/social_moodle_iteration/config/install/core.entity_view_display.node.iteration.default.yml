@@ -10,25 +10,14 @@ dependencies:
     - field.field.node.iteration.field_iteration_enrollment
     - node.type.iteration
   module:
-    - text
     - user
+_core:
+  default_config_hash: d490fOhREPDnIfqTf-g8TULY05ddRPwHldSl5vx3Oc0
 id: node.iteration.default
 targetEntityType: node
 bundle: iteration
 mode: default
 content:
-  body:
-    weight: 12
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: text_default
-    region: content
-  flag_follow_content:
-    weight: 10
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   groups_type_closed_group:
     label: above
     weight: 2
@@ -109,18 +98,16 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
-  links:
-    weight: 11
-    region: content
-    settings: {  }
-    third_party_settings: {  }
 hidden:
+  body: true
   field_content_visibility: true
   field_iteration_date: true
   field_iteration_date_end: true
   field_iteration_enrollment: true
+  flag_follow_content: true
   groups: true
+  links: true
   private_message_link: true
   search_api_excerpt: true
   shariff_field: true
-
+  social_tagging: true

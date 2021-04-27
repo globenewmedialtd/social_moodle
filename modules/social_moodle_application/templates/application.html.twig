@@ -9,6 +9,7 @@
  * Available variables:
  * - content: A list of content items. Use 'content' to print all content, or
  *   print a subset such as 'content.title'.
+ * - button_team_applications: A link back to all team applications
  * - attributes: HTML attributes for the container element.
  *
  * @see template_preprocess_application()
@@ -17,6 +18,6 @@
 <article{{ attributes }}>
   {% if content %}
     {{- content -}}
-  <a class="readmore" href="/review-applications">All Aplications</a>
+    {{ button_team_applications }}
   {% endif %}
 </article>

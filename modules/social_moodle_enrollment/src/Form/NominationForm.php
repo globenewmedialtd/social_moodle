@@ -23,18 +23,23 @@ class NominationForm extends FormBase {
     $node = \Drupal::routeMatch()->getParameter('node');
     $nid = $node->id();
     $enrollment_method = $node->get('field_iteration_enrollment')->referencedEntities();
+    $nominations = [];
 
     $current_user = \Drupal::currentUser();
     
     $supervisor = User::load($current_user->id())->hasRole('supervisor');
 
     $users = social_moodle_enrollment_get_supervisor_users($current_user->id());
+    
 
-    foreach ($users as $user) {
-      if ($nomination = $this->getNominee($user, $current_user->id())) {
-       $nominations[] = $nomination;
-      }  
-    }
+
+    if ($users) {
+      foreach ($users as $user) {
+        if ($nomination = $this->getNominee($user, $current_user->id())) {
+          $nominations[] = $nomination;
+        }   
+      }
+    }    
 
     $entity = \Drupal::entityTypeManager()->getStorage('application');
     $query = $entity->getQuery();

@@ -220,7 +220,7 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
 
       $enrollments = $this->entityStorage->loadByProperties($conditions);
 
-	kint($enrollments);
+	
       if ($enrollment = array_pop($enrollments)) {
         $current_enrollment_status = $enrollment->field_enrollment_status->value;
         if ($current_enrollment_status === '1') {

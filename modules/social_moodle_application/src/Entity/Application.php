@@ -123,7 +123,7 @@ class Application extends ContentEntityBase implements ApplicationInterface {
     $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Author'))
+      ->setLabel(t('Applicant'))
       ->setDescription(t('The user ID of the application author.'))
       ->setSetting('target_type', 'user')
       ->setDisplayOptions('form', [
@@ -144,7 +144,7 @@ class Application extends ContentEntityBase implements ApplicationInterface {
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['created'] = BaseFieldDefinition::create('created')
-      ->setLabel(t('Authored on'))
+      ->setLabel(t('Applied on'))
       ->setDescription(t('The time that the application was created.'))
       ->setDisplayOptions('view', [
         'label' => 'above',

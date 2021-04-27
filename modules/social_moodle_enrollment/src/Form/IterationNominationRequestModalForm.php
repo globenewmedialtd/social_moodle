@@ -32,21 +32,32 @@ class IterationNominationRequestModalForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, $options = NULL) {
     $node = \Drupal::routeMatch()->getParameter('node');
     $nid = $node->id();
+    $gid = $this->getGroupId($node);
+    $nominees_applied = [];
+
+    
+
+
     $enrollment_method = $node->get('field_iteration_enrollment')->referencedEntities();
+    
 
     $current_user = \Drupal::currentUser();
     
     $supervisor = User::load($current_user->id())->hasRole('supervisor');
 
+    $users = social_moodle_enrollment_get_supervisor_users($current_user->id());
 
+    foreach ($users as $user) {
+      if ($nomination = $this->getNominee($user, $current_user->id())) {
+        $nominations[$user] = $nomination;
+      }
+    }
 
-   foreach ($users as $user) {
+    if ($users) {
+      $nominees_applied = $this->getNomineesAlreadyApplied($users,$nid);
+    }
+     
 
-     if ($nomination = $this->getNominee($user, $current_user->id())) {
-       $nominations[$user] = $nomination;
-     }
-  
-   }
 
     $form['#prefix'] = '<div id="request_iteration_nomination">';
     $form['#suffix'] = '</div>';
@@ -62,23 +73,30 @@ class IterationNominationRequestModalForm extends FormBase {
       '#value' => $nid,
     ];
 
+    $form['group'] = [
+      '#type' => 'hidden',
+      '#value' => $gid,
+    ];
+
     $form['nominate_users'] = array(
       '#type' => 'checkboxes',
       '#options' => $nominations,
       '#required' => TRUE,
-    );
+    );  
 
-    $form['description'] = [
-      '#type' => 'html_tag',
-      '#tag' => 'p',
-      '#value' => $this->t('You can leave a message in your request. Only when your request is approved, you will receive a notification via email and notification center.'),
-      '#required' => TRUE,
-    ];
+    // Make already nominees disabled
+    if (isset($nominees_applied) && !empty($nominees_applied)) {
+      foreach ($nominees_applied as $nominee) {        
+        $form['nominate_users'][$nominee]['#disabled'] = TRUE;        
+      }
+    }    
 
-    $form['message'] = [
+
+    // A required reason field.
+    $form['reason'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Message'),
-      '#maxlength' => 250,
+      '#title' => $this->t('Reason'),
+      '#required' => TRUE,
     ];
 
     $form['actions']['submit'] = [
@@ -93,9 +111,9 @@ class IterationNominationRequestModalForm extends FormBase {
 
     $form['#attached']['library'] = [
       'core/drupal.dialog.ajax',
-      'social_moodle_enrollment/modal_nomination',
+      'social_moodle_enrollment/modal',
     ];
-    $form['#attached']['drupalSettings']['iterationNominationRequest'] = [
+    $form['#attached']['drupalSettings']['iterationModalRequest'] = [
       'closeDialog' => TRUE,
     ];
 
@@ -127,20 +145,23 @@ class IterationNominationRequestModalForm extends FormBase {
     $uid = $current_user->id();
 
     $nid = $form_state->getValue('iteration');
+    $gid = $form_state->getValue('group');
 
     $nominations = $form_state->getValue('nominate_users');
+    $reason = $form_state->getValue('reason'); 
 
-    foreach ($nominations as $key => $nomination) {
-	    if ($key == $nomination) {	           
+    foreach ($nominations as $key => $nominee) {
+	    if ($key == $nominee) {	           
         $fields = [
-          'field_application_user' => $nomination,
           'field_iteration' => $nid,
+          'field_group' => $gid,
           'field_supervisor' => $uid,
+          'field_reason' => $reason,
           'field_application_type' => 'nomination'
         ];
         // Create a new application for the iteration.
         $application = Application::create($fields);
-        $application->setOwnerId($uid);
+        $application->setOwnerId($nominee);
         $application->save();
       }	
     }
@@ -148,7 +169,7 @@ class IterationNominationRequestModalForm extends FormBase {
   
 
     // On success leave a message and reload the page.
-    \Drupal::messenger()->addStatus(t('Your request has been sent successfully'));
+    \Drupal::messenger()->addStatus(t('Your nomination has been sent successfully'));
     return $response->addCommand(new CloseDialogCommand());
   }
 
@@ -174,29 +195,52 @@ class IterationNominationRequestModalForm extends FormBase {
 
   }
 
-    /**
+  public function getNomineesAlreadyApplied($users, $nid) {
+
+    $applied_users = [];
+
+    foreach($users as $user) {
+      $conditions = [
+        'uid' => $user,
+        'field_iteration' => $nid
+      ];
+
+      $application = \Drupal::entityTypeManager()->getStorage('application')
+                    ->loadByProperties($conditions);
+
+      if (isset($application) && !empty($application)) {
+        $applied_users[$user] = $user; 
+      }
+
+    }
+
+    return $applied_users; 
+
+  }
+
+  /**
    * Get group object where event enrollment is posted in.
    *
-   * Returns an array of Group Objects.
+   * Returns the id group id for the group content.
    *
-   * @return array
-   *   Array of group entities.
+   * @return integer
+   *   The group id from group content.
    */
-  public function getGroups($node) {
+  public function getGroupId($node) {
     $groupcontents = GroupContent::loadByEntity($node);
 
-    $groups = [];
+    $group_id = FALSE;
     // Only react if it is actually posted inside a group.
     if (!empty($groupcontents)) {
       foreach ($groupcontents as $groupcontent) {
         /** @var \Drupal\group\Entity\GroupContent $groupcontent */
-        $group = $groupcontent->getGroup();
+        $group_id = $groupcontent->getGroup()->id();
         /** @var \Drupal\group\Entity\Group $group */
-        $groups[] = $group;
       }
-    }
+    } 
 
-    return $groups;
+    return $group_id;
+  
   }
 
   /**
@@ -233,5 +277,6 @@ class IterationNominationRequestModalForm extends FormBase {
       'width' => '582',
     ];
   }
+ 
 
 }

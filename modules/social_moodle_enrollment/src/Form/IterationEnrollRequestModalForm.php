@@ -69,7 +69,7 @@ class IterationEnrollRequestModalForm extends FormBase {
       'core/drupal.dialog.ajax',
       'social_moodle_enrollment/modal',
     ];
-    $form['#attached']['drupalSettings']['iterationEnrollmentRequest'] = [
+    $form['#attached']['drupalSettings']['iterationModalRequest'] = [
       'closeDialog' => TRUE,
     ];
 

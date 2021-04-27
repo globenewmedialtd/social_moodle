@@ -6,11 +6,11 @@
 
   'use strict';
 
-  Drupal.behaviors.iterationEnrollmentRequest = {
+  Drupal.behaviors.iterationModalRequest = {
     attach: function (context, settings) {
 
       // Trigger the modal window.
-      $('body', context).once('iterationEnrollmentRequest').each(function () {
+      $('body', context).once('iterationModalRequest').each(function () {
         $('a#modal-trigger').click();
 
         // When the dialog closes, reload without the location.search parameter.
@@ -20,9 +20,9 @@
       });
 
       // When submitting the request, close the page.
-      var closeDialog = settings.iterationEnrollmentRequest.closeDialog;
+      var closeDialog = settings.iterationModalRequest.closeDialog;
 
-      $('body').once('iterationEnrollmentSubmitRequest').on('dialogclose', '.ui-dialog', function() {
+      $('body').once('iterationSubmitRequest').on('dialogclose', '.ui-dialog', function() {
         if (closeDialog === true) {
           location.assign(location.origin + location.pathname);
         }

@@ -63,11 +63,23 @@ class NominationModalForm extends FormBase {
       '#weight' => -10,
     ];
 
+    
+
     $form['nominate_users'] = array(
       '#type' => 'checkboxes',
       '#options' => $nominations,
-      '#required' => TRUE,
+      '#required' => TRUE,      
     );
+
+   
+
+    
+
+    
+
+    
+
+
 
     // A required brief_description field.
     $form['reason'] = [

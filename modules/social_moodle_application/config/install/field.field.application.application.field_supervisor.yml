@@ -6,6 +6,8 @@ dependencies:
     - field.storage.application.field_supervisor
   module:
     - social_moodle_application
+_core:
+  default_config_hash: pgkvbm3s0ptpaD5ym-zPnQ0rgt8nq1Y0Nt_nz1jfypE
 id: application.application.field_supervisor
 field_name: field_supervisor
 entity_type: application

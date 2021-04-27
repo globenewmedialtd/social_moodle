@@ -6,6 +6,8 @@
  */
 
 use Drupal\Core\Render\Element;
+use Drupal\Core\Url;
+use Drupal\Core\Entity\EntityForm;
 
 /**
  * Implements hook_theme().
@@ -33,4 +35,62 @@ function template_preprocess_application(array &$variables) {
   foreach (Element::children($variables['elements']) as $key) {
     $variables['content'][$key] = $variables['elements'][$key];
   }
+
+  // Add back to team applications button
+  $attributes = array('class' => 'btn button button-primary btn-primary');
+  $variables['button_team_applications'] = [
+    '#title' => t('Team Applications'),
+    '#type' => 'link',
+    '#url' => Url::fromRoute('view.applications.page_applications'),
+    '#attributes' => $attributes
+  ];
+
 }
+
+/**
+ * Implements hook_social_user_account_header_account_links_alter().
+ *
+ * Provides a glue layer between the new system and the deprecated hook
+ * social_user_account_header_links to provide backwards compatibility.
+ *
+ * This should be removed once social_user_account_header_links is also removed.
+ */
+function social_moodle_application_social_user_account_header_account_links_alter(array &$account_links, array $context) {
+
+  $user = \Drupal::currentUser();
+
+  // Check for permission
+  if ($user->hasPermission('access application view')) {
+
+    $account_links['team_applications'] = [
+      '#type' => 'link',
+      '#attributes' => [
+        'title' => t('Team Applications'),
+      ],
+      '#url' => Url::fromRoute('view.applications.page_applications'),
+      '#title' => t('Team Applications'),
+      '#weight' => 1,
+    ];
+
+  }
+
+}
+
+
+function social_moodle_application_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if ($form_id === 'application_edit_form') {
+    // Per default the iteration is set to disabled to avoid manipulation
+    $form['field_iteration']['widget'][0]['target_id']['#disabled'] = TRUE;
+    $entity = $form_state->getFormObject()->getEntity();
+    $current_state = $entity->field_state->value;
+
+  
+    
+    if ($current_state === 'waitlist') {
+      $form['field_iteration']['widget'][0]['target_id']['#disabled'] = FALSE;
+    }
+
+  }
+  
+}
+

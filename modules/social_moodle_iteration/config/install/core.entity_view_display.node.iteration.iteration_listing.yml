@@ -1,0 +1,61 @@
+uuid: cc8a3ef1-8c6d-492f-b43b-80c53a40cfcb
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.iteration_listing
+    - field.field.node.iteration.body
+    - field.field.node.iteration.field_content_visibility
+    - field.field.node.iteration.field_iteration_date
+    - field.field.node.iteration.field_iteration_date_end
+    - field.field.node.iteration.field_iteration_enrollment
+    - node.type.iteration
+  module:
+    - datetime
+    - user
+_core:
+  default_config_hash: d490fOhREPDnIfqTf-g8TULY05ddRPwHldSl5vx3Oc0
+id: node.iteration.iteration_listing
+targetEntityType: node
+bundle: iteration
+mode: iteration_listing
+content:
+  field_iteration_date:
+    type: datetime_default
+    weight: 0
+    region: content
+    label: inline
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+  field_iteration_date_end:
+    type: datetime_default
+    weight: 1
+    region: content
+    label: inline
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+hidden:
+  body: true
+  field_content_visibility: true
+  field_iteration_enrollment: true
+  flag_follow_content: true
+  groups: true
+  groups_type_closed_group: true
+  groups_type_course_advanced: true
+  groups_type_course_basic: true
+  groups_type_flexible_group: true
+  groups_type_open_group: true
+  groups_type_public_group: true
+  groups_type_secret_group: true
+  groups_type_tm_community: true
+  groups_type_tm_conference: true
+  groups_type_tm_training: true
+  links: true
+  private_message_link: true
+  search_api_excerpt: true
+  shariff_field: true
+  social_tagging: true

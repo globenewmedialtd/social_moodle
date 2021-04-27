@@ -5,14 +5,6 @@ form_submit:
     - core/jquery
     - core/jquery.once
 
-modal_nomination:
-  js:
-    assets/js/social_moodle_nomination_request_modal.js: {}
-  dependencies:
-    - core/jquery
-    - core/drupal
-    - core/drupalSettings
-
 modal:
   js:
     assets/js/social_moodle_enrollment_request_modal.js: {}    
