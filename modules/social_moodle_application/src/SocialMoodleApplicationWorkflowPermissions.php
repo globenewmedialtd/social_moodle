@@ -73,6 +73,7 @@ class SocialMoodleApplicationWorkflowPermissions implements ContainerInjectionIn
         ];
       }
     }
+
     return $permissions;
   }
 

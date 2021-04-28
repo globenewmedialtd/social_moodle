@@ -30,4 +30,12 @@ interface ApplicationInterface extends ContentEntityInterface, EntityOwnerInterf
    */
   public function setCreatedTime($timestamp);
 
+    /**
+   * Gets the order state.
+   *
+   * @return \Drupal\state_machine\Plugin\Field\FieldType\StateItemInterface
+   *   The order state.
+   */
+  public function getState();
+
 }

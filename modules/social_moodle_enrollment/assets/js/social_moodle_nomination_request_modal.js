@@ -20,7 +20,7 @@
       });
 
       // When submitting the request, close the page.
-      var closeDialog = settings.iterationEnrollmentRequest.closeDialog;
+      var closeDialog = settings.iterationNominationRequest.closeDialog;
 
       $('body').once('iterationNominationSubmitRequest').on('dialogclose', '.ui-dialog', function() {
         if (closeDialog === true) {

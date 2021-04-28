@@ -8,6 +8,7 @@
 use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\Core\Entity\EntityForm;
+use Drupal\views\ViewExecutable;
 
 /**
  * Implements hook_theme().
@@ -93,4 +94,35 @@ function social_moodle_application_form_alter(&$form, \Drupal\Core\Form\FormStat
   }
   
 }
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function social_moodle_application_views_pre_render(ViewExecutable $view) {
+  if (!empty($view->result)) {
+    $entities = [
+      'application',
+    ];
+
+    foreach ($view->result as $key => $result) {
+      if (empty($result->_entity)) {
+        continue;
+      }
+
+      if (!in_array($result->_entity->getEntityTypeId(), $entities)) {
+        continue;
+      }
+
+      $access = \Drupal::entityTypeManager()
+        ->getAccessControlHandler($result->_entity->getEntityTypeId())
+        ->access($result->_entity, 'view', NULL, TRUE);
+
+      if (!$access->isAllowed()) {
+        unset($view->result[$key]);
+      }
+    }
+  }
+}
+
+
 
