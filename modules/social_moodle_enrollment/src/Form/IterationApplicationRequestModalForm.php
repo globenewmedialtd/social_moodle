@@ -110,6 +110,11 @@ class IterationApplicationRequestModalForm extends FormBase {
         ]
       ];
 
+
+
+
+
+
       // The 'replace-textfield-container' container will be replaced whenever
       // 'changethis' is updated.
       $form['replace_file_upload_container'] = [
@@ -139,6 +144,22 @@ class IterationApplicationRequestModalForm extends FormBase {
 
 
     }
+    else {
+
+      $form['replace_file_upload_container']['pdf_info'] = [
+        '#markup' => '<span>' . $this->t('A supervisor confirmation is required to apply for trainings. Please download and reattach this template') . ': ' . '</span>'
+      ];
+  
+      $form['replace_file_upload_container']['download_template'] = [
+        '#title' => 'Download Template',
+        '#type' => 'link',
+        '#url' => Url::fromRoute('social_moodle_enrollment.application_download_file'),
+        '#attributes' => ['class' => ['form-submit','btn','btn-accent','btn-sm']]
+      ];
+
+    }
+
+
 
 
     $form['replace_file_upload_container']['pdf'] = array(
@@ -157,6 +178,8 @@ class IterationApplicationRequestModalForm extends FormBase {
       $show_pdf = $form_state->getValue('approval_options');
       if ($show_pdf !== NULL && $show_pdf === 'send') {
         $form['replace_file_upload_container']['pdf']['#access'] = FALSE;
+        $form['replace_file_upload_container']['pdf_info']['#access'] = FALSE;
+        $form['replace_file_upload_container']['download_template']['#access'] = FALSE;
      }
     }
 
