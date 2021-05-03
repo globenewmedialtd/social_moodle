@@ -329,6 +329,7 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
     // event is closed.
     /** @var \Drupal\Core\Datetime\DrupalDateTime $check_end_date */
     $check_end_date = $node->field_iteration_date->date;
+    $finished = FALSE;
 
     if (isset($node->field_iteration_date_end->date)) {
       $check_end_date = $node->field_iteration_date_end->date;
@@ -337,10 +338,15 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
     $current_time = new DrupalDateTime();
 
     // The event has finished if the end date is smaller than the current date.
-    if ($current_time > $check_end_date) {
-      return TRUE;
+    // only if there are dates given
+    if (isset($node->field_iteration_date_end->date) && isset($node->field_iteration_date->date)) {
+      if ($current_time > $check_end_date) {
+        $finished = TRUE;
+      }
     }
-    return FALSE;
+
+    return $finished;
+
   }
 
   /**
