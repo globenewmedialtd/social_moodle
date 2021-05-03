@@ -60,17 +60,19 @@ function social_moodle_iteration_preprocess_node(&$variables) {
     $show_default_enrollment = FALSE;
 
     // Construct active iteration enrollment methods
-    if (isset($node->field_iteration_enrollment)) {
-      $enrollment_methods = $node->field_iteration_enrollment->referencedEntities();
+    if (isset($variables['node']->field_iteration_enrollment)) {
+      $enrollment_methods = $variables['node']->field_iteration_enrollment->referencedEntities();
       if (isset($enrollment_methods)) {        
         foreach ($enrollment_methods as $method) {
-          if (in_array($method->id,$default_enrollment_methods)) {
+          if ($method->id === 'open_to_enroll' ||
+              $method->id === 'request_to_enroll' ||
+              $method->id === 'invite_only') {          
             $show_default_enrollment = TRUE;
           }
         }
       }
     } 
-    
+   
     $variables['show_default_enrollment'] = $show_default_enrollment;
     
     // Add variable for the iteration form
