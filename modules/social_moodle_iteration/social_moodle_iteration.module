@@ -49,34 +49,34 @@ function social_moodle_iteration_preprocess_node(&$variables) {
   if ($variables['view_mode'] === 'iteration_listing') {
 
     $nid = $variables['node']->id();
-    
-    /*
-    $node = $variables['node'];
 
-    $enabled_enrollment_method_links = [];
-    $available_enrollment_method_links = social_moodle_iteration_enrollment_links($nid);
+    // Default Enrollment methods
+    $default_enrollment_methods = [
+      'open_to_enroll',
+      'request_to_enroll',
+      'invite_only'
+    ];
+
+    $show_default_enrollment = FALSE;
 
     // Construct active iteration enrollment methods
     if (isset($node->field_iteration_enrollment)) {
       $enrollment_methods = $node->field_iteration_enrollment->referencedEntities();
       if (isset($enrollment_methods)) {        
         foreach ($enrollment_methods as $method) {
-          if (array_key_exists($method->id,$available_enrollment_method_links)) {
-            $enabled_enrollment_method_links[$method->id] = $available_enrollment_method_links[$method->id];
+          if (in_array($method->id,$default_enrollment_methods)) {
+            $show_default_enrollment = TRUE;
           }
         }
       }
     } 
-    */
-
-   //$show_enrollment_method_buttons = [ 
-    //'#theme' => 'links',
-    //'#links' => $enabled_enrollment_method_links,
-    //'#attributes' => ['class' => 'list-inline']              
-   //];    
+    
+    $variables['show_default_enrollment'] = $show_default_enrollment;
     
     // Add variable for the iteration form
     $variables['iteration_form'] = \Drupal::formBuilder()->getForm('\Drupal\social_moodle_enrollment\Form\IterationActionForm', $nid);
+
+    $variables['enrollment_form'] = \Drupal::formBuilder()->getForm('\Drupal\social_moodle_enrollment\Form\IterationEnrollActionForm', $nid);
 
   }
 

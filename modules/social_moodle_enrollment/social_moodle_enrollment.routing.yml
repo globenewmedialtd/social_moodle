@@ -74,3 +74,10 @@ form_iteration_action.form:
         type: entity:node
   requirements:
     _permission: 'access content'
+
+social_moodle_enrollment.application_download_file:
+  path: '/download/file/application_template'
+  defaults:
+    _controller: '\Drupal\social_moodle_enrollment\Controller\PdfDownloadController::download'
+  requirements:
+    _permission: 'access content'

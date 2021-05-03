@@ -75,6 +75,7 @@ class WorkflowTransitionEventSubscriber implements EventSubscriberInterface {
           'field_iteration' => $entity->field_iteration->entity->id(),
           'field_enrollment_status' => '1',
           'field_account' => $entity->getOwnerId(),
+          'field_enrollment_status' => 1
         ];
 
         // Create a new enrollment for the event.

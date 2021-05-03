@@ -34,28 +34,31 @@ class IterationActionForm extends FormBase {
 
 
     if ($enrollment = array_pop($enrollments)) {
-      $options_course_link = [
-        'query' => [
-          'idnumber' => $nid
-        ]
-      ];
-      $form['enrolled']['#markup'] = '<p>' . $this->t('Enrolled') . '</p>';   
-      $form['buttons']['course_link'] = [
-        '#type' => 'link',
-        '#title' => $this->t('Show course'),
-        '#url' => Url::fromUri('internal:/moodle/redirect.php',$options_course_link),
-        '#attributes' => [
-          'class' => [
-            'js-form-submit',
-            'form-submit',
-            'btn',
-            'btn-accent',
-            'btn-lg',
+      $current_enrollment_status = $enrollment->field_enrollment_status->value;
+      if ($current_enrollment_status === '1') {
+        $options_course_link = [
+          'query' => [
+            'idnumber' => $nid
           ]
-        ]
-      ];
+        ];
+        $form['enrolled']['#markup'] = '<p>' . $this->t('Enrolled') . '</p>';   
+        $form['buttons']['course_link'] = [
+          '#type' => 'link',
+          '#title' => $this->t('Show course'),
+          '#url' => Url::fromUri('internal:/moodle/redirect.php',$options_course_link),
+          '#attributes' => [
+            'class' => [
+              'js-form-submit',
+              'form-submit',
+              'btn',
+              'btn-accent',
+              'btn-lg',
+           ]
+          ]
+        ];
+      }
     }
-
+    
     $available_enrollment_method_buttons = $this->getAvailableButtons($nid);
 
     // Construct active iteration enrollment methods
@@ -72,15 +75,26 @@ class IterationActionForm extends FormBase {
   
     foreach ($enabled_enrollment_method_buttons as $key => $value) {
       $form['buttons'][$key] = $value;
-    }
-
-   
+    }   
   
     return $form;   
 
   }
 
   protected function getAvailableButtons($nid) {
+
+    // Define the attributes for open to enroll
+    $attributes_open_to_enroll = [
+      'class' => [
+        'js-form-submit',
+        'form-submit',
+        'btn',
+        'btn-accent',
+        'btn-lg',
+      ]
+    ];
+
+    $open_to_enroll_button_label = t('Open to enroll');
 
     // Define the arributes for self application
     $attributes_self_application = [
@@ -152,7 +166,7 @@ class IterationActionForm extends FormBase {
         '#title' => 'Nominate',
         '#url' => Url::fromRoute('social_moodle_enrollment.request_nomination_dialog', ['node' => $nid]),
         '#attributes' => $attributes_nomination_by_supervisor
-      ]
+      ],
     ];
 
     if (!$supervisor) {

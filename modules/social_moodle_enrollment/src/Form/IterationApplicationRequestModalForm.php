@@ -12,6 +12,7 @@ use Drupal\group\Entity\GroupContent;
 use Drupal\node\NodeInterface;
 use Drupal\social_moodle_application\Entity\Application;
 use Drupal\social_moodle_application\ApplicationInterface;
+use Drupal\Core\Url;
 
 
 /**
@@ -38,6 +39,10 @@ class IterationApplicationRequestModalForm extends FormBase {
     $current_user = \Drupal::currentUser();    
     //$supervisor = User::load($current_user->id())->hasRole('supervisor');
     $supervisor = social_moodle_enrollment_get_users_supervisor($current_user->id());
+    $upload_required = TRUE;
+    if (isset($supervisor) && ($supervisor)) {
+      $upload_required = FAlSE;
+    }
     
     $supervisor_name = $this->getSupervisorName($supervisor);
     $approval_options = [
@@ -55,9 +60,11 @@ class IterationApplicationRequestModalForm extends FormBase {
       '#weight' => -10,
     ];
 
-    $form['supervisor_name'] = [
-      '#markup' => '<p>' . $this->t('Your Supervisor is') . ' ' . $supervisor_name . '</p>',
-    ];
+    if (isset($supervisor) && ($supervisor)) {
+      $form['supervisor_name'] = [
+        '#markup' => '<p>' . $this->t('Your Supervisor is') . ' ' . $supervisor_name . '</p>',
+      ];
+    }
 
     $form['iteration'] = [
       '#type' => 'hidden',
@@ -83,34 +90,55 @@ class IterationApplicationRequestModalForm extends FormBase {
       '#required' => TRUE,
     ];
 
-    $form['approval_options'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Approval'),
-      '#options' => $approval_options,
-      '#default_value' => 'upload',
-      '#attributes' => [
-        'name' => 'approval_options',
-      ],
-      '#ajax' => [
-        // #ajax has two required keys: callback and wrapper.
-        // 'callback' is a function that will be called when this element
-        // changes.
-        'callback' => '::ajaxShowFileUploadCallback',
-        // 'wrapper' is the HTML id of the page element that will be replaced.
-        'wrapper' => 'replace-file-upload-container',
-      ]
-    ];
+    if (isset($supervisor) && ($supervisor)) {
 
-    // The 'replace-textfield-container' container will be replaced whenever
-    // 'changethis' is updated.
-    $form['replace_file_upload_container'] = [
-      '#type' => 'container',
-      '#attributes' => ['id' => 'replace-file-upload-container'],
-    ];
+      $form['approval_options'] = [
+        '#type' => 'radios',
+        '#title' => $this->t('Approval'),
+        '#options' => $approval_options,
+        '#default_value' => 'upload',
+        '#attributes' => [
+          'name' => 'approval_options',
+        ],
+        '#ajax' => [
+          // #ajax has two required keys: callback and wrapper.
+          // 'callback' is a function that will be called when this element
+          // changes.
+          'callback' => '::ajaxShowFileUploadCallback',
+          // 'wrapper' is the HTML id of the page element that will be replaced.
+          'wrapper' => 'replace-file-upload-container',
+        ]
+      ];
+
+      // The 'replace-textfield-container' container will be replaced whenever
+      // 'changethis' is updated.
+      $form['replace_file_upload_container'] = [
+        '#type' => 'container',
+        '#attributes' => ['id' => 'replace-file-upload-container'],
+      ];
+
+    }
 
     $validators = array(
       'file_validate_extensions' => array('pdf'),
     );
+
+    if (isset($supervisor) && (!$supervisor)) {
+
+
+      $form['pdf_info'] = [
+        '#markup' => '<span>' . $this->t('A supervisor confirmation is required to apply for trainings. Please download and reattach this template') . ': ' . '</span>'
+      ];
+
+      $form['download_template'] = [
+        '#title' => 'Download Template',
+        '#type' => 'link',
+        '#url' => Url::fromRoute('social_moodle_enrollment.application_download_file'),
+        '#attributes' => ['class' => ['form-submit','btn','btn-accent','btn-sm']]
+      ];
+
+
+    }
 
 
     $form['replace_file_upload_container']['pdf'] = array(
@@ -120,14 +148,16 @@ class IterationApplicationRequestModalForm extends FormBase {
       '#description' => t('PDF format only'),
       '#upload_validators' => $validators,
       '#upload_location' => 'private://application/',
-      '#required' => FALSE,
+      '#required' => $upload_required,
     );
 
     // AJAX Request get value.
     // We can change how we build the form based on $form_state.
-    $show_pdf = $form_state->getValue('approval_options');
-    if ($show_pdf !== NULL && $show_pdf === 'send') {
-      $form['replace_file_upload_container']['pdf']['#access'] = FALSE;
+    if (isset($supervisor) && ($supervisor)) {
+      $show_pdf = $form_state->getValue('approval_options');
+      if ($show_pdf !== NULL && $show_pdf === 'send') {
+        $form['replace_file_upload_container']['pdf']['#access'] = FALSE;
+     }
     }
 
     $form['actions']['submit'] = [
@@ -188,7 +218,7 @@ class IterationApplicationRequestModalForm extends FormBase {
       $fields = [
         'field_iteration' => $nid,
         'field_group' => $gid,
-        'field_supervisor' => $supervisor,
+        //'field_supervisor' => $supervisor,
         'field_pdf' => $fid,
         'field_state' => 'approved_supervisor',
         'field_reason' => $reason,
@@ -208,11 +238,11 @@ class IterationApplicationRequestModalForm extends FormBase {
       ]; 
     }
 
-    if ($supervisor) {
-      $application = Application::create($fields);
-      $application->setOwnerId($uid);
-      $application->save();
-    }
+    
+    $application = Application::create($fields);
+    $application->setOwnerId($uid);
+    $application->save();
+    
   
 
     // On success leave a message and reload the page.
@@ -280,6 +310,8 @@ class IterationApplicationRequestModalForm extends FormBase {
     return false;
 
   }
+
+
 
 
   /**

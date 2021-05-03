@@ -24,9 +24,11 @@ class ApplicationAccessControlHandler extends EntityAccessControlHandler {
     $is_owner = $entity->getOwnerId() === $account->id();
 
     // Supervisor Permission logic
-    $supervisor_user_id = $entity->field_supervisor->entity->id();    
-    if (isset($supervisor_user_id)) {
-      $is_supervisor = $supervisor_user_id === $account->id();
+    if (isset($entity->field_supervisor) && isset($entity->field_field_supervisor->entity)) {
+      $supervisor_user_id = $entity->field_supervisor->entity->id();    
+      if (isset($supervisor_user_id)) {
+        $is_supervisor = $supervisor_user_id === $account->id();
+      }
     }
    
 

@@ -21,7 +21,12 @@
 
 
 <div class="buttons">
-  {{ iteration_form }}
+  {% if show_default_enrollment == true %}
+    {{ enrollment_form }}
+  {% else %}
+    {{ iteration_form }}
+  {% endif %}
+  
 </div>
 
 </div>

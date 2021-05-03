@@ -132,8 +132,8 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $nid = $this->routeMatch->getRawParameter('node');
+  public function buildForm(array $form, FormStateInterface $form_state, $nid = NULL) {
+    //$nid = $this->routeMatch->getRawParameter('node');
     $current_user = $this->currentUser;
     $uid = $current_user->id();
 
@@ -174,13 +174,7 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
           $methods[$method->id] = $method->id;
         } 
       }
-    }
-    
-    // We allow default_methods only
-    //if (empty($methods)) {
-     // return;
-   // }
-
+    } 
 
     $form['iteration'] = [
       '#type' => 'hidden',
@@ -201,14 +195,13 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
         'btn',
         'btn-accent brand-bg-accent',
         'btn-lg btn-raised',
-        'dropdown-toggle',
         'waves-effect',
       ],
     ];
 
     // Add the enrollment closed label.
     if ($this->iterationHasBeenFinished($node)) {
-      $submit_text = $this->t('Iteration has passed');
+      $submit_text = $this->t('Course has passed');
       $enrollment_open = FALSE;
     }
 
@@ -226,10 +219,11 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
         if ($current_enrollment_status === '1') {
           $submit_text = $this->t('Enrolled');
           $to_enroll_status = '0';
+          $enrollment_open = FALSE;
         }
         // If someone requested to join the event.
         elseif (in_array('request_to_enroll', $methods) && !$isNodeOwner) {
-          $event_request_ajax = TRUE;
+          $iteration_request_ajax = TRUE;
           if ((int) $enrollment->field_request_or_invite_status->value === IterationEnrollmentInterface::REQUEST_PENDING) {
             $submit_text = $this->t('Pending');
             $iteration_request_ajax = FALSE;
@@ -287,7 +281,7 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
 
     if ((isset($enrollment->field_enrollment_status->value) && $enrollment->field_enrollment_status->value === '1')
       || (isset($enrollment->field_request_or_invite_status->value)
-      && (int) $enrollment->field_request_or_invite_status->value === EventEnrollmentInterface::REQUEST_PENDING)) {
+      && (int) $enrollment->field_request_or_invite_status->value === IterationEnrollmentInterface::REQUEST_PENDING)) {
       // Extra attributes needed for when a user is logged in. This will make
       // sure the button acts like a dropwdown.
       $form['enroll_for_this_event']['#attributes'] = [
@@ -295,24 +289,27 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
           'btn',
           'btn-accent brand-bg-accent',
           'btn-lg btn-raised',
-          'dropdown-toggle',
+          //'dropdown-toggle',
           'waves-effect',
         ],
         'autocomplete' => 'off',
-        'data-toggle' => 'dropdown',
+        //'data-toggle' => 'dropdown',
         'aria-haspopup' => 'true',
         'aria-expanded' => 'false',
-        'data-caret' => 'true',
+        //'data-caret' => 'true',
       ];
 
-      $cancel_text = $this->t('Cancel enrollment');
+      $form['enroll_for_this_event']['#disabled'] = TRUE;
+
+      //$cancel_text = $this->t('Cancel enrollment');
 
       // Add markup for the button so it will be a dropdown.
-      $form['feedback_user_has_enrolled'] = [
-        '#markup' => '<ul class="dropdown-menu dropdown-menu-right"><li><a href="#" class="enroll-form-submit"> ' . $cancel_text . ' </a></li></ul>',
-      ];
+      //$form['feedback_user_has_enrolled'] = [
+        //'#markup' => '<ul class="dropdown-menu dropdown-menu-right"><li><a href="#" class="enroll-form-submit"> ' . $cancel_text . ' </a></li></ul>',
+      //];
 
-      $form['#attached']['library'][] = 'social_moodle_enrollment/form_submit';
+      //$form['#attached']['library'][] = 'social_moodle_enrollment/form_submit';
+
     }
 
     return $form;
@@ -322,7 +319,7 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
    * Function to determine if an iteration has been finished.
    *
    * @param \Drupal\node\Entity\Node $node
-   *   The event.
+   *   The iteration.
    *
    * @return bool
    *   TRUE if the iteration is finished / completed.
@@ -360,7 +357,7 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
       $node_url = Url::fromRoute('entity.node.canonical', ['node' => $nid])->toString();
       $destination = $node_url;
       // If the request enroll method is set, alter the destination for AN.
-      if ((int) $node->get('field_enroll_method')->value === EventEnrollmentInterface::ENROLL_METHOD_REQUEST) {
+      if ((int) $node->get('field_enroll_method')->value === IterationEnrollmentInterface::ENROLL_METHOD_REQUEST) {
         $destination = $node_url . '?requested-enrollment=TRUE';
       }
       $form_state->setRedirect('user.login', [], ['query' => ['destination' => $destination]]);
@@ -371,7 +368,7 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
         $log_in_link = Link::fromTextAndUrl($this->t('log in'), $log_in_url)->toString();
         $create_account_url = Url::fromUserInput('/user/register');
         $create_account_link = Link::fromTextAndUrl($this->t('create a new account'), $create_account_url)->toString();
-        $message = $this->t('Please @log_in or @create_account_link so that you can enroll to the event.', [
+        $message = $this->t('Please @log_in or @create_account_link so that you can enroll to the course.', [
           '@log_in' => $log_in_link,
           '@create_account_link' => $create_account_link,
         ]);
@@ -399,7 +396,7 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
 
     // Invalidate cache for our enrollment cache tag in
     // social_event_node_view_alter().
-    $cache_tag = 'enrollment:' . $nid . '-' . $uid;
+    $cache_tag = 'iteration_enrollment:' . $nid . '-' . $uid;
     Cache::invalidateTags([$cache_tag]);
 
     if ($enrollment = array_pop($enrollments)) {

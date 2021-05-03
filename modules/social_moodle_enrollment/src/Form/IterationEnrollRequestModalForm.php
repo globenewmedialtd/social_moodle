@@ -108,12 +108,12 @@ class IterationEnrollRequestModalForm extends FormBase {
       'field_iteration' => $nid,
       'field_enrollment_status' => '0',
       'field_account' => $uid,
-      'field_request_or_invite_status' => EventEnrollmentInterface::REQUEST_PENDING,
+      'field_request_or_invite_status' => IterationEnrollmentInterface::REQUEST_PENDING,
       'field_request_message' => $message,
     ];
 
     // Create a new enrollment for the event.
-    $enrollment = EventEnrollment::create($fields);
+    $enrollment = IterationEnrollment::create($fields);
     $enrollment->save();
 
     // On success leave a message and reload the page.
