@@ -24,6 +24,27 @@ function social_moodle_iteration_update_8002() {
 
 }
 
+function social_moodle_iteration_update_8003() {
+
+  $configs_to_install = [
+    'field.storage.node.field_language_version',
+    'field.field.node.iteration.field_language_version',
+    'core.entity_form_display.node.iteration.default',
+    'core.entity_view_display.node.iteration.default',
+  ];
+
+  foreach ($configs_to_install as $config_to_install) {
+    _social_moodle_iteration_update_or_install_config('field.storage.node.field_language_version', '8003', 'social_moodle_iteration');
+    _social_moodle_iteration_update_or_install_config('field.field.node.iteration.field_language_version', '8003', 'social_moodle_iteration');
+    _social_moodle_iteration_update_or_install_config('core.entity_form_display.node.iteration', '8003', 'social_moodle_iteration');
+    _social_moodle_iteration_update_or_install_config('core.entity_view_display.node.iteration', '8003', 'social_moodle_iteration');
+  }
+
+  // Delete the body field
+  \Drupal::configFactory()->getEditable('field.field.node.iteration.body')->delete();
+
+}
+
 function _social_moodle_iteration_update_or_install_config( String $prefix, String $update_id, String $module) {
   $updated = [];
   $created = [];
