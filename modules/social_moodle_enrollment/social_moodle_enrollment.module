@@ -11,58 +11,6 @@ use Drupal\node\NodeInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
-/**
- * Prepares variables for node templates.
- *
- * @param array $variables
- *   An associative array containing:
- *   - elements: An array of elements to display in view mode.
- *   - node: The node object.
- *   - view_mode: View mode; e.g., 'full', 'teaser', etc.
- */
-function social_moodle_enrollment_preprocess_node(array &$variables) {
-  $view_mode = $variables['view_mode'];
-  $node = $variables['node'];
-  if ($node->getType() === 'iteration') {
-    $variables['event_date'] = _social_event_format_date($node, $view_mode);
-    $variables['#cache']['contexts'][] = 'timezone';    
-
-    if ($view_mode === 'hero') {
-      // Add Enroll button.
-      if (empty($variables['event_enrollment'])) {
-
-	$form_default = \Drupal::formBuilder()
-          ->getForm('Drupal\social_moodle_enrollment\Form\IterationEnrollActionForm');
-        
-
-        $form_application = \Drupal::formBuilder()
-          ->getForm('Drupal\social_moodle_enrollment\Form\ApplicationForm');
-        $form_nomination = \Drupal::formBuilder()
-          ->getForm('Drupal\social_moodle_enrollment\Form\NominationForm');
-        $render_array = [
-		      'appplication_form' => $form_application,
-          'nomination_form' => $form_nomination,
-	        'enroll_action_form' => $form_default
-        ];
-        $variables['event_enrollment'] = $render_array;
-      }
-    }
-  }
-}
-
-function social_moodle_enrollment_preprocess_views_view(&$variables) {
-
-
-
-  if ($variables['id'] === 'iterationblocklisting') {
-    //$form = \Drupal::formBuilder()
-          //->getForm('Drupal\social_moodle_enrollment\Form\IterationEnrollActionForm');
-    //$variables['attachment_before'][] = $form;
-  }
-
- 
-
-}
 
 function social_moodle_enrollment_get_supervisor_users($supervisor) {
 
