@@ -24,6 +24,9 @@ function social_moodle_iteration_update_8002() {
 
 }
 
+/**
+ * Update Language Version in Iteration and delete body field
+ */
 function social_moodle_iteration_update_8003() {
 
   $configs_to_install = [
@@ -42,6 +45,62 @@ function social_moodle_iteration_update_8003() {
 
   // Delete the body field
   \Drupal::configFactory()->getEditable('field.field.node.iteration.body')->delete();
+
+}
+
+/**
+ * Fix A non-existent config entity name returned by FieldStorageConfigInterface::getBundles(): 
+ * entity type: node, bundle: iteration, field name: body
+ */
+function social_moodle_iteration_update_8004() {
+  ## Fixes:
+  ## A non-existent config entity name returned by FieldStorageConfigInterface::getBundles(): entity type: node, bundle: iteration, field name: body
+  $entity_type = 'node';
+  $bundle = 'iteration';
+  $field_name = 'body';
+
+  /** @var \Drupal\Core\KeyValueStore\KeyValueFactoryInterface $key_value_factory */
+  $key_value_factory = \Drupal::service('keyvalue');
+  $field_map_kv_store = $key_value_factory->get('entity.definitions.bundle_field_map');
+  $map = $field_map_kv_store->get($entity_type);
+  // Remove the body field from the bundle iteration.
+  unset($map[$field_name]['bundles'][$bundle]);
+  $field_map_kv_store->set($entity_type, $map);
+}
+
+/**
+ * Make field_language version required
+ */
+function social_moodle_iteration_update_8005() {
+
+  $configs_to_install = [
+    'field.field.node.iteration.field_language_version',
+  ];
+
+  foreach ($configs_to_install as $config_to_install) {
+    _social_moodle_iteration_update_or_install_config($config_to_install, '8005', 'social_moodle_iteration');
+  }
+
+}
+
+/**
+ * Add new fields:
+ * field_iteration_managers, field_show_date (Show date on enrollment card)
+ */
+function social_moodle_iteration_update_8006() {
+
+  $configs_to_install = [
+    'field.storage.node.field_iteration_managers',
+    'field.storage.node.field_show_date',
+    'field.field.node.iteration.field_iteration_managers',
+    'field.field.node.iteration.field_show_date',
+    'core.entity_form_display.node.iteration.default',
+    'core.entity_view_display.node.iteration.default',
+   ];
+
+  foreach ($configs_to_install as $config_to_install) {
+    _social_moodle_iteration_update_or_install_config($config_to_install, '8006', 'social_moodle_iteration');
+  }
 
 }
 

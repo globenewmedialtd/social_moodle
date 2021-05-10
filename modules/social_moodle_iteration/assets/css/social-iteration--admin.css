@@ -1,0 +1,71 @@
+.node-iteration-form .field--name-field-iteration-managers {
+  padding-top: 20px;
+}
+
+.node-iteration-form .field--name-field-iteration-date .card,
+.node-iteration-form .field--name-field-iteration-date-end .card,
+.node-iteration-edit-form .field--name-field-iteration-date .card,
+.node-iteration-edit-form .field--name-field-iteration-date-end .card {
+  box-shadow: none;
+  border-radius: 0 !important;
+}
+.node-iteration-form .field--name-field-iteration-date .card__title,
+.node-iteration-form .field--name-field-iteration-date-end .card__title,
+.node-iteration-edit-form .field--name-field-iteration-date .card__title,
+.node-iteration-edit-form .field--name-field-iteration-date-end .card__title {
+  padding-right: 0;
+  padding-left: 0;
+  border: 0;
+  font-size: 0.875rem;
+  font-weight: 300;
+}
+.node-iteration-form .field--name-field-iteration-date .card__block,
+.node-iteration-form .field--name-field-iteration-date-end .card__block,
+.node-iteration-edit-form .field--name-field-iteration-date .card__block,
+.node-iteration-edit-form .field--name-field-iteration-date-end .card__block {
+  max-width: 500px;
+  background: #f3f3f3;
+  border-radius: 5px !important;
+}
+.node-iteration-form .field--name-field-iteration-date .card__block label,
+.node-iteration-form .field--name-field-iteration-date-end .card__block label,
+.node-iteration-edit-form .field--name-field-iteration-date .card__block label,
+.node-iteration-edit-form .field--name-field-iteration-date-end .card__block label {
+  margin-bottom: 0.5rem;
+}
+.node-iteration-form .field--name-field-iteration-date .card__block .form-inline,
+.node-iteration-form .field--name-field-iteration-date-end .card__block .form-inline,
+.node-iteration-edit-form .field--name-field-iteration-date .card__block .form-inline,
+.node-iteration-edit-form .field--name-field-iteration-date-end .card__block .form-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.node-iteration-form .field--name-field-iteration-date .card__block .form-inline > .form-item,
+.node-iteration-form .field--name-field-iteration-date-end .card__block .form-inline > .form-item,
+.node-iteration-edit-form .field--name-field-iteration-date .card__block .form-inline > .form-item,
+.node-iteration-edit-form .field--name-field-iteration-date-end .card__block .form-inline > .form-item {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+@media (min-width: 600px) {
+  .node-iteration-form .field--name-field-iteration-date .card__block .form-inline > .form-item:first-child,
+.node-iteration-form .field--name-field-iteration-date-end .card__block .form-inline > .form-item:first-child,
+.node-iteration-edit-form .field--name-field-iteration-date .card__block .form-inline > .form-item:first-child,
+.node-iteration-edit-form .field--name-field-iteration-date-end .card__block .form-inline > .form-item:first-child {
+    flex: 0 0 245px;
+    max-width: 245px;
+  }
+}
+@media (min-width: 600px) {
+  .node-iteration-form .field--name-field-iteration-date .card__block .form-inline > .form-item:last-child,
+.node-iteration-form .field--name-field-iteration-date-end .card__block .form-inline > .form-item:last-child,
+.node-iteration-edit-form .field--name-field-iteration-date .card__block .form-inline > .form-item:last-child,
+.node-iteration-edit-form .field--name-field-iteration-date-end .card__block .form-inline > .form-item:last-child {
+    flex: 0 0 195px;
+    max-width: 190px;
+  }
+}
+
+/*# sourceMappingURL=social-iteration--admin.css.map */

@@ -60,6 +60,11 @@ class IterationEnrollmentMethodFormBase extends EntityForm {
       '#title' => $this->t('Description'),
       '#default_value' => $iteration_enrollment_method->description,
     ];
+    $form['weight'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Weight'),
+      '#default_value' => $iteration_enrollment_method->weight,
+    ];
 
     // Return the form.
     return $form;

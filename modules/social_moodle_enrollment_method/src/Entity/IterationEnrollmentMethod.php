@@ -53,7 +53,8 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "id",
  *     "uuid",
  *     "label",
- *     "description"
+ *     "description",
+ *     "weight"
  *   }
  * )
  */
@@ -86,5 +87,12 @@ class IterationEnrollmentMethod extends ConfigEntityBase {
    * @var string
    */
   public $description;
+
+  /**
+   * The iteration enrollment method weight.
+   *
+   * @var int
+   */
+  public $weight;
 
 }

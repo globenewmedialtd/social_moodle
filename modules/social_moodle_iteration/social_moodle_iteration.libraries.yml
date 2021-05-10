@@ -1,0 +1,12 @@
+enrollment_method_validator:
+  js:
+    assets/js/social_moodle_iteration_enrollment_method_validator.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+
+admin:
+  css:
+    theme:
+      assets/css/social-iteration--admin.css: {}

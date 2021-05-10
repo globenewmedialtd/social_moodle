@@ -1,0 +1,40 @@
+
+<?php
+
+/**
+ * Update Config Entity Schema
+ * Add property weight, Update Label, Set Weight, Set Langcode to en.
+ */
+function social_moodle_enrollment_method_update_8001() {
+
+  //Update Schema with new property weight
+  $config = \Drupal::service('config.factory')->getEditable('social_moodle_enrollment_method.iteration_enrollment_method');
+  // Set and save new weight property.
+  $config->set('weight.type','integer')->save();
+  $config->set('weight.label','Weight')->save();
+
+  // Now use this field and update our config entity
+  $config_machine_names = [
+    'open_to_enroll' => 'Open to enroll',
+    'request_to_enroll' => 'Request to enroll',
+    'self_application'=> 'Apply to enroll',
+    'nomination_by_supervisor' => 'Nominate',
+    'invite_only' => 'Invite Only'
+  ];
+
+  $index = 1;
+
+  $base_name = 'social_moodle_enrollment_method.iteration_enrollment_method.';
+
+  foreach ($config_machine_names as $config_machine_name => $label) {
+    $config = \Drupal::service('config.factory')->getEditable($base_name . $config_machine_name);
+    if (isset($config)) {
+      $config->set('label', $label);
+      $config->set('langcode', 'en');
+      $config->set('weight', $index);
+      $config->save();
+      $index++;      
+    }
+  }  
+
+}

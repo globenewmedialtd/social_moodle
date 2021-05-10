@@ -8,6 +8,7 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
+use Drupal\social_moodle_enrollment\IterationEnrollmentInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 
@@ -53,5 +54,78 @@ function social_moodle_enrollment_get_users_supervisor($user) {
 	return $supervisor;
 
 }
+
+/**
+ * Check if the user is allowed to manage Enrollments.
+ *
+ * @param \Drupal\node\NodeInterface|null $node
+ *   The node the current user could be organizer of.
+ * @param bool $skip_trusted_roles
+ *   Should we skip CM/SM with the manage everything enrollments.
+ *
+ * @return bool
+ *   If the user is actually a manager or organizer.
+ */
+function social_moodle_enrollment_iteration_manager_or_organizer(NodeInterface $node = NULL, $skip_trusted_roles = FALSE) {
+  $social_iteration_manager_or_organizer = &drupal_static(__FUNCTION__);
+
+  if (!isset($social_iteration_manager_or_organizer)) {
+    $account = \Drupal::currentUser();
+
+    // Allow if user has the manage everything permission.
+    // We can skip this to make sure we truly only check organizer & managers
+    // used for context in notifications.
+    if ($skip_trusted_roles === FALSE && $account->hasPermission('manage everything iteration enrollments')) {
+      $result = TRUE;
+    }
+
+    if (!$node && !isset($result)) {
+      // Get the current event node.
+      $node = social_moodle_iteration_get_current_event();
+
+      // If there's no node, we might be looking at an event enrollment.
+      if (!$node) {
+        // If we are altering / deleting an Iteration Enrollment check if user
+        // is manager or organizer from the referenced node.
+        $iteration_enrollment = \Drupal::routeMatch()
+          ->getParameter('iteration_enrollment');
+
+        if ($iteration_enrollment instanceof IterationEnrollmentInterface) {
+          $node = $iteration_enrollment->field_iteration->entity;
+        }
+      }
+    }
+
+    // If we now have a node we can check if there are iteration managers.
+    if ($node instanceof NodeInterface && !isset($result) && $node->bundle() === 'iteration') {
+      // The event owner has access.
+      if ($node->getOwnerId() === $account->id()) {
+        $result = TRUE;
+      }
+
+      // Check if the user is an iteration manager/organizer.
+      if (!isset($result) && $node->hasField('field_iteration_managers') && !$node->field_iteration_managers->isEmpty()) {
+        foreach ($node->field_iteration_managers->getValue() as $value) {
+          if ($value && $value['target_id'] === $account->id()) {
+            $result = TRUE;
+            break;
+          }
+        }
+      }
+    }
+
+    // No result means the user does not have access.
+    if (!isset($result)) {
+      $result = FALSE;
+    }
+
+    $social_iteration_manager_or_organizer = $result;
+  }
+
+  return $social_iteration_manager_or_organizer;
+}
+
+
+
 
 

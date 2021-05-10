@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_show_date
+    - node.type.iteration
+id: node.iteration.field_show_date
+field_name: field_show_date
+entity_type: node
+bundle: iteration
+label: 'Show date on Enrollment Card'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
+

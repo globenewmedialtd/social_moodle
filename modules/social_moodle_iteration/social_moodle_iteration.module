@@ -6,9 +6,11 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
+use Drupal\Component\Utility\NestedArray;
 
 /**
  * Implements hook_theme().
@@ -38,8 +40,197 @@ function social_moodle_iteration_theme() {
 function social_moodle_iteration_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   // Form alters for the event add and edit forms.
   if ($form_id === 'node_iteration_edit_form' || $form_id === 'node_iteration_form') {
-    
 
+
+    // We are using form states here to disable unwanted checkboxes
+    $form['field_iteration_enrollment']['widget']['self_application']['#states'] = [
+      'disabled' => [
+        [
+          ':input[name="field_iteration_enrollment[open_to_enroll]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[request_to_enroll]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[invite_only]"]' => ['checked' => TRUE],
+        ],       
+      ]
+    ];
+
+    $form['field_iteration_enrollment']['widget']['nomination_by_supervisor']['#states'] = [
+      'disabled' => [
+        [
+          ':input[name="field_iteration_enrollment[open_to_enroll]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[request_to_enroll]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[invite_only]"]' => ['checked' => TRUE],
+        ],       
+      ]
+    ];
+
+
+    $form['field_iteration_enrollment']['widget']['invite_only']['#states'] = [
+      'disabled' => [
+        [
+          ':input[name="field_iteration_enrollment[open_to_enroll]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[request_to_enroll]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[self_application]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[nomination_by_supervisor]"]' => ['checked' => TRUE],
+        ],        
+      ]
+    ];
+
+    $form['field_iteration_enrollment']['widget']['open_to_enroll']['#states'] = [
+      'disabled' => [
+        [
+          ':input[name="field_iteration_enrollment[invite_only]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[request_to_enroll]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[self_application]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[nomination_by_supervisor]"]' => ['checked' => TRUE],
+        ],         
+      ]
+    ];
+
+    $form['field_iteration_enrollment']['widget']['request_to_enroll']['#states'] = [
+      'disabled' => [
+        [
+          ':input[name="field_iteration_enrollment[invite_only]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[open_to_enroll]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[self_application]"]' => ['checked' => TRUE],
+        ],
+        [
+          ':input[name="field_iteration_enrollment[nomination_by_supervisor]"]' => ['checked' => TRUE],
+        ],         
+      ]
+    ];
+
+    // Change the sorting of enrollment methods
+    $unsorted_iteration_enrollment_options = $form['field_iteration_enrollment']['widget']['#options'];
+    $sorted_iteration_enrollment_options = social_moodle_iteration_get_enrollment_methods($unsorted_iteration_enrollment_options);
+    $form['field_iteration_enrollment']['widget']['#options'] = $sorted_iteration_enrollment_options;
+
+    // Add the all day event checkbox.
+    $form['iteration_all_day'] = [
+      '#type' => 'checkbox',
+      '#title' => t('All day'),
+    ];
+
+    // Set default value and fieldgroup for all day checkbox.
+    if ($date = $form['field_iteration_date']['widget'][0]['value']['#default_value']) {
+      $all_day_value = $date instanceof DrupalDateTime && social_moodle_iteration_date_is_all_day($date);
+      $form['iteration_all_day']['#default_value'] = $all_day_value;
+    }
+
+    $form['#fieldgroups']['group_date_time']->children[] = 'iteration_all_day';
+    //$form['#fieldgroups']['group_date_time']->children[] = 'timezone_indication';
+    $form['#group_children']['iteration_all_day'] = 'group_date_time';
+    //$form['#group_children']['timezone_indication'] = 'group_date_time';
+    $form['#after_build'][] = 'social_moodle_iteration_date_after_build';
+
+    // Attach styling for the iteration date fields.
+    $form['#attached']['library'][] = 'social_moodle_iteration/admin';
+    // Attach clientside validator for enrollment methods.
+    $form['#attached']['library'][] = 'social_moodle_iteration/enrollment_method_validator';
+    // Attach settings
+    $form['#attached']['drupalSettings']['socialMoodleIterationEnrollmentMethodValidator'] = [
+      'exclusive_elements' => [
+        'field_iteration_enrollment[open_to_enroll]',
+        'field_iteration_enrollment[request_to_enroll]',
+        'field_iteration_enrollment[invite_only]',
+      ],
+      'all_elements' => [
+        'field_iteration_enrollment[open_to_enroll]',
+        'field_iteration_enrollment[request_to_enroll]',
+        'field_iteration_enrollment[invite_only]',   
+        'field_iteration_enrollment[self_application]',
+        'field_iteration_enrollment[nomination_by_supervisor]',  
+      ]
+    ];
+
+  }
+}
+
+/**
+ * Add custom validation to event date fields.
+ */
+function social_moodle_iteration_date_after_build($form, &$form_state) {
+  array_unshift($form['field_iteration_date']['widget'][0]['value']['#element_validate'], 'social_moodle_iteration_event_date_validate');
+  array_unshift($form['field_iteration_date_end']['widget'][0]['value']['#element_validate'], 'social_moolde_iteration_date_validate');
+  return $form;
+}
+
+/**
+ * Set default time to the date field if time was not set.
+ */
+function social_moodle_iteration_date_validate(&$element, FormStateInterface $form_state, &$complete_form) {
+  $input = NestedArray::getValue($form_state->getValues(), $element['#parents']);
+  $form_input = $form_state->getUserInput();
+
+  // Skip default validation for required time when date is required.
+  if (!empty($input['date']) && (empty($input['time']) || !empty($form_input['iteration_all_day']))) {
+    $input['time'] = '00:01:00';
+    $storage_format = DrupalDateTime::FORMAT;
+    $datetime = trim($input['date'] . ' ' . $input['time']);
+    $storage_timezone = new DateTimeZone(DateTimeItemInterface::STORAGE_TIMEZONE);
+    $input['object'] = DrupalDateTime::createFromFormat($storage_format, $datetime, $storage_timezone);
+    if ($input['object'] instanceof DrupalDateTime) {
+      $form_state->setValueForElement($element, $input);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function social_moodle_iteration_field_widget_form_alter(&$element, FormStateInterface $form_state, $context) {
+  $field_definition = $context['items']->getFieldDefinition();
+  if ($field_definition->getName() == 'field_iteration_date' || $field_definition->getName() == 'field_iteration_date_end') {
+    $element['value']['#date_time_callbacks'][] = 'social_moodle_iteration_date_all_day_checkbox';
+  }
+}
+
+/**
+ * Add 'All day' checkbox to event datetime field.
+ */
+function social_moodle_iteration_date_all_day_checkbox(&$element, FormStateInterface $form_state, $date) {
+  // Time field should disappear when 'All day' is checked.
+  $state = [
+    ':input[name="iteration_all_day"]' => [
+      'checked' => TRUE,
+    ],
+  ];
+  $element['time']['#states'] = [
+    'invisible' => $state,
+  ];
+  $form_input = $form_state->getUserInput();
+  $date = $element['#value']['object'];
+
+  if (!empty($form_input['op']) && isset($form_input['iteration_all_day'])) {
+    $element['time']['#value'] = '00:01:00';
+    $element['iteration_all_day']['#value'] = (bool) $form_input['iteration_all_day'];
+  }
+  elseif ($date instanceof DrupalDateTime && social_event_date_is_all_day($date)) {
+    $element['time']['#value'] = '00:01:00';
+    $element['iteration_all_day']['#value'] = TRUE;
   }
 }
 
@@ -159,6 +350,65 @@ function social_moodle_iteration_enrollment_links(int $nid) {
 
     return $links;
   
+}
+
+/**
+ * Check if iteration date is all day.
+ */
+function social_moodle_iteration_date_is_all_day(DrupalDateTime $date) {
+  return $date->format('i') === '01';
+}
+
+function social_moodle_iteration_get_enrollment_methods(array $unsorted_options) {
+  
+  $sorted_iteration_enrollment_methods = [];
+
+  if (isset($unsorted_options)) {
+
+    $query = \Drupal::entityTypeManager()
+    ->getStorage('iteration_enrollment_method')
+    ->getQuery();  
+    $query->sort('weight' , 'ASC'); 
+    $query->accessCheck(FALSE);
+  
+    $sorted_options = $query->execute();
+
+    $sorted_iteration_enrollment_methods = array_merge(array_flip($sorted_options), $unsorted_options);
+
+
+  }
+
+  return $sorted_iteration_enrollment_methods;
+
+}
+
+/**
+ * Return the Iteration from a given page.
+ *
+ * @return \Drupal\Core\Entity\EntityInterface|null
+ *   The iteration or NULL if nothing found.
+ */
+function social_moodle_iteration_get_current_iteration() {
+  $iteration = &drupal_static(__FUNCTION__);
+
+  if (!isset($iteration)) {
+    $node = \Drupal::service('current_route_match')->getParameter('node');
+
+    if ($node !== NULL && (!$node instanceof NodeInterface)) {
+      $node = Node::load($node);
+    }
+
+    if ($node instanceof NodeInterface && $node->getType() === 'iteration') {
+      $iteration = $node;
+    }
+
+    // If we don't have an event then we can go back to NULL.
+    if (!isset($event)) {
+      $iteration = NULL;
+    }
+  }
+
+  return $iteration;
 }
 
 
