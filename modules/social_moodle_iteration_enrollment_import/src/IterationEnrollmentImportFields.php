@@ -288,15 +288,29 @@ class IterationEnrollmentImportFields {
                         'field_enrollment_status' => '1',
                         'field_account' => $uid,
                     ];
-                    // Create a new enrollment for the event.
-                    $iteration_enrollment = IterationEnrollment::create($fields);
-                    $iteration_enrollment->save();
+                                        
+                    // Avoid Duplicates and check for existing enrollment
+                    $conditions = [
+                        'field_account' => $uid,
+                        'field_iteration' => $iteration->id(),
+                    ];
+                                    
+                    $enrollments = \Drupal::entityTypeManager()
+                                    ->getStorage('iteration_enrollment')
+                                    ->loadByProperties($conditions);
+                    
+                    if (!$enrollment = array_pop($enrollments)) {
+                        // Create a new enrollment for the event.
+                        $iteration_enrollment = IterationEnrollment::create($fields);
+                        $iteration_enrollment->save();
+                    }
                 }
 
             }
             else {
                 // Update User
                 $user = $account;
+                $uid = $user->id();
                 foreach($userArray as $field_name => $field_value) {
                     // Avoid updating password
                     if ($field_name != 'pass')  {
@@ -354,9 +368,22 @@ class IterationEnrollmentImportFields {
                         'field_enrollment_status' => '1',
                         'field_account' => $uid,
                     ];
-                    // Create a new enrollment for the event.
-                    $iteration_enrollment = IterationEnrollment::create($fields);
-                    $iteration_enrollment->save();
+                    // Avoid Duplicates and check for existing enrollment
+                    $conditions = [
+                        'field_account' => $uid,
+                        'field_iteration' => $iteration->id(),
+                    ];
+                
+                    $enrollments = \Drupal::entityTypeManager()
+                                    ->getStorage('iteration_enrollment')
+                                    ->loadByProperties($conditions);
+
+                    if (!$enrollment = array_pop($enrollments)) {
+                        // Create a new enrollment for the event.
+                        $iteration_enrollment = IterationEnrollment::create($fields);
+                        $iteration_enrollment->save();
+                    }
+                    
                 }
           
                 $user->save();
