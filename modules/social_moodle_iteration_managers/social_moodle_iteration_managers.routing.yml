@@ -1,0 +1,18 @@
+social_moodle_iteration_managers.settings:
+  path: '/admin/config/social-moodle/iteration-managers'
+  defaults:
+    _form: 'Drupal\social_moodle_iteration_managers\Form\SocialMoodleIterationManagersSettings'
+    _title: 'Iteration organiser settings'
+  requirements:
+    _permission: 'set social iteration managers settings'
+
+social_moodle_iteration_managers.add_enrollees:
+  path: '/node/{node}/all-iteration-enrollments/add-iteration-enrollees'
+  defaults:
+    _form: '\Drupal\social_moodle_iteration_managers\Form\SocialMoodleIterationManagersAddEnrolleeForm'
+    _title: 'Add enrollees'
+  requirements:
+    _iteration_enrollee_permission: 'manage everything iteration enrollments'
+
+route_callbacks:
+  - 'social_moodle_iteration_managers.route_subscriber:routes'

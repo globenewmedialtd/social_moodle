@@ -1,0 +1,9 @@
+set social iteration managers settings:
+  title: 'Social Iteration Organisers settings'
+  description: 'Allow to set how iteration organisers are implemented in OS.'
+  restrict access: false
+
+manage everything iteration enrollments:
+  title: 'Manage Everything Iteration Enrollments'
+  description: 'Access to Manage All Iteration Enrollments page on iterations.'
+  restrict access: false

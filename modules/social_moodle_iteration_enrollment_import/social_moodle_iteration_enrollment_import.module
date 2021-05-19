@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Contains social_moodle_iteration_enrollment_import.module.
+ */
+
+use Drupal\Core\Url;
+use Drupal\group\Entity\Group;
+use Drupal\group\Entity\GroupInterface;
+use Drupal\node\NodeInterface;
+
+
+ /**
+  * Implements hook_social_moodle_buttons_block_add_button()
+  */
+
+function social_moodle_iteration_enrollment_import_social_moodle_buttons_block_add_button_alter(&$buttons) {
+
+    // Get current node so we can build correct links.
+    $node = \Drupal::routeMatch()->getParameter('node');
+
+    if (!is_object($node) && !is_null($node)) {
+
+      $node = \Drupal::entityTypeManager()
+        ->getStorage('node')
+        ->load($node);
+
+    }
+
+    // Check for an node type of iteration
+    if ($node instanceof NodeInterface && $node->getType() === 'iteration') {
+        $iteration = $node;        
+    
+        $buttons['import_iteration_enrollments'] = [
+            '#type' => 'link',
+            '#title' => t('Import Iteration Enrollments'),
+            '#url' => Url::fromRoute('social_moodle_iteration_enrollment_import.import', ['node' => $iteration->id()]
+                ),
+            '#attributes' => [
+                'class' => ['iteration-enrollment-import','button', 'btn','btn-default'],
+            ],
+        ];
+    
+    }
+
+}

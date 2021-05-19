@@ -18,3 +18,10 @@ language_version.admin.structure.settings:
   description: 'Configure Language version entities'
   route_name: language_version.settings
   parent: system.admin_structure
+
+social_moodle.settings:
+  title: 'General Settings'
+  route_name: social_moodle.settings
+  parent: social_moodle.admin_config_social_moodle
+  description: 'General Settings'
+  weight: 0

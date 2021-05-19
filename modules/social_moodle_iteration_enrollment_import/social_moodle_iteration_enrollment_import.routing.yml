@@ -1,0 +1,18 @@
+social_moodle_iteration_enrollment_import.import:
+  path: '/node/{node}/iteration-enrollment-import'
+  defaults:
+    _form: \Drupal\social_moodle_iteration_enrollment_import\Form\IterationEnrollmentImportForm
+    _title: Import CSV
+  options:
+    parameters:
+      node:
+        type: entity:node  
+  requirements:
+    _custom_access: \Drupal\social_moodle_iteration_enrollment_import\Form\IterationEnrollmentImportForm::access
+social_moodle_iteration_enrollment_import.settings:
+  path: '/admin/config/social_moodle/iteration-enrollment-import/settings'
+  defaults:
+    _form: '\Drupal\social_moodle_iteration_enrollment_import\Form\IterationEnrollmentImportSettingsForm'
+    _title: 'Import Settings'
+  requirements:
+    _permission: 'administer site configuration'

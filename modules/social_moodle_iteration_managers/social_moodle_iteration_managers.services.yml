@@ -1,0 +1,11 @@
+services:
+  social_moodle_iteration_managers.route_subscriber:
+    class: Drupal\social_moodle_iteration_managers\EventSubscriber\RouteSubscriber
+    arguments: ['@module_handler']
+    tags:
+      - { name: 'event_subscriber' }
+
+  social_moodle_iteration_managers.add_enrollee.permission:
+    class: 'Drupal\social_moodle_iteration_managers\Access\AddIterationEnrolleeAccessCheck'
+    tags:
+      - { name: 'access_check', applies_to: '_iteration_enrollee_permission', priority: 249 }

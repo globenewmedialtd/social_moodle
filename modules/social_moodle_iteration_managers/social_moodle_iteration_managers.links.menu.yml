@@ -1,0 +1,6 @@
+social_moodle_iteration_managers.settings:
+  title: 'Iteration managers settings'
+  description: 'Settings for iteration managers implementation.'
+  route_name: social_moodle_iteration_managers.settings
+  parent: social_moodle.admin_config_social_moodle
+  weight: 50

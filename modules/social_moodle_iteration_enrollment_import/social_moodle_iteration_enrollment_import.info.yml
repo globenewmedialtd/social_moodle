@@ -1,0 +1,11 @@
+name: Social Moodle Iteration Enrollment Import
+type: module
+description: Batch processing a CSV import of enrollments.
+core: 8.x
+package: Social
+dependencies:
+  - group
+  - token
+  - social_moodle_buttons_block
+  - social_moodle_iteration
+  - social_moodle_iteration_managers

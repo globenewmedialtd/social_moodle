@@ -1,0 +1,5 @@
+social_moodle_iteration_enrollment_import.import:
+  title: 'Import'
+  route_name: social_moodle_iteration_enrollment_import.import
+  base_route: social_moodle_iteration_enrollment_import.import
+

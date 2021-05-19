@@ -1,0 +1,16 @@
+social_moodle_iteration_enrollment_import.settings:
+  type: config_object
+  label: 'Social Moodle Iteration Enrollment Import Settings'
+  mapping:
+    allowed_user_roles:
+      type: sequence
+      label: 'Which user roles are available to import'
+      user_roles:
+        type: string
+        label: 'User Roles'
+    active_fields:
+      type: sequence
+      label: 'Which user roles are available to import'
+      fields:
+        type: string
+        label: 'Active Fields'

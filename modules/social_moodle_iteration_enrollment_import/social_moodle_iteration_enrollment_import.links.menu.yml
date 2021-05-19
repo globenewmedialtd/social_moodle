@@ -1,0 +1,6 @@
+social_moodle_iteration_enrollment_import.settings:
+  title: 'Social Moodle Iteration Enrollment Import Settings'
+  route_name: social_moodle_iteration_enrollment_import.settings
+  parent: social_moodle.admin_config_social_moodle
+  description: 'Settings for Social Moodle Iteration Enrollment'
+  weight: 0

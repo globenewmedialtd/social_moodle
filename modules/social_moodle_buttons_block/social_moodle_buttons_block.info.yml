@@ -1,0 +1,11 @@
+name: 'Social Moodle Buttons Block'
+type: module
+description: 'Adds buttons for the social moodle module and provides a hook to add new buttons'
+version: '8.x-1.0'
+core: 8.x
+package: 'Social'
+dependencies:
+  - group:group
+  - social_moodle:social_moodle 
+  - social_moodle_iteration:social_moodle_iteration
+  - social_moodle_iteration_managers:social_moodle_iteration_managers
