@@ -254,6 +254,31 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
           $request_to_join = TRUE;
         }
       }
+      else {
+
+        $options_course_link = [
+          'query' => [
+            'idnumber' => $nid
+          ]
+        ];
+
+        $form['buttons']['course_link'] = [
+          '#type' => 'link',
+          '#title' => $this->t('Show course'),
+          '#url' => Url::fromUri('internal:/moodle/redirect.php',$options_course_link),
+          '#attributes' => [
+            'class' => [
+              'js-form-submit',
+              'form-submit',
+              'btn',
+              'btn-accent',
+              'btn-lg',
+           ]
+          ]
+        ];
+
+
+      }
     }
 
     $form['to_enroll_status'] = [
