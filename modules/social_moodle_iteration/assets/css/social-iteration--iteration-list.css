@@ -1,0 +1,26 @@
+.social-moodle-iteration {
+  padding-bottom: 1em;
+  border-bottom: 1px solid var(--colorGinBorder);
+}
+
+.social-moodle-iteration-content {
+  padding: 5px;
+}
+
+.social-moodle-iteration-content-line {
+  display: flex;
+  justify-content: space-between;
+}
+.social-moodle-iteration-content .field--label::after {
+  content: ':';
+}
+
+.social-moodle-iteration-buttons {
+  padding-x: 1em;
+}
+
+.social-moodle-iteration-buttons form {
+  width: 100%;
+  display: flex;
+  justify-content: space-around; 
+}

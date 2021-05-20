@@ -10,3 +10,8 @@ admin:
   css:
     theme:
       assets/css/social-iteration--admin.css: {}
+
+iteration-list:
+  css:
+    theme:
+      assets/css/social-iteration--iteration-list.css: {}
