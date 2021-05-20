@@ -9,6 +9,7 @@ use Drupal\Core\Render\Element;
 use Drupal\Core\Url;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\views\ViewExecutable;
+use Drupal\group\Entity\GroupInterface;
 
 /**
  * Implements hook_theme().
@@ -77,20 +78,63 @@ function social_moodle_application_social_user_account_header_account_links_alte
 
 }
 
+/**
+ * Implements helper function to filter iterations by group().
+ */
+function social_moodle_application_get_filtered_iteration_options($group_field, $iteration_options) {
 
+  $filter_allowed_iterations = [];
+
+  if(isset($group_field) && isset($iteration_options)) {
+     $gid = $group_field->entity->id();
+     $group = \Drupal::entityTypeManager()->getStorage('group')->load($gid);
+
+    if ($group instanceof GroupInterface) {
+      $group_content = $group->getContent();
+      foreach($group_content as $content) {
+        if ($content->getEntity()->bundle() === 'iteration') {
+          $entity_id = $content->getEntity()->id();
+          $filter_allowed_iterations[$entity_id] = $entity_id;
+        }  
+      }	
+    }
+    
+    foreach ($iteration_options as $key => $option) {
+      if (!array_key_exists($filter_allowed_iterations[$key])) {
+        unset($iteration_options[$key]);
+      }
+    }
+
+   return $iteration_options;
+
+
+  }
+
+  return FALSE;
+
+
+}
+/**
+ * Implements hook_form_alter()
+ */
 function social_moodle_application_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
   if ($form_id === 'application_edit_form') {
     // Per default the iteration is set to disabled to avoid manipulation
-    $form['field_iteration']['widget'][0]['target_id']['#disabled'] = TRUE;
+    $form['field_iteration']['widget']['#disabled'] = TRUE;
     $entity = $form_state->getFormObject()->getEntity();
     $current_state = $entity->field_state->value;
-
-  
+    $group_field = $entity->field_group;
+    $iteration_options = $form['field_iteration']['widget']['#options'];
+    $filtered_iteration_options = social_moodle_application_get_filtered_iteration_options($group_field, $iteration_options);
     
-    if ($current_state === 'waitlist') {
-      $form['field_iteration']['widget'][0]['target_id']['#disabled'] = FALSE;
+    // Filter Iteration options
+    if ($filtered_iteration_options) {
+      $form['field_iteration']['widget']['#options'] = $filtered_iteration_options;
     }
-
+    // Get visible on waitlist
+    if ($current_state === 'waitlist') {
+      $form['field_iteration']['widget']['#disabled'] = FALSE;
+    }
   }
   
 }

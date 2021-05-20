@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Changed field_iteration in form_display
+ * field_iteration changed from autocomplete to select list
+ */
+function social_moodle_application_update_8001() {
+
+  $configs_to_install = [
+    'core.entity_form_display.application.application.default',
+  ];
+
+  foreach ($configs_to_install as $config_to_install) {
+    _social_moodle_application_update_or_install_config($config_to_install, '8001', 'social_moodle_application');
+  }
+
+}
+
+function _social_moodle_application_update_or_install_config( String $prefix, String $update_id, String $module) {
+  $updated = [];
+  $created = [];
+
+  /** @var \Drupal\Core\Config\ConfigManagerInterface $config_manager */
+  $config_manager = \Drupal::service('config.manager');
+  $files = glob(drupal_get_path('module', $module) . '/config/update_' . $update_id. '/' . $prefix . '*.yml') ;
+  foreach ($files as $file) {
+    $raw = file_get_contents($file);
+    $value = \Drupal\Component\Serialization\Yaml::decode($raw);
+    if(!is_array($value)) {
+      throw new \RuntimeException(sprintf('Invalid YAML file %s'), $file);
+    }
+
+    $type = $config_manager->getEntityTypeIdByName(basename($file));
+    $entity_manager = $config_manager->getEntityManager();
+    $definition = $entity_manager->getDefinition($type);
+    $id_key = $definition->getKey('id');
+    $id = $value[$id_key];
+
+    /** @var \Drupal\Core\Config\Entity\ConfigEntityStorage $entity_storage */
+    $entity_storage = $entity_manager->getStorage($type);
+    $entity = $entity_storage->load($id);
+    if ($entity) {
+      $entity = $entity_storage->updateFromStorageRecord($entity, $value);
+      $entity->save();
+      $updated[] = $id;
+    }
+    else {
+      $entity = $entity_storage->createFromStorageRecord($value);
+      $entity->save();
+      $created[] = $id;
+    }
+  }
+
+  return [
+    'udpated' => $updated,
+    'created' => $created,
+  ];
+}
+
