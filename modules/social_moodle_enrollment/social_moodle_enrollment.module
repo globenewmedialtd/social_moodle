@@ -136,8 +136,6 @@ function social_moodle_enrollment_iteration_enrollment_insert(EntityInterface $e
     $nid = $iteration->id();
     $uid = $entity->getOwnerId();
 
-    \Drupal::logger('social_moodle_enrollment')->notice($nid);
-    \Drupal::logger('social_moodle_enrollment')->notice($uid);
     
     // Get Account
     $account = \Drupal::entityTypeManager()
@@ -152,8 +150,6 @@ function social_moodle_enrollment_iteration_enrollment_insert(EntityInterface $e
       'target_type' => 'node',
       'target_id' => $nid,
     ]);
-
-    \Drupal::logger('social_moodle_enrollment')->notice($gid_from_entity);
 
   
     if ($gid_from_entity !== NULL) {
