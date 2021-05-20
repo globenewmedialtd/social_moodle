@@ -132,10 +132,8 @@ function social_moodle_enrollment_iteration_enrollment_insert(EntityInterface $e
   // Check only enrolled records
   if ($entity->field_enrollment_status->value == 1) {
     // Get the nid of the iteration
-    $iteration = $entity->field_iteration->getEntity();
-    $nid = $iteration->id();
-    $uid = $entity->getOwnerId();
-
+    $nid = $entity->field_iteration->entity->id();
+    $uid = $entity->field_account->entity->id();
     
     // Get Account
     $account = \Drupal::entityTypeManager()
@@ -151,6 +149,8 @@ function social_moodle_enrollment_iteration_enrollment_insert(EntityInterface $e
       'target_id' => $nid,
     ]);
 
+    //\Drupal::logger('social_moodle_enrollment')->notice($gid_from_entity);
+
   
     if ($gid_from_entity !== NULL) {
       /** @var \Drupal\group\Entity\GroupInterface $group */
@@ -165,7 +165,7 @@ function social_moodle_enrollment_iteration_enrollment_insert(EntityInterface $e
 
       // Only add member if not already a member
       if (!$is_member) {    
-        $group->addMember($account);
+        $group->addMember($account);  
       }
 
     }
