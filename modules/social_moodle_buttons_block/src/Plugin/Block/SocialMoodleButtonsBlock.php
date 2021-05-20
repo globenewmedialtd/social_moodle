@@ -181,7 +181,7 @@ class SocialMoodleButtonsBlock extends BlockBase implements ContainerFactoryPlug
 
       \Drupal::moduleHandler()->alter('social_moodle_buttons_block_add_button', $buttons);
 
-      if (count($buttons > 0)) {
+      if (isset($buttons) && count($buttons > 0)) {
         $build['content'] = $buttons;
       }     
 
