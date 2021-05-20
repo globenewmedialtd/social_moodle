@@ -8,9 +8,12 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\social_moodle_enrollment\IterationEnrollmentInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
+use Drupal\group\GroupMembershipLoaderInterface;
+use Drupal\group\Entity\GroupInterface;
 
 
 function social_moodle_enrollment_get_supervisor_users($supervisor) {
@@ -80,10 +83,10 @@ function social_moodle_enrollment_iteration_manager_or_organizer(NodeInterface $
     }
 
     if (!$node && !isset($result)) {
-      // Get the current event node.
-      $node = social_moodle_iteration_get_current_event();
+      // Get the current iteration node.
+      $node = social_moodle_iteration_get_current_iteration();
 
-      // If there's no node, we might be looking at an event enrollment.
+      // If there's no node, we might be looking at an iteration enrollment.
       if (!$node) {
         // If we are altering / deleting an Iteration Enrollment check if user
         // is manager or organizer from the referenced node.
@@ -98,7 +101,7 @@ function social_moodle_enrollment_iteration_manager_or_organizer(NodeInterface $
 
     // If we now have a node we can check if there are iteration managers.
     if ($node instanceof NodeInterface && !isset($result) && $node->bundle() === 'iteration') {
-      // The event owner has access.
+      // The iteration owner has access.
       if ($node->getOwnerId() === $account->id()) {
         $result = TRUE;
       }
@@ -123,6 +126,56 @@ function social_moodle_enrollment_iteration_manager_or_organizer(NodeInterface $
   }
 
   return $social_iteration_manager_or_organizer;
+}
+
+function social_moodle_enrollment_iteration_enrollment_insert(EntityInterface $entity) {
+  // Check only enrolled records
+  if ($entity->field_enrollment_status->value == 1) {
+    // Get the nid of the iteration
+    $iteration = $entity->field_iteration->getEntity();
+    $nid = $iteration->id();
+    $uid = $entity->getOwnerId();
+
+    \Drupal::logger('social_moodle_enrollment')->notice($nid);
+    \Drupal::logger('social_moodle_enrollment')->notice($uid);
+    
+    // Get Account
+    $account = \Drupal::entityTypeManager()
+        ->getStorage('user')
+        ->load($uid);
+    
+    $groupHelperService = \Drupal::service('social_group.helper_service');
+    $entityTypeManager = \Drupal::service('entity_type.manager');
+
+    // We need to get the group via groupHelperService
+    $gid_from_entity = $groupHelperService->getGroupFromEntity([
+      'target_type' => 'node',
+      'target_id' => $nid,
+    ]);
+
+    \Drupal::logger('social_moodle_enrollment')->notice($gid_from_entity);
+
+  
+    if ($gid_from_entity !== NULL) {
+      /** @var \Drupal\group\Entity\GroupInterface $group */
+      $group = $entityTypeManager
+        ->getStorage('group')
+        ->load($gid_from_entity);
+    }
+
+    if ($group instanceof GroupInterface) {
+
+      $is_member = $group->getMember($account) instanceof GroupMembershipLoaderInterface;
+
+      // Only add member if not already a member
+      if (!$is_member) {    
+        $group->addMember($account);
+      }
+
+    }
+
+  }
+
 }
 
 

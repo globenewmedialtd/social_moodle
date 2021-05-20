@@ -175,8 +175,8 @@ function social_moodle_iteration_form_alter(&$form, FormStateInterface $form_sta
  * Add custom validation to event date fields.
  */
 function social_moodle_iteration_date_after_build($form, &$form_state) {
-  array_unshift($form['field_iteration_date']['widget'][0]['value']['#element_validate'], 'social_moodle_iteration_event_date_validate');
-  array_unshift($form['field_iteration_date_end']['widget'][0]['value']['#element_validate'], 'social_moolde_iteration_date_validate');
+  array_unshift($form['field_iteration_date']['widget'][0]['value']['#element_validate'], 'social_moodle_iteration_date_validate');
+  array_unshift($form['field_iteration_date_end']['widget'][0]['value']['#element_validate'], 'social_moodle_iteration_date_validate');
   return $form;
 }
 
