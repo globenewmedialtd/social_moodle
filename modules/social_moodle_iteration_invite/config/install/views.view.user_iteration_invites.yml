@@ -10,7 +10,7 @@ dependencies:
     - user
   enforced:
     module:
-      - social_iteration_invite
+      - social_moodle_iteration_invite
 id: user_iteration_invites
 label: 'User iteration Invites'
 module: views
