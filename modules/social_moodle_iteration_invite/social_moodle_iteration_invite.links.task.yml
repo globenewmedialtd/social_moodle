@@ -1,0 +1,4 @@
+social_moodle_iteration_invite.user_events:
+  route_name: view.user_iteration_invites.page_user_iteration_invites
+  base_route: entity.user.canonical
+  class: Drupal\social_moodle_iteration_invite\Plugin\Menu\LocalTask\IterationInviteLocalTask

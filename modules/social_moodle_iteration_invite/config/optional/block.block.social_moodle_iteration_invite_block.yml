@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - social_moodle_iteration_invite
+    - system
+  theme:
+    - socialblue
+id: social_moodle_iteration_invite_block
+theme: socialblue
+region: hidden
+weight: 0
+provider: null
+plugin: social_moodle_iteration_invite_block
+settings:
+  id: social_moodle_iteration_invite_block
+  label: 'Social Moodle Iteration Invite block'
+  provider: social_moodle_iteration_invite
+  label_display: '0'
+  context_mapping:
+    node: '@node.node_route_context:node'
+visibility:
+  request_path:
+    id: request_path
+    pages: '*/all-iteration-enrollments'
+    negate: false
+    context_mapping: {  }

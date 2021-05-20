@@ -1,0 +1,5 @@
+social_moodle_iteration_invite.social_moodle_iteration_invite.settings:
+  title: 'Iteration invite settings'
+  description: 'Settings for Social Moodle Iteration Invite module.'
+  route_name: social_moodle_iteration_invite.settings
+  parent: social_moodle.admin_config_social_moodle

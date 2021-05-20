@@ -1,0 +1,8 @@
+name: 'Social Moodle Iteration Invite Enrollments'
+description: 'Provides ability to invite enroll to an iteration.'
+type: module
+core: 8.x
+package: Social
+dependencies:
+  - social_moodle_enrollment:social_moodle_enrollment
+  - social_moodle_iteration_managers:social_moodle_iteration_managers

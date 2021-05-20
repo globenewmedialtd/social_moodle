@@ -1,0 +1,11 @@
+services:
+  social_moodle_iteration_invite.access:
+    class: Drupal\social_moodle_iteration_invite\Access\SocialMoodleIterationInvitesAccess
+    arguments: ['@social_moodle_iteration_invite.access_helper']
+  social_moodle_iteration_invite.access_helper:
+    class: Drupal\social_moodle_iteration_invite\SocialMoodleIterationInviteAccessHelper
+    arguments: ['@current_route_match', '@config.factory', '@social_group.helper_service', '@entity_type.manager', '@current_user']
+  social_moodle_iteration_invite.route_subscriber:
+    class: Drupal\social_moodle_iteration_invite\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }

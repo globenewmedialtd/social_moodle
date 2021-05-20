@@ -1,0 +1,60 @@
+social_moodle_iteration_invite.invite_email:
+  path: '/node/{node}/iteration-invite/email'
+  defaults:
+    _form: '\Drupal\social_moodle_iteration_invite\Form\IterationEnrollInviteEmailForm'
+    _title: 'Invite people'
+  options:
+    parameters:
+      node:
+        type: entity:node
+  requirements:
+    _permission: 'access content'
+
+social_moodle_iteration_invite.invite_user:
+  path: '/node/{node}/invite/user'
+  defaults:
+    _form: '\Drupal\social_moodle_iteration_invite\Form\IterationEnrollInviteUserForm'
+    _title: 'Invite people'
+  options:
+    parameters:
+      node:
+        type: entity:node
+  requirements:
+    _permission: 'access content'
+
+social_moodle_iteration_invite.settings:
+  path: '/admin/config/social_moodle/iteration-invite'
+  defaults:
+    _form: '\Drupal\social_moodle_iteration_invite\Form\IterationInviteSettingsForm'
+    _title: 'Iteration invite settings'
+  requirements:
+    _permission: 'administer social_moodle settings'
+  options:
+    _admin_route: TRUE
+
+social_moodle_iteration_invite.cancel_enrollment_invite:
+  path: '/node/{node}/all-iteration-enrollment-invites/cancel-enrollment/{iteration_enrollment}'
+  defaults:
+    _controller: '\Drupal\social_moodle_iteration_invite\Controller\CancelIterationEnrollInviteController::cancelEnrollmentInvite'
+  options:
+    parameters:
+      node:
+        type: entity:node
+      iteration_enrollment:
+        type: entity:iteration_enrollment
+  requirements:
+    _custom_access: '\Drupal\social_moodle_iteration_invite\Controller\CancelIterationEnrollInviteController::access'
+
+social_moodle_iteration_invite.update_enrollment_invite:
+  path: '/user/{user}/iteration-invites/{iteration_enrollment}/{accept_decline}'
+  defaults:
+    _controller: '\Drupal\social_moodle_iteration_invite\Controller\UserIterationEnrollInviteController::updateEnrollmentInvite'
+  options:
+    parameters:
+      node:
+        type: entity:user
+      iteration_enrollment:
+        type: entity:iteration_enrollment
+  requirements:
+    _custom_access: '\Drupal\social_moodle_iteration_invite\Controller\UserIterationEnrollInviteController::access'
+    accept_decline: '[0-1]+'
