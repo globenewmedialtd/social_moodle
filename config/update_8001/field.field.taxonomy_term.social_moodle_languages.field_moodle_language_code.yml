@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_moodle_language_code
+    - taxonomy.vocabulary.social_moodle_languages
+id: taxonomy_term.social_moodle_languages.field_moodle_language_code
+field_name: field_moodle_language_code
+entity_type: taxonomy_term
+bundle: social_moodle_languages
+label: 'Moodle language code'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.social_moodle_languages.field_moodle_language_code
+    - taxonomy.vocabulary.social_moodle_languages
+  module:
+    - text
+id: taxonomy_term.social_moodle_languages.default
+targetEntityType: taxonomy_term
+bundle: social_moodle_languages
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_moodle_language_code:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  search_api_excerpt: true
+
