@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Add new view:
+ * views.view.manage_language_versions
+ */
 function social_moodle_language_version_update_8001() {
 
   $configs_to_install = [
@@ -12,6 +16,21 @@ function social_moodle_language_version_update_8001() {
 
 }
 
+/**
+ * Change permission to group mangers only:
+ * views.view.manage_language_versions
+ */
+function social_moodle_language_version_update_8002() {
+
+  $configs_to_install = [
+    'views.view.manage_language_versions',
+  ];
+
+  foreach ($configs_to_install as $config_to_install) {
+    _social_moodle_language_version_update_or_install_config($config_to_install, '8002', 'social_moodle_language_version');
+  }
+
+}
 
 function _social_moodle_language_version_update_or_install_config( String $prefix, String $update_id, String $module) {
   $updated = [];

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Add new view for iterations:
+ * views.view.group_iterations
+ */
 function social_moodle_iteration_update_8001() {
 
   $configs_to_install = [
@@ -12,6 +16,10 @@ function social_moodle_iteration_update_8001() {
 
 }
 
+/**
+ * Set field to non-required:
+ * field.field.node.iteration.field_iteration_date
+ */
 function social_moodle_iteration_update_8002() {
 
   $configs_to_install = [
@@ -48,10 +56,12 @@ function social_moodle_iteration_update_8003() {
 
 }
 
+
 /**
  * Fix A non-existent config entity name returned by FieldStorageConfigInterface::getBundles(): 
  * entity type: node, bundle: iteration, field name: body
  */
+
 function social_moodle_iteration_update_8004() {
   ## Fixes:
   ## A non-existent config entity name returned by FieldStorageConfigInterface::getBundles(): entity type: node, bundle: iteration, field name: body
@@ -59,7 +69,6 @@ function social_moodle_iteration_update_8004() {
   $bundle = 'iteration';
   $field_name = 'body';
 
-  /** @var \Drupal\Core\KeyValueStore\KeyValueFactoryInterface $key_value_factory */
   $key_value_factory = \Drupal::service('keyvalue');
   $field_map_kv_store = $key_value_factory->get('entity.definitions.bundle_field_map');
   $map = $field_map_kv_store->get($entity_type);
@@ -100,6 +109,22 @@ function social_moodle_iteration_update_8006() {
 
   foreach ($configs_to_install as $config_to_install) {
     _social_moodle_iteration_update_or_install_config($config_to_install, '8006', 'social_moodle_iteration');
+  }
+
+}
+
+/**
+ * Changed permission to group managers only
+ * views.view.group_iterations
+ */
+function social_moodle_iteration_update_8007() {
+
+  $configs_to_install = [
+    'views.view.group_iterations',
+  ];
+
+  foreach ($configs_to_install as $config_to_install) {
+    _social_moodle_iteration_update_or_install_config($config_to_install, '8007', 'social_moodle_iteration');
   }
 
 }
