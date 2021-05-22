@@ -1,0 +1,11 @@
+services:
+  social_moodle_language_version_access.route_subscriber:
+    class: Drupal\social_moodle_language_version\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  social_moodle_language_version_access.check_access:
+    class: Drupal\social_moodle_language_version\Access\SocialMoodleLanguageVersionAccessCheck
+    arguments: ['@config.factory']
+    tags:
+      - { name: access_check, applies_to: _social_moodle_language_version_custom_access }

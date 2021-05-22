@@ -1,0 +1,11 @@
+services:
+  social_moodle_iteraiton_access.route_subscriber:
+    class: Drupal\social_moodle_iteration\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  social_moodle_iteration_access.check_access:
+    class: Drupal\social_moodle_iteration\Access\SocialMoodleIterationAccessCheck
+    arguments: ['@config.factory']
+    tags:
+      - { name: access_check, applies_to: _social_moodle_iteration_custom_access }
