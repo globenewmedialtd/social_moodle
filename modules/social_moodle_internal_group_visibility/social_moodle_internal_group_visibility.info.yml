@@ -1,0 +1,7 @@
+name: 'Social Moodle Internal Group Visibility'
+type: module
+description: 'Special Access to group'
+core: 8.x
+package: 'Social'
+dependencies:
+  - social_moodle

@@ -1,0 +1,11 @@
+services:
+  social_moodle_internal_group_visibility_access.route_subscriber:
+    class: Drupal\social_moodle_internal_group_visibility\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  social_moodle_internal_group_visibility_access.check_access:
+    class: Drupal\social_moodle_internal_group_visibility\Access\SocialMoodleInternalAccessCheck
+    arguments: ['@current_user']
+    tags:
+      - { name: access_check, applies_to: _social_moodle_internal_custom_access }
