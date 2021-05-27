@@ -32,6 +32,22 @@ function social_moodle_language_version_update_8002() {
 
 }
 
+/**
+ * Change title for language version:
+ * views.view.manage_language_versions
+ */
+function social_moodle_language_version_update_8003() {
+
+  $configs_to_install = [
+    'views.view.manage_language_versions',
+  ];
+
+  foreach ($configs_to_install as $config_to_install) {
+    _social_moodle_language_version_update_or_install_config($config_to_install, '8003', 'social_moodle_language_version');
+  }
+
+}
+
 function _social_moodle_language_version_update_or_install_config( String $prefix, String $update_id, String $module) {
   $updated = [];
   $created = [];
