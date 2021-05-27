@@ -3,33 +3,49 @@
 namespace Drupal\social_moodle_iteration_invite\Form;
 
 use Drupal\social_moodle_enrollment\IterationEnrollmentInterface;
-use Drupal\social_moodle_enrollment\Form\EnrollActionForm;
+use Drupal\social_moodle_enrollment\Form\IterationEnrollActionForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Url;
 
 /**
  * Class IterationInviteEnrollActionForm.
  *
  * @package Drupal\social_moodle_iteration_invite\Form
  */
-class IterationInviteEnrollActionForm extends EnrollActionForm {
+class IterationInviteEnrollActionForm extends IterationEnrollActionForm {
 
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'iteration_invite_enroll_action_form';
+
+    static $count = 0;
+    $count++;
+
+    return 'iteration_invite_enroll_action_form_' . $count;
+
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, Node $node = NULL) {
-    $form = parent::buildForm($form, $form_state);
-    $nid = $this->routeMatch->getRawParameter('node');
+  public function buildForm(array $form, FormStateInterface $form_state, $nid = NULL) {
+    //$form = parent::buildForm($form, $form_state);
     $current_user = $this->currentUser;
     $uid = $current_user->id();
+
+    // We check if the node is placed in a Group I am a member of. If not,
+    // we are not going to build anything.
+    if (!empty($nid)) {
+      if (!is_object($nid) && !is_null($nid)) {      
+        $node = $this->entityTypeManager
+          ->getStorage('node')
+          ->load($nid);       
+      }
+    }
+
 
     if (!$current_user->isAnonymous()) {
       $conditions = [
@@ -49,10 +65,37 @@ class IterationInviteEnrollActionForm extends EnrollActionForm {
       elseif ($enrollment = array_pop($enrollments)) {
         $enroll_request_status = $enrollment->field_request_or_invite_status->value;
 
+        if ($enroll_request_status == '5') {
+          // We are enrolled
+          $options_course_link = [
+            'query' => [
+              'idnumber' => $nid
+            ]
+          ];
+  
+          $form['buttons']['course_link'] = [
+            '#type' => 'link',
+            '#title' => $this->t('Show course'),
+            '#url' => Url::fromUri('internal:/moodle/redirect.php',$options_course_link),
+            '#attributes' => [
+              'class' => [
+                'js-form-submit',
+                'form-submit',
+                'btn',
+                'btn-accent',
+                'btn-lg',
+             ]
+            ]
+          ];
+
+
+        }
+        
+
         // If user got invited perform actions.
         if ($enroll_request_status == '4') {
 
-          $submit_text = $this->t('Accept');
+          $submit_text = $this->t('Accept Invitation');
 
           $form['enroll_for_this_iteration'] = [
             '#type' => 'submit',
@@ -73,49 +116,20 @@ class IterationInviteEnrollActionForm extends EnrollActionForm {
           ];
 
           // We need a hidden element for later usage.
-          $form['iteration_id'] = [
+          $form['iteration'] = [
             '#type' => 'hidden',
-            '#value' => $this->routeMatch->getRawParameter('node'),
+            '#value' => $nid,
           ];
 
-          $form['decline_invite'] = [
-            '#type' => 'submit',
-            '#value' => '',
-            '#name' => 'decline_invite',
-          ];
+          //$form['decline_invite'] = [
+            //'#type' => 'submit',
+            //'#value' => '',
+           // '#name' => 'decline_invite',
+         // ];
 
-          // Extra attributes needed for when a user is logged in.
-          // This will make sure the button acts like a dropdown.
-          $form['decline_invite']['#attributes'] = [
-            'class' => [
-              'btn',
-              'btn-accent brand-bg-accent',
-              'btn-lg btn-raised',
-              'dropdown-toggle',
-              'waves-effect',
-              'margin-left-s',
-            ],
-            'autocomplete' => 'off',
-            'data-toggle' => 'dropdown',
-            'aria-haspopup' => 'true',
-            'aria-expanded' => 'false',
-            'data-caret' => 'true',
-          ];
+          
 
-          $decline_text = $this->t('Decline');
-
-          // Add markup for the button so it will be a dropdown.
-          $form['decline_invite_dropdown'] = [
-            '#markup' => '<ul class="dropdown-menu dropdown-menu-right"><li><a href="#" class="enroll-form-submit"> ' . $decline_text . ' </a></li></ul>',
-          ];
-
-          // Add a hidden operation we can fill with jquery when declining.
-          $form['operation'] = [
-            '#type' => 'hidden',
-            '#default_value' => '',
-          ];
-
-          $form['#attached']['library'][] = 'social_moodle_enrollment/form_submit';
+          //$form['#attached']['library'][] = 'social_moodle_enrollment/form_submit';
 
         }
       }

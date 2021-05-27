@@ -251,6 +251,7 @@ function social_moodle_iteration_preprocess_node(&$variables) {
     ];
 
     $show_default_enrollment = FALSE;
+    $show_invite_only = FALSE;
 
     // Construct active iteration enrollment methods
     if (isset($variables['node']->field_iteration_enrollment)) {
@@ -258,10 +259,13 @@ function social_moodle_iteration_preprocess_node(&$variables) {
       if (isset($enrollment_methods)) {        
         foreach ($enrollment_methods as $method) {
           if ($method->id === 'open_to_enroll' ||
-              $method->id === 'request_to_enroll' ||
-              $method->id === 'invite_only') {          
+              $method->id === 'request_to_enroll') {          
             $show_default_enrollment = TRUE;
           }
+          elseif ($method->id === 'invite_only') {
+            $show_default_enrollment = TRUE;
+            $show_invite_only = TRUE;
+          }          
         }
       }
     } 
@@ -271,8 +275,13 @@ function social_moodle_iteration_preprocess_node(&$variables) {
     // Add variable for the iteration form
     $variables['iteration_form'] = \Drupal::formBuilder()->getForm('\Drupal\social_moodle_enrollment\Form\IterationActionForm', $nid);
 
-    $variables['enrollment_form'] = \Drupal::formBuilder()->getForm('\Drupal\social_moodle_enrollment\Form\IterationEnrollActionForm', $nid);
-
+    // If we have an invite form use this
+    if ($show_invite_only) {
+      $variables['enrollment_form'] = \Drupal::formBuilder()->getForm('\Drupal\social_moodle_iteration_invite\Form\IterationInviteEnrollActionForm', $nid);  
+    }
+    else {
+      $variables['enrollment_form'] = \Drupal::formBuilder()->getForm('\Drupal\social_moodle_enrollment\Form\IterationEnrollActionForm', $nid);
+    }
   }
 
 }
