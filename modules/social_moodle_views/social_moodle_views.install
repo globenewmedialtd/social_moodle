@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Add new view:
+ * views.view.social_moodle_language_version
+ */
+
 function social_moodle_views_update_8001() {
 
   $configs_to_install = [
