@@ -83,7 +83,12 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'iteration_enroll_action_form';
+
+    static $count = 0;
+    $count++;
+
+    return 'iteration_enroll_action_form_' .  $count;
+
   }
 
   /**
@@ -380,7 +385,8 @@ class IterationEnrollActionForm extends FormBase implements ContainerInjectionIn
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $current_user = $this->currentUser;
     $uid = $current_user->id();
-    $nid = $form_state->getValue('iteration') ?? $this->routeMatch->getRawParameter('node');
+    $nid = $form_state->getValue('iteration');    
+
     $node = $this->entityTypeManager->getStorage('node')->load($nid);
 
     // Redirect anonymous use to login page before enrolling to an event.
