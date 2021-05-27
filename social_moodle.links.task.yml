@@ -23,7 +23,7 @@ entity.language_version.delete_form:
 social_moodle.language_versions:
   route_name: view.manage_language_versions.page_group_language_versions
   base_route: entity.group.canonical
-  title: Manage Language Versions
+  title: Versions
   weight: 40
 
 social_moodle.iterations:
