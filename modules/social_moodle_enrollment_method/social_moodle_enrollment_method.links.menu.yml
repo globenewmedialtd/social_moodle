@@ -1,4 +1,5 @@
 social_moodle_enrollment_method.menu:
   title: Manage Iteration Enrollment Methods
+  description: Create and edit enrollment methods
   route_name: entity.iteration_enrollment_method.list
   parent: social_moodle.admin_config_social_moodle
