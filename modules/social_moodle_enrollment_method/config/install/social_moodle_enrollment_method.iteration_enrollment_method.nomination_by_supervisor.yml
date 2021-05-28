@@ -3,3 +3,4 @@ id: nomination_by_supervisor
 # Our properties follow.
 label: 'Nomination by supervisor'
 description: 'supervisors can nominate users to enroll for this event'
+weight: 4

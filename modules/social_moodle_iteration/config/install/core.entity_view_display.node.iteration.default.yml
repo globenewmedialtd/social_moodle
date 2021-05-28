@@ -2,21 +2,41 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.iteration.body
     - field.field.node.iteration.field_content_visibility
     - field.field.node.iteration.field_iteration_date
     - field.field.node.iteration.field_iteration_date_end
     - field.field.node.iteration.field_iteration_enrollment
+    - field.field.node.iteration.field_iteration_managers
+    - field.field.node.iteration.field_language_version
+    - field.field.node.iteration.field_show_date
     - node.type.iteration
   module:
     - user
 _core:
-  default_config_hash: d490fOhREPDnIfqTf-g8TULY05ddRPwHldSl5vx3Oc0
+  default_config_hash: S0OlsYnuoAO9va8Un2gMNGWh2rDu_YvIbowqXQ5XyK4
 id: node.iteration.default
 targetEntityType: node
 bundle: iteration
 mode: default
 content:
+  field_iteration_managers:
+    weight: 11
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_show_date:
+    weight: 10
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
   groups_type_closed_group:
     label: above
     weight: 2
@@ -103,10 +123,13 @@ hidden:
   field_iteration_date: true
   field_iteration_date_end: true
   field_iteration_enrollment: true
+  field_language_version: true
   flag_follow_content: true
   groups: true
+  langcode: true
   links: true
   private_message_link: true
   search_api_excerpt: true
   shariff_field: true
   social_tagging: true
+

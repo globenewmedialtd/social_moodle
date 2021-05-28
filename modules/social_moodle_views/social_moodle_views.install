@@ -1,22 +1,5 @@
 <?php
 
-/**
- * Add new view:
- * views.view.social_moodle_language_version
- */
-
-function social_moodle_views_update_8001() {
-
-  $configs_to_install = [
-    'views.view.social_moodle_language_version',
-  ];
-
-  foreach ($configs_to_install as $config_to_install) {
-    _social_moodle_views_update_or_install_config('views.view.social_moodle_language_version', '8001', 'social_moodle_views');
-  }
-
-}
-
 function _social_moodle_views_update_or_install_config( String $prefix, String $update_id, String $module) {
   $updated = [];
   $created = [];

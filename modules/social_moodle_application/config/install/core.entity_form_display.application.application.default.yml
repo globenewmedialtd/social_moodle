@@ -3,8 +3,15 @@ status: true
 dependencies:
   config:
     - field.field.application.application.field_application_type
+    - field.field.application.application.field_application_user
+    - field.field.application.application.field_date_approved_lnd
+    - field.field.application.application.field_date_approved_sv
+    - field.field.application.application.field_date_denied_lnd
+    - field.field.application.application.field_date_denied_sv
+    - field.field.application.application.field_date_waitlist
     - field.field.application.application.field_duties
     - field.field.application.application.field_group
+    - field.field.application.application.field_information
     - field.field.application.application.field_iteration
     - field.field.application.application.field_pdf
     - field.field.application.application.field_reason
@@ -14,7 +21,7 @@ dependencies:
     - file
     - social_moodle_application
 _core:
-  default_config_hash: l_NDTSH9WIm4T3tCrBezVw2xYd0LRxCDAAhVS-_A3pQ
+  default_config_hash: UPdD2-6pAAd5NH2VgtDPzoPVPGV7nLNBXhxmvYjmctw
 id: application.application.default
 targetEntityType: application
 bundle: application
@@ -52,13 +59,9 @@ content:
     region: content
   field_iteration:
     weight: 4
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
-    type: entity_reference_autocomplete
+    type: options_select
     region: content
   field_pdf:
     weight: 6
@@ -101,4 +104,12 @@ content:
     weight: 0
     region: content
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_application_user: true
+  field_date_approved_lnd: true
+  field_date_approved_sv: true
+  field_date_denied_lnd: true
+  field_date_denied_sv: true
+  field_date_waitlist: true
+  field_information: true
+

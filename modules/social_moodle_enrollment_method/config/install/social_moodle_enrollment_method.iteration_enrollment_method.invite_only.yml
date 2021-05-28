@@ -3,3 +3,4 @@ id: invite_only
 # Our properties follow.
 label: 'Invite-only'
 description: 'users can only enroll for this event if they are added/invited by event organisers'
+weight: 5

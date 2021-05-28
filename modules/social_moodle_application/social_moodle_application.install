@@ -1,21 +1,5 @@
 <?php
 
-/**
- * Changed field_iteration in form_display
- * field_iteration changed from autocomplete to select list
- */
-function social_moodle_application_update_8001() {
-
-  $configs_to_install = [
-    'core.entity_form_display.application.application.default',
-  ];
-
-  foreach ($configs_to_install as $config_to_install) {
-    _social_moodle_application_update_or_install_config($config_to_install, '8001', 'social_moodle_application');
-  }
-
-}
-
 function _social_moodle_application_update_or_install_config( String $prefix, String $update_id, String $module) {
   $updated = [];
   $created = [];

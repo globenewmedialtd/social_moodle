@@ -17,3 +17,6 @@ social_moodle_enrollment_method.iteration_enrollment_method.*:
     langcode:
       type: string
       label: 'Default language'
+    weight:
+      type: integer
+      label: Weight
