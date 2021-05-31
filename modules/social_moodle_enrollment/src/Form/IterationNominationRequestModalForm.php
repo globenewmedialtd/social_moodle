@@ -110,6 +110,8 @@ class IterationNominationRequestModalForm extends FormBase {
     ];
 
     $form['#attached']['library'] = [
+      'core/jquery.form',  
+      'core/drupal.ajax',  
       'core/drupal.dialog.ajax',
       'social_moodle_enrollment/modal',
     ];

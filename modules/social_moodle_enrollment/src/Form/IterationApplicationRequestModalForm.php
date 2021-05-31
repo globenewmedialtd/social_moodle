@@ -194,7 +194,9 @@ class IterationApplicationRequestModalForm extends FormBase {
     ];
 
     $form['#attached']['library'] = [
-      'core/drupal.dialog.ajax',
+      'core/jquery.form',  
+      'core/drupal.ajax',    
+      'core/drupal.dialog.ajax',      
       'social_moodle_enrollment/modal',
     ];
     $form['#attached']['drupalSettings']['iterationModalRequest'] = [
