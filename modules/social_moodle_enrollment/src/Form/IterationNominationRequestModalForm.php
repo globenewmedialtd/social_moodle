@@ -33,13 +33,7 @@ class IterationNominationRequestModalForm extends FormBase {
     $node = \Drupal::routeMatch()->getParameter('node');
     $nid = $node->id();
     $gid = $this->getGroupId($node);
-    $nominees_applied = [];
-
-    
-
-
-    $enrollment_method = $node->get('field_iteration_enrollment')->referencedEntities();
-    
+    $nominees_applied = [];    
 
     $current_user = \Drupal::currentUser();
     
@@ -55,8 +49,7 @@ class IterationNominationRequestModalForm extends FormBase {
 
     if ($users) {
       $nominees_applied = $this->getNomineesAlreadyApplied($users,$nid);
-    }
-     
+    }     
 
 
     $form['#prefix'] = '<div id="request_iteration_nomination">';
@@ -109,9 +102,7 @@ class IterationNominationRequestModalForm extends FormBase {
       ],
     ];
 
-    $form['#attached']['library'] = [
-      'core/jquery.form',  
-      'core/drupal.ajax',  
+    $form['#attached']['library'] = [ 
       'core/drupal.dialog.ajax',
       'social_moodle_enrollment/modal',
     ];
