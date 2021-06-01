@@ -133,7 +133,8 @@ function social_moodle_enrollment_iteration_enrollment_insert(EntityInterface $e
   if ($entity->field_enrollment_status->value == 1) {
     // Get the nid of the iteration
     $nid = $entity->field_iteration->entity->id();
-    $uid = $entity->field_account->entity->id();
+    // Get the owner
+    $uid = $entity->getOwnerId();
     
     // Get Account
     $account = \Drupal::entityTypeManager()
@@ -173,6 +174,18 @@ function social_moodle_enrollment_iteration_enrollment_insert(EntityInterface $e
   }
 
 }
+
+/**
+ * Implements hook_ENTITY_TYPE_delete().
+ * Delete all iteration enrollment records on user delete
+ */
+function social_moodle_enrollment_user_delete(EntityInterface $entity) {
+  $storage = \Drupal::entityTypeManager()->getStorage('iteration_enrollment');
+  $entities = $storage->loadByProperties(['user_id' => $entity->id()]);
+  $storage->delete($entities);
+}
+
+
 
 
 

@@ -30,8 +30,9 @@ class IterationActionForm extends FormBase {
     ];
 
     $enrollments = \Drupal::entityTypeManager()->getStorage('iteration_enrollment')
-      ->loadByProperties($conditions);    
-
+      ->loadByProperties($conditions);   
+      
+    $current_enrollment_status = FALSE;
 
     if ($enrollment = array_pop($enrollments)) {
       $current_enrollment_status = $enrollment->field_enrollment_status->value;
@@ -41,7 +42,20 @@ class IterationActionForm extends FormBase {
             'idnumber' => $nid
           ]
         ];
-        $form['enrolled']['#markup'] = '<p>' . $this->t('Enrolled') . '</p>';   
+        $form['buttons']['enrolled'] = [
+          '#type' => 'button',
+          '#value' => $this->t('Enrolled'),
+          '#disabled' => TRUE,
+          '#attributes' => [
+            'class' => [
+              'js-form-submit',
+              'form-submit',
+              'btn',
+              'btn-accent',
+              'btn-lg',
+            ]
+          ]
+        ];   
         $form['buttons']['course_link'] = [
           '#type' => 'link',
           '#title' => $this->t('Show course'),
@@ -59,7 +73,7 @@ class IterationActionForm extends FormBase {
       }
     }
     
-    $available_enrollment_method_buttons = $this->getAvailableButtons($nid);
+    $available_enrollment_method_buttons = $this->getAvailableButtons($nid,$current_enrollment_status);
 
     // Construct active iteration enrollment methods
     if (isset($node->field_iteration_enrollment)) {
@@ -75,13 +89,16 @@ class IterationActionForm extends FormBase {
   
     foreach ($enabled_enrollment_method_buttons as $key => $value) {
       $form['buttons'][$key] = $value;
-    }   
+    }
+    
+    // Attach the library for pop-up dialogs/modals.
+    $form['#attached']['library'][] = 'core/drupal.dialog.ajax';
   
     return $form;   
 
   }
 
-  protected function getAvailableButtons($nid) {
+  protected function getAvailableButtons($nid, $enrollment_status) {
 
     // Define the attributes for open to enroll
     $attributes_open_to_enroll = [
@@ -171,6 +188,10 @@ class IterationActionForm extends FormBase {
 
     if (!$supervisor) {
       unset($buttons['nomination_by_supervisor']);
+    }
+
+    if ($enrollment_status == 1) {
+      unset($buttons['self_application']);
     }
 
     return $buttons;
