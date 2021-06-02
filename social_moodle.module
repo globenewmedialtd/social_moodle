@@ -25,3 +25,14 @@ function social_moodle_help($route_name, RouteMatchInterface $route_match) {
   }
 }
 
+/**
+ * Implements hook_form_alter().
+ */
+function social_moodle_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id === 'event_an_enroll_form') {
+    // Make First and Last name required
+    $form['field_first_name']['#required'] = TRUE;
+    $form['field_last_name']['#required'] = TRUE;
+  }  
+}
+
