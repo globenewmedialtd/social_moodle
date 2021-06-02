@@ -134,7 +134,7 @@ function social_moodle_enrollment_iteration_enrollment_insert(EntityInterface $e
     // Get the nid of the iteration
     $nid = $entity->field_iteration->entity->id();
     // Get the owner
-    $uid = $entity->getOwnerId();
+    $uid = $entity->field_account->target_id;
     
     // Get Account
     $account = \Drupal::entityTypeManager()

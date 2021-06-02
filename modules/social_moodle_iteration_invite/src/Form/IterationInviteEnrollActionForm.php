@@ -35,6 +35,7 @@ class IterationInviteEnrollActionForm extends IterationEnrollActionForm {
     //$form = parent::buildForm($form, $form_state);
     $current_user = $this->currentUser;
     $uid = $current_user->id();
+    $invite_only = FALSE;
 
     // We check if the node is placed in a Group I am a member of. If not,
     // we are not going to build anything.
@@ -44,6 +45,19 @@ class IterationInviteEnrollActionForm extends IterationEnrollActionForm {
           ->getStorage('node')
           ->load($nid);       
       }
+    }
+
+    if (isset($node)) {
+
+      $enrollment_methods = $node->field_iteration_enrollment->referencedEntities();
+      if (isset($enrollment_methods)) {
+        foreach ($enrollment_methods as $method) {
+          if ($method->id === 'invite_only') {
+            $invite_only = TRUE;
+          }
+        }
+      }
+
     }
 
 
@@ -57,15 +71,15 @@ class IterationInviteEnrollActionForm extends IterationEnrollActionForm {
       // If the iteration is invite only and you have not been invited, return.
       // Unless you are the node owner or organizer.
       if (empty($enrollments)) {
-        if ((int) $node->field_enroll_method->value === IterationEnrollmentInterface::ENROLL_METHOD_INVITE
-          && social_moodle_enrollment_iteration_manager_or_organizer() === FALSE) {
+        if ($invite_only && social_moodle_enrollment_iteration_manager_or_organizer() === FALSE) {
           return [];
         }
       }
       elseif ($enrollment = array_pop($enrollments)) {
         $enroll_request_status = $enrollment->field_request_or_invite_status->value;
+        $enroll_status = $enrollment->field_enrollment_status->value;
 
-        if ($enroll_request_status == '5') {
+        if ($enroll_request_status == '5' || $enroll_status == '1' ) {
           // We are enrolled
           $options_course_link = [
             'query' => [
@@ -85,6 +99,21 @@ class IterationInviteEnrollActionForm extends IterationEnrollActionForm {
                 'btn-accent',
                 'btn-lg',
              ]
+            ]
+          ];
+
+          $form['buttons']['enrolled'] = [
+            '#type' => 'button',
+            '#value' => $this->t('Enrolled'),
+            '#disabled' => TRUE,
+            '#attributes' => [
+              'class' => [
+                'js-form-submit',
+                'form-submit',
+                'btn',
+                'btn-accent',
+                'btn-lg',
+              ]
             ]
           ];
 
