@@ -252,6 +252,22 @@ function social_moodle_iteration_preprocess_node(&$variables) {
 
     $show_default_enrollment = FALSE;
     $show_invite_only = FALSE;
+    $show_edit_link = FALSE;
+
+    if(social_moodle_enrollment_iteration_manager_or_organizer($variables['node'])) {
+      $show_edit_link = TRUE;
+    }
+
+    $variables['edit_link'] = [
+      '#title' => t('Edit'),
+      '#type' => 'link',
+      '#url' => Url::fromRoute('entity.node.edit_form',['node' => $nid]),
+      'attributes' => [
+        'class' => [
+          'quick-edit-link'
+        ]
+      ]
+    ];
 
     // Construct active iteration enrollment methods
     if (isset($variables['node']->field_iteration_enrollment)) {
@@ -271,6 +287,7 @@ function social_moodle_iteration_preprocess_node(&$variables) {
     } 
    
     $variables['show_default_enrollment'] = $show_default_enrollment;
+    $variables['show_edit_link'] = $show_edit_link;
     
     // Add variable for the iteration form
     $variables['iteration_form'] = \Drupal::formBuilder()->getForm('\Drupal\social_moodle_enrollment\Form\IterationActionForm', $nid);
