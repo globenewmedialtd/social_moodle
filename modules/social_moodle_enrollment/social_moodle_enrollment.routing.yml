@@ -81,3 +81,18 @@ social_moodle_enrollment.application_download_file:
     _controller: '\Drupal\social_moodle_enrollment\Controller\PdfDownloadController::download'
   requirements:
     _permission: 'access content'
+
+social_moodle_enrollment.update_enrollment_request:
+  path: '/node/{node}/all-iteration-enrollment-requests/update-enrollment/{iteration_enrollment}/{approve}'
+  defaults:
+    _controller: '\Drupal\social_moodle_enrollment\Controller\UpdateEnrollRequestController::updateEnrollmentRequest'
+  options:
+    parameters:
+      node:
+        type: entity:node
+      iteration_enrollment:
+        type: entity:iteration_enrollment
+  requirements:
+    _custom_access: '\Drupal\social_moodle_enrollment\Controller\UpdateEnrollRequestController::access'
+    approve: '[0-1]+'
+

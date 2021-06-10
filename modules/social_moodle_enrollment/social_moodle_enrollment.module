@@ -185,6 +185,32 @@ function social_moodle_enrollment_user_delete(EntityInterface $entity) {
   $storage->delete($entities);
 }
 
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function social_moodle_enrollment_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  // Check access first.
+  if (!social_moodle_enrollment_iteration_manager_or_organizer()) {
+    return;
+  }
+  // Get the node, so we can pass it as a parameter.
+  $node = \Drupal::routeMatch()->getParameter('node');
+  // Check if the entity type is one of iteration_enrollment and that we're on the
+  // correct view. Otherwise it would update all actions across the platform.
+  if ($entity->getEntityTypeId() === 'iteration_enrollment' && \Drupal::routeMatch()->getRouteName() === 'view.iteration_manage_enrollment_requests.page_manage_enrollment_requests') {
+    // Empty the current operations.
+    $operations = [];
+    // Add the "Approve" option.
+    $operations['approve']['title'] = t('Approve');
+    $operations['approve']['url'] = Url::fromRoute('social_moodle_enrollment.update_enrollment_request', [
+      'node' => $node,
+      'iteration_enrollment' => $entity->id(),
+      'approve' => 1,
+    ]);
+    
+  }
+}
+
 
 
 

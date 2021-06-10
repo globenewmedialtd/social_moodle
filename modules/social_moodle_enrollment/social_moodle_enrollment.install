@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Adds 3 blocks for iteration listing
+ * Adds the enrollment request view for iteration
  */
-function social_moodle_iteration_update_8008() {
+function social_moodle_enrollment_update_8001() {
 
   $configs_to_install = [
-    'views.view.iteration_listing',
+    'views.view.iteration_manage_enrollment_requests',
   ];
 
   foreach ($configs_to_install as $config_to_install) {
-    _social_moodle_iteration_update_or_install_config($config_to_install, '8008', 'social_moodle_iteration');
+    _social_moodle_enrollment_update_or_install_config($config_to_install, '8001', 'social_moodle_enrollment');
   }
 
 }
 
 
-function _social_moodle_iteration_update_or_install_config( String $prefix, String $update_id, String $module) {
+function _social_moodle_enrollment_update_or_install_config( String $prefix, String $update_id, String $module) {
   $updated = [];
   $created = [];
 

@@ -413,8 +413,8 @@ function social_moodle_iteration_get_current_iteration() {
       $iteration = $node;
     }
 
-    // If we don't have an event then we can go back to NULL.
-    if (!isset($event)) {
+    // If we don't have an iteration then we can go back to NULL.
+    if (!isset($iteration)) {
       $iteration = NULL;
     }
   }
