@@ -258,10 +258,13 @@ function social_moodle_iteration_preprocess_node(&$variables) {
       $show_edit_link = TRUE;
     }
 
+    $url = Url::fromRoute('entity.node.edit_form',['node' => $nid]);
+    $url->setOption('query', \Drupal::destination()->getAsArray(),);
+   
     $variables['edit_link'] = [
       '#title' => t('Edit'),
       '#type' => 'link',
-      '#url' => Url::fromRoute('entity.node.edit_form',['node' => $nid]),
+      '#url' => $url,
       'attributes' => [
         'class' => [
           'quick-edit-link'
