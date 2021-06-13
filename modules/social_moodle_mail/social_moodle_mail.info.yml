@@ -1,0 +1,10 @@
+name: Social Moodle Mail
+type: module
+description: 'Provides an application message configuration entity.'
+package: Social
+core: 8.x
+core_version_requirement: ^8 || ^9
+dependencies:
+  - social_moodle
+  - social_moodle_application
+configure: entity.application_message.collection

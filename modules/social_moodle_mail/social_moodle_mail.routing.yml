@@ -1,0 +1,31 @@
+entity.application_message.collection:
+  path: '/admin/config/social-moodle/application-message'
+  defaults:
+    _entity_list: 'application_message'
+    _title: 'Application Message configuration'
+  requirements:
+    _permission: 'administer application_message'
+
+entity.application_message.add_form:
+  path: '/admin/config/social-moodle/application_message/add'
+  defaults:
+    _entity_form: 'application_message.add'
+    _title: 'Add an application message'
+  requirements:
+    _permission: 'administer application_message'
+
+entity.application_message.edit_form:
+  path: '/admin/config/social-moodle/application-message/{application_message}'
+  defaults:
+    _entity_form: 'application_message.edit'
+    _title: 'Edit an application message'
+  requirements:
+    _permission: 'administer application_message'
+
+entity.application_message.delete_form:
+  path: '/admin/config/social-moodle/application-message/{application_message}/delete'
+  defaults:
+    _entity_form: 'application_message.delete'
+    _title: 'Delete an application message'
+  requirements:
+    _permission: 'administer application_message'

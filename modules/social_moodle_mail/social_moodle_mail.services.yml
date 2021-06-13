@@ -1,0 +1,4 @@
+services:
+  social_moodle_mail.mail_message_deliverer:
+    class: Drupal\social_moodle_mail\SocialMoodleMailMessageDeliverer
+    arguments: ['@entity_type.manager','@queue']

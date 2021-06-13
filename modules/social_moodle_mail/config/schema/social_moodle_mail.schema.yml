@@ -1,0 +1,48 @@
+social_moodle_mail.application_message.*:
+  type: config_entity
+  label: Application Message
+  mapping:
+    id:
+      type: string
+      label: ID
+    subject_attendee:
+      type: label
+      label: Subject
+      translatable: true
+    body_attendee: 
+      type: text_format
+      label: Body
+      format: ''
+      translatable: true
+    subject_supervisor:
+      type: label
+      label: Subject
+      translatable: true
+    body_supervisor: 
+      type: text_format
+      label: Body
+      format: ''
+      translatable: true
+    subject_manager:
+      type: label
+      label: Subject
+      translatable: true
+    body_manager: 
+      type: text_format
+      label: Body
+      format: ''
+      translatable: true
+    subject_lnd:
+      type: label
+      label: Subject
+      translatable: true
+    body_lnd: 
+      type: text_format
+      label: Body
+      format: ''
+      translatable: true      
+    transition:
+      type: string
+      label: Select Transition
+    uuid:
+      type: string

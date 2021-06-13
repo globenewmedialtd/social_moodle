@@ -1,0 +1,7 @@
+entity.application_message.overview:
+  title: Application Messages
+  parent: social_moodle.admin_config_social_moodle
+  description: 'List of application messages to extend site functionality.'
+  route_name: entity.application_message.collection
+
+  
