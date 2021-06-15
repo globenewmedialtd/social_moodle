@@ -169,47 +169,7 @@ function social_moodle_application_views_pre_render(ViewExecutable $view) {
   }
 }
 
-function social_moodle_application_application_insert(EntityInterface $entity) {
 
-  // Get our service
-  $deliverer = \Drupal::service('social_moodle_mail.mail_message_deliverer');
-  
-  // Application state
-  $state = $entity->field_state->value;
-
-  // Application just applied
-  if ($state === 'applied') {
-
-    $machine_name = $state;
-
-    $is_attendee = $deliverer->isMessageAttendee($machine_name);
-    $is_supervisor = $deliverer->isMessageSupervisor($machine_name);
-    $is_manager = $deliverer->isMessageManager($machine_name);
-    $is_lnd = $deliverer->isMessageLnd($machine_name);
-    
-    // Send Message to Attendee
-    if ($is_attendee) {
-      $deliverer->sendMessageAttendee($machine_name,$entity);
-    }
-
-    // Send Message to Supervisor
-    if ($is_supervisor) {
-      $deliverer->sendMessageSupervisor($machine_name,$entity);
-    }
-    
-    // Send Message to Managers
-    if ($is_manager) {
-      $deliverer->sendMessageManager($machine_name,$entity);
-    }
-    
-    // Send Message to Lnd
-    if ($is_lnd) {
-      $deliverer->sendMessageLnd($machine_name,$entity);
-    }
-
-  } 
-
-}
 
 
 

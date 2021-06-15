@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\social_moodle_application\EventSubscriber;
+namespace Drupal\social_moodle_mail\EventSubscriber;
 
 use Drupal\social_moodle_mail\SocialMoodleMailMessageDelivererInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Sends a receipt email when an application has been denied by supervisor.
  */
-class ApplicationReceiptWaitSubscriber implements EventSubscriberInterface {
+class ApplicationReceiptDenyLndSubscriber implements EventSubscriberInterface {
 
   /**
    * The entity storage.
@@ -44,7 +44,7 @@ class ApplicationReceiptWaitSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events = ['application.wait.post_transition' => ['sendApplicationReceipt', -100]];
+    $events = ['application.deny_lnd.post_transition' => ['sendApplicationReceipt', -100]];
     return $events;
   }
 
@@ -57,7 +57,7 @@ class ApplicationReceiptWaitSubscriber implements EventSubscriberInterface {
   public function sendApplicationReceipt(WorkflowTransitionEvent $event) {
     /** @var \Drupal\social_moodle_application\ApplicationInterface $application */
     $application = $event->getEntity();
-    $machine_name = 'waitlist';    
+    $machine_name = 'denied_lnd';    
     
     $is_attendee = $this->message_deliverer->isMessageAttendee($machine_name);
     $is_supervisor = $this->message_deliverer->isMessageSupervisor($machine_name);

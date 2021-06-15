@@ -15,33 +15,5 @@ services:
     tags:
       - { name: event_subscriber }
 
-  social_moodle_application.application_receipt_approve_supervisor_subscriber:
-    class: Drupal\social_moodle_application\EventSubscriber\ApplicationReceiptApproveSupervisorSubscriber
-    arguments: ['@entity_type.manager','@social_moodle_mail.mail_message_deliverer']
-    tags:
-      - { name: 'event_subscriber' }
 
-  social_moodle_application.application_receipt_approve_lnd_subscriber:
-    class: Drupal\social_moodle_application\EventSubscriber\ApplicationReceiptApproveLndSubscriber
-    arguments: ['@entity_type.manager','@social_moodle_mail.mail_message_deliverer']
-    tags:
-      - { name: 'event_subscriber' }
-
-  social_moodle_application.application_receipt_deny_supervisor_subscriber:
-    class: Drupal\social_moodle_application\EventSubscriber\ApplicationReceiptDenySupervisorSubscriber
-    arguments: ['@entity_type.manager','@social_moodle_mail.mail_message_deliverer']
-    tags:
-      - { name: 'event_subscriber' }
-
-  social_moodle_application.application_receipt_deny_lnd_subscriber:
-    class: Drupal\social_moodle_application\EventSubscriber\ApplicationReceiptDenyLndSubscriber
-    arguments: ['@entity_type.manager','@social_moodle_mail.mail_message_deliverer']
-    tags:
-      - { name: 'event_subscriber' }
-
-  social_moodle_application.application_receipt_wait_subscriber:
-    class: Drupal\social_moodle_application\EventSubscriber\ApplicationReceiptWaitSubscriber
-    arguments: ['@entity_type.manager','@social_moodle_mail.mail_message_deliverer']
-    tags:
-      - { name: 'event_subscriber' }
 
