@@ -93,4 +93,11 @@ class IterationListingPendingBlock extends BlockBase implements ContainerFactory
     
   }
 
+  /**
+   * @return int
+   */
+  public function getCacheMaxAge() {
+    return 0;
+  }
+
 }

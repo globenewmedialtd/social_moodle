@@ -93,4 +93,11 @@ class IterationListingEnrolledBlock extends BlockBase implements ContainerFactor
 
   }
 
+  /**
+   * @return int
+   */
+  public function getCacheMaxAge() {
+    return 0;
+  }
+
 }
