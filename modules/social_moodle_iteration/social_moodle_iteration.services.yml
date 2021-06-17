@@ -9,3 +9,7 @@ services:
     arguments: ['@config.factory']
     tags:
       - { name: access_check, applies_to: _social_moodle_iteration_custom_access }
+
+  social_moodle_iteration.enrollment_info:
+    class: Drupal\social_moodle_iteration\SocialMoodleIterationEnrollmentInfo
+    arguments: ['@entity_type.manager','@database','@current_user']
