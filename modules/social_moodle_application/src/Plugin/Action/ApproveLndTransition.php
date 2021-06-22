@@ -15,7 +15,7 @@ use Drupal\Core\Session\AccountInterface;
  *   label = @Translation("Approve by LnD"),
  *   type = "application",
  *   requirements = {
- *     "_permission" = "use transition approve_lnd in application_default",
+ *     "_permission" = "use approve_lnd transition in application_default",
  *   }
  * )
  */

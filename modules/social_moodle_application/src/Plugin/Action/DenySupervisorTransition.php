@@ -15,7 +15,7 @@ use Drupal\Core\Session\AccountInterface;
  *   label = @Translation("Deny by Supervisor"),
  *   type = "application",
  *   requirements = {
- *     "_permission" = "use transition deny_supervisor in application_default",
+ *     "_permission" = "use deny_supervisor transition in application_default",
  *   }
  * )
  */

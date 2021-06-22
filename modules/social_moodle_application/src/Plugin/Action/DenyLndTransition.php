@@ -15,7 +15,7 @@ use Drupal\Core\Session\AccountInterface;
  *   label = @Translation("Deny LnD"),
  *   type = "application",
  *   requirements = {
- *     "_permission" = "use transition deny_lnd in application_default",
+ *     "_permission" = "use deny_lnd transition in application_default",
  *   }
  * )
  */

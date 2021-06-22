@@ -15,7 +15,7 @@ use Drupal\Core\Session\AccountInterface;
  *   label = @Translation("Set to waitlist"),
  *   type = "application",
  *   requirements = {
- *     "_permission" = "use transition wait in application_default",
+ *     "_permission" = "use wait transition in application_default",
  *   }
  * )
  */
