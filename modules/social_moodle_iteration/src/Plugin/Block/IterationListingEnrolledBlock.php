@@ -76,7 +76,13 @@ class IterationListingEnrolledBlock extends BlockBase implements ContainerFactor
   public function build() {
     $build = [];
 
-    $group = _social_group_get_current_group();
+    $group = $this->routeMatch->getParameter('group');
+
+    if (!is_object($group) && !is_null($group)) {
+      $group = \Drupal::entityTypeManager()
+        ->getStorage('group')
+        ->load($group);
+    }
 
     if ($group instanceof GroupInterface) {
    

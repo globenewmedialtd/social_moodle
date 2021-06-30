@@ -76,7 +76,7 @@ class IterationListingDefaultBlock extends BlockBase implements ContainerFactory
   public function build() {
     $build = [];
 
-    $group = _social_group_get_current_group();
+    $group = $this->routeMatch->getParameter('group');
 
     if ($group instanceof GroupInterface) {
       $default = $this->enrollment_info->getDefaultIterationRecords($group);
@@ -99,6 +99,9 @@ class IterationListingDefaultBlock extends BlockBase implements ContainerFactory
         $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($default);
         $build['content'] = \Drupal::entityTypeManager()->getViewBuilder('node')->viewMultiple($nodes, 'iteration_listing');
         $build['#attributes']['class'][] = 'card__block';
+       
+
+
       }
     } 
     

@@ -61,8 +61,10 @@ class SocialMoodleIterationEnrollmentInfo implements SocialMoodleIterationEnroll
     $query = $database->select('node_field_data', 'nfd');
     $query->addField('nfd', 'nid');
     $query->join('group_content_field_data', 'gfd', 'gfd.entity_id = nfd.nid');
+    $query->join('node__field_iteration_enrollment;', 'nfie', 'nfie.entity_id = nfd.nid');
     $query->condition('nfd.type', 'iteration');
     $query->condition('gfd.gid', $group->id(), '=');
+    $query->condition('nfie.field_iteration_enrollment_target_id', 'invite_only', '<>');
     $query->distinct();
     $iteration = $query->execute()->fetchCol();
 
