@@ -1,0 +1,23 @@
+social_moodle_mail.request_enroll:
+  type: config_object
+  label: 'Social Moodle Iteration Invite Settings'
+  mapping:
+    subject_approve:
+      type: string
+      label: 'Email subject.'
+      translatable: true
+    message_approve:
+      type: text_format
+      label: 'Message body.'
+      translatable: true
+    subject_decline:
+      type: string
+      label: 'Email subject.'
+      translatable: true
+    message_decline:
+      type: text_format
+      label: 'Message body.'
+      translatable: true
+    language:
+      type: string
+      label: 'Language code'

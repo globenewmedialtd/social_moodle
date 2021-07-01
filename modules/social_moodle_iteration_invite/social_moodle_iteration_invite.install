@@ -1,51 +1,22 @@
 <?php
 
 /**
- * Adds the enrollment request view for iteration
+ * Updates view views.view.iteration_manage_enrollment_invites
  */
-function social_moodle_enrollment_update_8001() {
+function social_moodle_iteration_invite_update_8001() {
 
   $configs_to_install = [
-    'views.view.iteration_manage_enrollment_requests',
+    'views.view.iteration_manage_enrollment_invites',
   ];
 
   foreach ($configs_to_install as $config_to_install) {
-    _social_moodle_enrollment_update_or_install_config($config_to_install, '8001', 'social_moodle_enrollment');
+    _social_moodle_iteration_invite_update_or_install_config($config_to_install, '8001', 'social_moodle_iteration_invite');
   }
 
 }
 
-/**
- * Updates views.view.iteration_manage_enrollment_requests view
- */
-function social_moodle_enrollment_update_8002() {
 
-  $configs_to_install = [
-    'views.view.iteration_manage_enrollment_requests',
-  ];
-
-  foreach ($configs_to_install as $config_to_install) {
-    _social_moodle_enrollment_update_or_install_config($config_to_install, '8002', 'social_moodle_enrollment');
-  }
-
-}
-
-/**
- * Updates views.view.iteration_manage_enrollment_requests view
- */
-function social_moodle_enrollment_update_8003() {
-
-  $configs_to_install = [
-    'views.view.iteration_manage_enrollment_requests',
-  ];
-
-  foreach ($configs_to_install as $config_to_install) {
-    _social_moodle_enrollment_update_or_install_config($config_to_install, '8003', 'social_moodle_enrollment');
-  }
-
-}
-
-function _social_moodle_enrollment_update_or_install_config( String $prefix, String $update_id, String $module) {
+function _social_moodle_iteration_invite_update_or_install_config( String $prefix, String $update_id, String $module) {
   $updated = [];
   $created = [];
 
@@ -85,4 +56,3 @@ function _social_moodle_enrollment_update_or_install_config( String $prefix, Str
     'created' => $created,
   ];
 }
-

@@ -29,3 +29,13 @@ entity.application_message.delete_form:
     _title: 'Delete an application message'
   requirements:
     _permission: 'administer application_message'
+
+social_moodle_mail.request_enroll:
+  path: '/admin/config/social_moodle/request-enroll'
+  defaults:
+    _form: '\Drupal\social_moodle_mail\Form\RequestToEnrollMessageForm'
+    _title: 'Request to Enroll Message'
+  requirements:
+    _permission: 'administer social_moodle settings'
+  options:
+    _admin_route: TRUE

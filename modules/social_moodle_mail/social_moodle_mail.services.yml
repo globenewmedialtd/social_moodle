@@ -32,3 +32,7 @@ services:
     arguments: ['@entity_type.manager','@social_moodle_mail.mail_message_deliverer']
     tags:
       - { name: 'event_subscriber' }
+
+  social_moodle_mail.mail_enrollment_request_message_deliverer:
+    class: Drupal\social_moodle_mail\SocialMoodleMailEnrollmentRequestMessageDeliverer
+    arguments: ['@entity_type.manager','@queue', '@config.factory', '@social_group.helper_service']

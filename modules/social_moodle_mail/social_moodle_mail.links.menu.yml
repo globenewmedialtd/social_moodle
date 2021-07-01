@@ -4,4 +4,10 @@ entity.application_message.overview:
   description: 'List of application messages to extend site functionality.'
   route_name: entity.application_message.collection
 
+social_moodle_mail.request_enroll:
+  title: 'Request to enroll settings'
+  description: 'Settings Request to enroll messages.'
+  route_name: social_moodle_mail.request_enroll
+  parent: social_moodle.admin_config_social_moodle
+
   

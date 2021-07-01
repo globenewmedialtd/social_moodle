@@ -45,6 +45,7 @@ class RouteSubscriber extends RouteSubscriberBase {
     $collection = new RouteCollection();
 
     if ($this->moduleHandler->moduleExists('views_bulk_operations')) {
+      // Add routes for Management View
       $route = new Route(
         '/node/{node}/all-iteration-enrollments/configure-action',
         [
@@ -72,6 +73,36 @@ class RouteSubscriber extends RouteSubscriberBase {
         ]
       );
       $collection->add('social_moodle_iteration_managers.vbo.confirm', $route);
+
+      // Add routes for Enrollment Request View
+      $route = new Route(
+        '/node/{node}/all-iteration-enrollment-requests/configure-action',
+        [
+          '_form' => '\Drupal\social_moodle_iteration_managers\Form\SocialMoodleIterationManagersEnrollmentRequestsViewsBulkOperationsConfigureAction',
+          '_title' => 'Configure action',
+          'view_id' => 'iteration_manage_enrollment_requests',
+          'display_id' => 'page_manage_enrollment_requests',
+        ],
+        [
+          '_views_bulk_operation_access' => 'TRUE',
+        ]
+      );
+      $collection->add('social_moodle_iteration_managers.request.vbo.execute_configurable', $route);
+
+      $route = new Route(
+        '/node/{node}/all-iteration-enrollment-requests/confirm-action',
+        [
+          '_form' => '\Drupal\social_moodle_iteration_managers\Form\SocialMoodleIterationManagersEnrollmentRequestsViewsBulkOperationsConfirmAction',
+          '_title' => 'Confirm action',
+          'view_id' => 'iteration_manage_enrollment_requests',
+          'display_id' => 'page_manage_enrollment_requests',
+        ],
+        [
+          '_views_bulk_operation_access' => 'TRUE',
+        ]
+      );
+      $collection->add('social_moodle_iteration_managers.request.vbo.confirm', $route);      
+
     }
 
     return $collection;

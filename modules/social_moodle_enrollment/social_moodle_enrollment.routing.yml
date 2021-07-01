@@ -96,3 +96,17 @@ social_moodle_enrollment.update_enrollment_request:
     _custom_access: '\Drupal\social_moodle_enrollment\Controller\UpdateEnrollRequestController::access'
     approve: '[0-1]+'
 
+social_moodle_enrollment.enrollment_request_decline_form:
+  path: '/node/{node}/all-iteration-enrollment-requests/confirm-decline/{iteration_enrollment}'
+  defaults:
+    _form: '\Drupal\social_moodle_enrollment\Form\EnrollRequestDeclineForm'
+    _title_callback: '\Drupal\social_moodle_enrollment\Controller\IterationEnrollmentController::getTitleDeclineRequest'
+  options:
+    parameters:
+      node:
+        type: entity:node
+      iteration_enrollment:
+        type: entity:iteration_enrollment
+  requirements:
+    _custom_access: '\Drupal\social_moodle_enrollment\Controller\UpdateEnrollRequestController::access'
+

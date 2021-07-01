@@ -36,6 +36,15 @@ function social_moodle_iteration_managers_views_data_alter(array &$data) {
       'id' => 'social_views_bulk_operations_bulk_form_iteration_enrollments',
     ],
   ];
+  // Create our own views VBO field for enrollments.
+  $data['views']['social_views_bulk_operations_bulk_form_iteration_enrollment_requests'] = [
+    'title' => t('Social Views bulk operations for Iteration Enrollment Requests'),
+    'help' => t("Process enrollments returned by the view with Views Bulk Operations actions."),
+    'field' => [
+      'id' => 'social_views_bulk_operations_bulk_form_iteration_enrollment_requests',
+    ],
+  ];
+
 }
 
 /**
@@ -73,7 +82,23 @@ function social_moodle_iteration_managers_form_alter(&$form, FormStateInterface 
       $display_id = $view->current_display;
     }
   }
+  elseif (strpos($form_id, 'views_form_iteration_manage_enrollment_requests_page_manage_enrollment_requests') !== FALSE && isset($form['output'][0]['#view'])) {
+    $view = &$form['output'][0]['#view'];
+
+    if ($view instanceof ViewExecutable) {
+      $view_id = $view->id();
+      $display_id = $view->current_display;
+    }
+  }
   elseif (isset($form['social_views_bulk_operations_bulk_form_iteration_enrollments_1']) && isset($form['output'][0]['#view'])) {
+    $view = &$form['output'][0]['#view'];
+
+    if ($view instanceof ViewExecutable) {
+      $view_id = $view->id();
+      $display_id = $view->current_display;
+    }
+  }
+  elseif (isset($form['social_views_bulk_operations_bulk_form_iteration_enrollment_requests']) && isset($form['output'][0]['#view'])) {
     $view = &$form['output'][0]['#view'];
 
     if ($view instanceof ViewExecutable) {
@@ -99,6 +124,20 @@ function social_moodle_iteration_managers_form_alter(&$form, FormStateInterface 
 
     $callbacks[] = '_social_moodle_iteration_managers_views_bulk_operations_bulk_form_submit';
   }
+
+  if (isset($view_id) && $view_id === 'iteration_manage_enrollment_requests' && $display_id === 'page_manage_enrollment_requests') {
+    $form_state->set('node', \Drupal::routeMatch()->getRawParameter('node'));
+
+    if ($form_id === 'views_bulk_operations_configure_action') {
+      $callbacks = &$form['actions']['submit']['#submit'];
+    }
+    else {
+      $callbacks = &$form['#submit'];
+    }
+
+    $callbacks[] = '_social_moodle_iteration_managers_request_views_bulk_operations_bulk_form_submit';
+  }
+
 }
 
 /**
@@ -236,16 +275,17 @@ function social_moodle_iteration_managers_menu_local_tasks_alter(&$data, $route_
     //'view.iteration_enrollments.view_enrollments',
     'entity.node.canonical',
     'view.iteration_manage_enrollments.page_manage_enrollments',
+    'view.iteration_manage_enrollment_requests.page_manage_enrollment_requests',
+    'view.iteration_manage_enrollment_invites.page_manage_enrollment_invites',
   ];
   if (in_array($route_name, $routes_to_check)) {
     $node = \Drupal::service('current_route_match')->getParameter('node');
     if (!is_null($node) && (!$node instanceof Node)) {
       $node = Node::load($node);
     }
-    if (($node instanceof Node) && $node->getType() === 'iteration') {
-      $can_show_managers_link = TRUE;
-      if (!social_moodle_enrollment_iteration_manager_or_organizer()) {
-        $data['tabs'][0]['views_view:view.iteration_manage_enrollments.page_manage_enrollments']['#link']['title'] = t('Enrollments');
+    if (($node instanceof Node) && $node->getType() === 'iteration') {      
+      if (social_moodle_enrollment_iteration_manager_or_organizer()) {
+	$can_show_managers_link = TRUE;        
       }
     }
 
@@ -255,6 +295,8 @@ function social_moodle_iteration_managers_menu_local_tasks_alter(&$data, $route_
   // always and not only on the mentioned routes.
   if (!$can_show_managers_link) {
     unset($data['tabs'][0]['views_view:view.iteration_manage_enrollments.page_manage_enrollments']);
+    unset($data['tabs'][0]['views_view:view.iteration_manage_enrollment_requests.page_manage_enrollment_requests']);
+    unset($data['tabs'][0]['views_view:view.iteration_manage_enrollment_invites.page_manage_enrollment_invites']);
   }
 
 }
@@ -296,21 +338,23 @@ function social_moodle_iteration_managers_batch_alter(&$batch) {
   $actions = [
     'social_moodle_iteration_enrollments_export_enrollments_action',
     'social_moodle_iteration_managers_delete_iteration_enrollment_action',
-    //'social_iteration_an_enroll_enrolments_export_action',
-    //'social_event_an_enroll_send_email_action',
+    'social_moodle_iteration_managers_approve_iteration_enrollment_action',
+    'social_moodle_iteration_managers_decline_iteration_enrollment_action'
   ];
+  
 
   /** @var \Drupal\Core\Url $url */
   $url = &$batch['source_url'];
 
   if ($url->getRouteName() === 'social_moodle_iteration_managers.vbo.confirm' ||
+    $url->getRouteName() === 'social_moodle_iteration_managers.request.vbo.confirm' ||
     $url->getRouteName() === 'views_bulk_operations.confirm' ||
     $url->getRouteName() === 'views_bulk_operations.execute_batch') {
     // Get the action ID.
     $action_id = _social_moodle_iteration_managers_get_action_id($batch);
-
+ 
     $batch['sets'][0]['results']['action'] = $action_id;
-    if (in_array($action_id, $actions, TRUE)) {
+    if (in_array($action_id, $actions_management, TRUE)) {
       $batch['sets'][0]['finished'] = '_social_moodle_iteration_managers_action_batch_finish';
     }
   }
@@ -454,6 +498,38 @@ function _social_moodle_iteration_managers_views_bulk_operations_bulk_form_submi
     }
     if ($url->getRouteName() === 'social_moodle_iteration_managers.vbo.confirm') {
       $url = Url::fromRoute('social_moodle_iteration_managers.vbo.confirm', $route_parameters);
+    }
+  }
+
+  $form_state->setRedirectUrl($url);
+}
+
+/**
+ * Add node ID to the route of action confirmation step.
+ */
+function _social_moodle_iteration_managers_request_views_bulk_operations_bulk_form_submit($form, FormStateInterface $form_state) {
+  /** @var \Drupal\Core\Url $url */
+  $url = $form_state->getRedirect();
+
+  $node = '';
+  if ($form_state->get('node')) {
+    $node = $form_state->get('node');
+  }
+  if (empty($node)) {
+    $route = \Drupal::routeMatch()->getParameter('node');
+    $node = $route->id();
+  }
+
+  $route_parameters = [
+    'node' => $node,
+  ];
+
+  if (!empty($node)) {
+    if ($url->getRouteName() === 'views_bulk_operations.execute_configurable') {
+      $url = Url::fromRoute('social_moodle_iteration_managers.request.vbo.execute_configurable', $route_parameters);
+    }
+    if ($url->getRouteName() === 'social_moodle_iteration_managers.request.vbo.confirm') {
+      $url = Url::fromRoute('social_moodle_iteration_managers.request.vbo.confirm', $route_parameters);
     }
   }
 

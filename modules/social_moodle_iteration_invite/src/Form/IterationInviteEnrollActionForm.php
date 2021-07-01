@@ -154,11 +154,9 @@ class IterationInviteEnrollActionForm extends IterationEnrollActionForm {
             //'#type' => 'submit',
             //'#value' => '',
            // '#name' => 'decline_invite',
-         // ];
+         // ];          
 
-          
-
-          //$form['#attached']['library'][] = 'social_moodle_enrollment/form_submit';
+          $form['#attached']['library'][] = 'social_moodle_enrollment/form_submit';
 
         }
       }

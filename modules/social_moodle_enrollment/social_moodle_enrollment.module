@@ -175,6 +175,50 @@ function social_moodle_enrollment_iteration_enrollment_insert(EntityInterface $e
 
 }
 
+function social_moodle_enrollment_iteration_enrollment_update(EntityInterface $entity) {
+  
+  // Check only enrolled records
+  if ($entity->field_enrollment_status->value === '1' &&
+      $entity->field_request_or_invite_status->value === IterationEnrollmentInterface::REQUEST_APPROVED) {
+    // Get the nid of the iteration
+    $nid = $entity->field_iteration->entity->id();
+    // Get the owner
+    $uid = $entity->field_account->target_id;
+
+    $enrollment_request = \Drupal::service('social_moodle_mail.mail_enrollment_request_message_deliverer');
+    // Add user to group
+    $enrollment_request->addEnrollee($nid,$uid);
+    // Send message
+    $enrollment_request->sendApproveMessage($nid,$uid);
+
+  }
+  if ($entity->field_request_or_invite_status->value === IterationEnrollmentInterface::REQUEST_OR_INVITE_DECLINED) {
+    // Get the nid of the iteration
+    $nid = $entity->field_iteration->entity->id();
+    // Get the owner
+    $uid = $entity->field_account->target_id;
+    
+    $enrollment_request = \Drupal::service('social_moodle_mail.mail_enrollment_request_message_deliverer');
+    // Send message
+    $enrollment_request->sendDeclineMessage($nid,$uid);    
+
+  }
+  // Check only enrolled records
+  if ($entity->field_enrollment_status->value === '1' &&
+      $entity->field_request_or_invite_status->value === IterationEnrollmentInterface::INVITE_ACCEPTED_AND_JOINED) {
+   
+    // Get the nid of the iteration
+    $nid = $entity->field_iteration->entity->id();
+    // Get the owner
+    $uid = $entity->field_account->target_id;
+   
+    $enrollment_request = \Drupal::service('social_moodle_mail.mail_enrollment_request_message_deliverer');
+    // Add user to group
+    $enrollment_request->addEnrollee($nid,$uid);
+  }
+
+}
+
 /**
  * Implements hook_ENTITY_TYPE_delete().
  * Delete all iteration enrollment records on user delete
@@ -206,6 +250,12 @@ function social_moodle_enrollment_entity_operation_alter(array &$operations, Ent
       'node' => $node,
       'iteration_enrollment' => $entity->id(),
       'approve' => 1,
+    ]);
+    // Add the "Decline" option.
+    $operations['decline']['title'] = t('Decline');
+    $operations['decline']['url'] = Url::fromRoute('social_moodle_enrollment.enrollment_request_decline_form', [
+      'node' => $node,
+      'iteration_enrollment' => $entity->id(),
     ]);
     
   }

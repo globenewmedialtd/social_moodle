@@ -18,13 +18,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\node\NodeInterface;
 
 /**
- * Defines the Iteration Enrollments Views Bulk Operations field plugin.
+ * Defines the Iteration Enrollment Requests Views Bulk Operations field plugin.
  *
  * @ingroup views_field_handlers
  *
- * @ViewsField("social_views_bulk_operations_bulk_form_iteration_enrollments")
+ * @ViewsField("social_views_bulk_operations_bulk_form_iteration_enrollment_requests")
  */
-class SocialMoodleIterationManagersViewsBulkOperationsBulkForm extends ViewsBulkOperationsBulkForm {
+class SocialMoodleIterationManagersEnrollmentRequestsViewsBulkOperationsBulkForm extends ViewsBulkOperationsBulkForm {
 
   /**
    * The entity type manager.
@@ -98,7 +98,7 @@ class SocialMoodleIterationManagersViewsBulkOperationsBulkForm extends ViewsBulk
   public function getBulkOptions() {
     $bulk_options = parent::getBulkOptions();
 
-    if ($this->view->id() !== 'iteration_manage_enrollments') {
+    if ($this->view->id() !== 'iteration_manage_enrollment_requests') {
       return $bulk_options;
     }
 
@@ -126,14 +126,14 @@ class SocialMoodleIterationManagersViewsBulkOperationsBulkForm extends ViewsBulk
 
     parent::viewsForm($form, $form_state);
 
-    if ($this->view->id() !== 'iteration_manage_enrollments') {
+    if ($this->view->id() !== 'iteration_manage_enrollment_requests') {
       return;
     }
 
     $action_options = $this->getBulkOptions();
 
     if (!empty($this->view->result) && !empty($action_options)) {
-      $list = $form[$this->options['id']];
+      $list = &$form[$this->options['id']];
 
       foreach ($this->view->result as $row_index => $row) {
         $entity = $this->getEntity($row);
@@ -247,19 +247,16 @@ class SocialMoodleIterationManagersViewsBulkOperationsBulkForm extends ViewsBulk
       $actions['#links'] = $items;
     }
 
-    
-
     // Remove the Views select list and submit button.
     $form['actions']['#type'] = 'hidden';
-    $form['header']['social_views_bulk_operations_bulk_form_iteration_enrollments_1']['action']['#access'] = FALSE;
-    
+    $form['header']['social_views_bulk_operations_bulk_form_iteration_enrollment_requests']['action']['#access'] = FALSE;
   }
 
   /**
    * {@inheritdoc}
    */
   public function viewsFormValidate(&$form, FormStateInterface $form_state) {
-    if ($this->view->id() === 'iteration_manage_enrollments') {
+    if ($this->view->id() === 'iteration_manage_enrollment_requests') {
       $user_input = $form_state->getUserInput();
       $available_options = $this->getBulkOptions();
       // Grab all the actions that are available.
@@ -294,7 +291,7 @@ class SocialMoodleIterationManagersViewsBulkOperationsBulkForm extends ViewsBulk
   public function viewsFormSubmit(array &$form, FormStateInterface $form_state) {
     parent::viewsFormSubmit($form, $form_state);
 
-    if ($form_state->get('step') === 'views_form_views_form' && $this->view->id() === 'iteration_manage_enrollments') {
+    if ($form_state->get('step') === 'views_form_views_form' && $this->view->id() === 'iteration_manage_enrollment_requests') {
       /** @var \Drupal\Core\Url $url */
       $url = $form_state->getRedirect();
 
@@ -312,7 +309,7 @@ class SocialMoodleIterationManagersViewsBulkOperationsBulkForm extends ViewsBulk
           }
         }
 
-        $url = Url::fromRoute('social_moodle_iteration_managers.vbo.execute_configurable', [
+        $url = Url::fromRoute('social_moodle_iteration_managers.request.vbo.execute_configurable', [
           'node' => $parameters['node'],
         ]);
 
