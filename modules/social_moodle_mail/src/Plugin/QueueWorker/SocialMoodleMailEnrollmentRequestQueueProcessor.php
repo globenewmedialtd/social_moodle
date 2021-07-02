@@ -149,7 +149,7 @@ class SocialMoodleMailEnrollmentRequestQueueProcessor extends QueueWorkerBase im
           $message_content = $this->getEnrollmentRequestMessage($message_id,$user_language);
 
           // Attempt sending mail and send only if welcome message defined in user language
-          if ($user->getEmail() && isset($message_content)) {
+          if ($user->getEmail() && $message_content !== FALSE) {
             $this->sendMail($user->getEmail(), $user->language()->getId(), $message_content, $user, $group);
           }
         }
