@@ -45,6 +45,24 @@ function social_moodle_enrollment_update_8003() {
 
 }
 
+/**
+ * Adds new field for welcome message
+ */
+function social_moodle_enrollment_update_8004() {
+
+  $configs_to_install = [
+    'field.storage.iteration_enrollment.field_welcome_message',
+    'field.field.iteration_enrollment.iteration_enrollment.field_welcome_message',
+    'core.entity_form_display.iteration_enrollment.iteration_enrollment.default',
+    'core.entity_view_display.iteration_enrollment.iteration_enrollment.default'
+  ];
+
+  foreach ($configs_to_install as $config_to_install) {
+    _social_moodle_enrollment_update_or_install_config($config_to_install, '8004', 'social_moodle_enrollment');
+  }
+
+}
+
 function _social_moodle_enrollment_update_or_install_config( String $prefix, String $update_id, String $module) {
   $updated = [];
   $created = [];

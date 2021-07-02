@@ -1,0 +1,66 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.iteration_enrollment.iteration_enrollment.field_account
+    - field.field.iteration_enrollment.iteration_enrollment.field_email
+    - field.field.iteration_enrollment.iteration_enrollment.field_enrollment_status
+    - field.field.iteration_enrollment.iteration_enrollment.field_first_name
+    - field.field.iteration_enrollment.iteration_enrollment.field_iteration
+    - field.field.iteration_enrollment.iteration_enrollment.field_last_name
+    - field.field.iteration_enrollment.iteration_enrollment.field_request_message
+    - field.field.iteration_enrollment.iteration_enrollment.field_request_or_invite_status
+    - field.field.iteration_enrollment.iteration_enrollment.field_token
+    - field.field.iteration_enrollment.iteration_enrollment.field_welcome_message
+  module:
+    - options
+    - social_moodle_enrollment
+    - user
+_core:
+  default_config_hash: 1vOlhZKW05clqIjEKQ8fygVTxsag60_VY9OkF2oYUp0
+id: iteration_enrollment.iteration_enrollment.default
+targetEntityType: iteration_enrollment
+bundle: iteration_enrollment
+mode: default
+content:
+  field_enrollment_status:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_iteration:
+    weight: 2
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  name:
+    label: above
+    type: string
+    weight: 0
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  user_id:
+    label: hidden
+    type: author
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_account: true
+  field_email: true
+  field_first_name: true
+  field_last_name: true
+  field_request_message: true
+  field_request_or_invite_status: true
+  field_token: true
+  field_welcome_message: true
+  search_api_excerpt: true
+

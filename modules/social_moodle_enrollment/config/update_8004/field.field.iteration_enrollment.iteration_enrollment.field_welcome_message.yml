@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.iteration_enrollment.field_welcome_message
+  module:
+    - social_moodle_enrollment
+id: iteration_enrollment.iteration_enrollment.field_welcome_message
+field_name: field_welcome_message
+entity_type: iteration_enrollment
+bundle: iteration_enrollment
+label: 'Welcome Message'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean
+
