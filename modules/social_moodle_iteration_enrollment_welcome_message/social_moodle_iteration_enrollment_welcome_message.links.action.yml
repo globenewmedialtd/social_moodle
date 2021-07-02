@@ -1,0 +1,6 @@
+entity.iteration_welcome_message.add_form:
+  route_name: entity.iteration_welcome_message.add_form
+  title: 'Add Iteration Welcome Message'
+entity.iteration_welcome_message.edit_form:
+  route_name: entity.iteration_welcome_message.edit_form
+  title: 'Edit Iteration Welcome Message'

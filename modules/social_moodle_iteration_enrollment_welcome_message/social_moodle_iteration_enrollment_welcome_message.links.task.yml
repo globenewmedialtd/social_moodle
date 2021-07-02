@@ -1,0 +1,13 @@
+entity.iteration_welcome_message.edit_form:
+  route_name: entity.iteration_welcome_message.edit_form
+  title: Edit
+  base_route: entity.iteration_welcome_message.edit_form
+entity.iteration_welcome_message.canonical:
+  route_name: entity.iteration_welcome_message.canonical
+  base_route: entity.iteration_welcome_message.edit_form
+  title: 'View'
+# Welcome Message settings
+social_moodle_iteration_enrollment_welcome_message.settings:
+  route_name: social_moodle_iteration_enrollment_welcome_message.settings
+  title: Settings
+  base_route: social_moodle_iteration_enrollment_welcome_message.settings

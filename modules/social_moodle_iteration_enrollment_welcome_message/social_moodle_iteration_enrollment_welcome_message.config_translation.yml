@@ -1,0 +1,6 @@
+social_moodle_iteration_enrollment_welcome_message.settings:
+  title: 'Iteration Welcome Message Settings'
+  base_route_name: social_moodle_iteration_enrollment_welcome_message.settings
+  names:
+    - social_moodle_iteration_enrollment_welcome_message.settings
+

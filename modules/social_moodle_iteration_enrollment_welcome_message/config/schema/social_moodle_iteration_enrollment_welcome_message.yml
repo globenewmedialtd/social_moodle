@@ -1,0 +1,44 @@
+social_moodle_iteration_enrollment_welcome_message.iteration_welcome_message.*:
+  type: config_entity
+  label: 'Welcome Message config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    subject:
+      type: label
+      label: 'Subject'
+      translatable: true
+    body:
+      type: text_format
+      label: 'Welcome message new member'
+      translatable: true
+      format: ''
+    body_existing:
+      type: text_format
+      label: 'Welcome message existing member'
+      translatable: true
+      format: ''
+    node:
+      label: 'Iteration'
+      type: mapping
+      mapping:
+        target_id:
+          type: string
+          label: 'Value'
+    uuid:
+      type: string
+
+social_moodle_iteration_enrollment_welcome_message.settings:
+  type: config_object
+  label: 'Settings'
+  mapping:
+    selected_format:
+      label: 'Selected Text format'
+      type: string
+    show_token_info:
+      label: 'Show token info'
+      type: boolean

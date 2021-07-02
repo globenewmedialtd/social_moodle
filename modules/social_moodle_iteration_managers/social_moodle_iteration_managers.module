@@ -339,7 +339,8 @@ function social_moodle_iteration_managers_batch_alter(&$batch) {
     'social_moodle_iteration_enrollments_export_enrollments_action',
     'social_moodle_iteration_managers_delete_iteration_enrollment_action',
     'social_moodle_iteration_managers_approve_iteration_enrollment_action',
-    'social_moodle_iteration_managers_decline_iteration_enrollment_action'
+    'social_moodle_iteration_managers_decline_iteration_enrollment_action',
+    'iteration_welcome_message_send_email'
   ];
   
 

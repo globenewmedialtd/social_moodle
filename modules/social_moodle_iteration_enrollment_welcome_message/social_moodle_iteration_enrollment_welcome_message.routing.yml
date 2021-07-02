@@ -1,0 +1,8 @@
+social_moodle_iteration_enrollment_welcome_message.settings:
+  path: '/admin/config/social_moodle/iteration-enrollment-welcome-message/settings'
+  defaults:
+    _form: '\Drupal\social_moodle_iteration_enrollment_welcome_message\Form\IterationWelcomeMessageSettingsForm'
+    _title: 'Iteration Welcome Message Settings'
+  requirements:
+    _permission: 'administer site configuration'
+

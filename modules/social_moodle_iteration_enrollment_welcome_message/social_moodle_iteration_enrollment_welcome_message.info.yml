@@ -1,0 +1,11 @@
+name: 'Social Moodle Iteration Enrollment Welcome Message'
+type: module
+description: 'Adds welcome messages for Iteration'
+core: 8.x
+package: 'Social'
+dependencies:
+  - group
+  - views_bulk_operations
+  - config_translation
+  - token
+  - social_moodle_buttons_block

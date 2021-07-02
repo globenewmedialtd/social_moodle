@@ -1,0 +1,15 @@
+services:
+  social_moodle_iteration_enrollment_welcome_message.route_subscriber:
+    class: Drupal\social_moodle_iteration_enrollment_welcome_message\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  social_moodle_iteration_enrollment_welcome_message.tree_builder:
+    class: Drupal\social_moodle_iteration_enrollment_welcome_message\IterationWelcomeMessageTokenTreeBuilder
+    arguments: ['@token', '@token.entity_mapper', '@cache.data', '@language_manager']
+  social_moodle_iteration_enrollment_welcome_message.available_fields:
+    class: Drupal\social_moodle_iteration_enrollment_welcome_message\IterationWelcomeMessageAvailableFields
+  social_moodle_iteration_enrollment_welcome_message.config_translation_overview_custom_access:
+    class: Drupal\social_moodle_iteration_enrollment_welcome_message\Access\IterationWelcomeMessageTranslateConfigAccessCheck
+    arguments: ['@current_user']
+    tags:
+      - { name: access_check, applies_to: _config_translation_custom_access }

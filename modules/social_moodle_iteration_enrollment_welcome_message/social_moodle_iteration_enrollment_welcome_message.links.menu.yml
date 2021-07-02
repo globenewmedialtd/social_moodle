@@ -1,0 +1,6 @@
+social_moodle_iteration_enrollment_welcome_message.settings:
+  title: 'Iteration Welcome Message Settings'
+  route_name: social_moodle_iteration_enrollment_welcome_message.settings
+  parent: social_moodle.admin_config_social_moodle
+  description: 'Settings for Iteration Welcome Messages'
+  weight: 0

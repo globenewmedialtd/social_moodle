@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * @file
+ * Contains group_welcome_message.module.
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Routing\Access\AccessInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_help().
+ */
+function social_moodle_iteration_enrollment_welcome_message_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the social_welcome_message module.
+    case 'help.page.group_welcome_message':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Adds welcome messages for Group') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+
+
+ /**
+  * Implements hook_social_moodle_buttons_block_add_button()
+  */
+
+function social_moodle_iteration_enrollment_welcome_message_social_moodle_buttons_block_add_button_alter(&$buttons) {
+
+    // Get current node so we can build correct links.
+    $node = \Drupal::routeMatch()->getParameter('node');
+
+    if (!is_object($node) && !is_null($node)) {
+
+      $node = \Drupal::entityTypeManager()
+        ->getStorage('node')
+        ->load($node);
+
+    }
+
+    // Check for an node type of iteration
+    if ($node instanceof NodeInterface && $node->getType() === 'iteration') {
+        $iteration = $node;        
+    
+    $buttons['manage_welcome_message'] = [
+      '#type' => 'link',
+      '#title' => t('Manage Welcome Message'),
+      '#url' => Url::fromRoute('entity.iteration_welcome_message.add_form', ['node' => $node->id()]
+          ),
+      '#attributes' => [
+        'class' => ['group-welcome-message-action-button','button', 'btn','btn-default'],
+      ],
+    ];
+    
+    }
+
+}
+
