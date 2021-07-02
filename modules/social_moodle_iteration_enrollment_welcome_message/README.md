@@ -1,10 +1,10 @@
-# Group Welcome Message
+# Iteration Welcome Message
 
 This module adds a config entity to add welcome messages and attach it to each group. Install it as any other Drupal module.
 
 ## Dependency
 
-The group_buttons_block Module is required in order to install this module.
+The social_moodle_buttons_block Module is required in order to install this module.
 
 ## Configuration
 
