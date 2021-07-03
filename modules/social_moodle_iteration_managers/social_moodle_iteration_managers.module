@@ -355,7 +355,7 @@ function social_moodle_iteration_managers_batch_alter(&$batch) {
     $action_id = _social_moodle_iteration_managers_get_action_id($batch);
  
     $batch['sets'][0]['results']['action'] = $action_id;
-    if (in_array($action_id, $actions_management, TRUE)) {
+    if (in_array($action_id, $actions, TRUE)) {
       $batch['sets'][0]['finished'] = '_social_moodle_iteration_managers_action_batch_finish';
     }
   }
