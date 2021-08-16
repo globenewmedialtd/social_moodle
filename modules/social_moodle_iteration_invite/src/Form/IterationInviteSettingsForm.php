@@ -74,7 +74,7 @@ class IterationInviteSettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $config = $this->configFactory->getEditable('social_moodle_iteration_invite.settings');
-    $config->set('invite_enroll', $form_state->getValue('invite_enroll'));
+    //$config->set('invite_enroll', $form_state->getValue('invite_enroll'));
     $config->set('invite_message', $form_state->getValue('invite_message'));
     $config->set('invite_subject', $form_state->getValue('invite_subject'));
     $config->set('invite_helper', $form_state->getValue('invite_helper'));
